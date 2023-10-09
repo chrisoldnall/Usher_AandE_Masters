@@ -42,3 +42,5 @@ plt.xlabel("Week")
 plt.ylabel("Failure Percentage\n(Number of Attendances / Number Not Seen Within 12 Hours)")
 plt.savefig("/Users/chrisoldnall/Library/Mobile Documents/com~apple~CloudDocs/PhD/GitHub Repositories [PROPER]/Usher_AandE_Masters/coldnall/results/LANDI/FailureRate.png")
 plt.close()
+
+WhoAttends = pd.read_excel("/Users/chrisoldnall/Library/Mobile Documents/com~apple~CloudDocs/PhD/GitHub Repositories [PROPER]/Usher_AandE_Masters/data/11_09_23_Download/2023-09-05-whoattends-agegroup.xlsx")

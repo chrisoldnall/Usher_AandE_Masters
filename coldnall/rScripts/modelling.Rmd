@@ -1,0 +1,20 @@
+# 0. Package Loading
+Here we firstly load in relavent packages.
+```{r PackageLoading}
+library(tidyverse)
+library(readxl)
+```
+
+Firstly here we will look to pull the correct data.
+```{r DataRetrival}
+whoattends_sex_raw <- read_excel("/Users/chrisoldnall/Library/Mobile Documents/com~apple~CloudDocs/PhD/GitHub Repositories [PROPER]/Usher_AandE_Masters/data/11_09_23_Download/2023-09-05-whoattends-sex.xlsx", sheet="NHS Scotland")
+
+whoattends_sex_raw$Date <- ymd(whoattends_sex_raw$Month)
+
+scatterplot_sex <- whoattends_sex_raw %>%
+    filter(Type == "ED Only") %>%  
+    ggplot(aes(x=Date, y=Attendances, colour=Sex)) +
+    geom_point()
+
+scatterplot_sex 
+```
