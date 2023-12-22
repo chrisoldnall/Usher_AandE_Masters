@@ -52,6 +52,19 @@ Edinburgh_Islay_plot + scale_colour_discrete(name="Hospital",
   theme(legend.position="top")
 dev.off()
 
+#Creating a line plot for different health boards
+
+ae_byboard <- ae_monthly_attendance %>% 
+  group_by(NHSBoardName, MonthEndingDate) %>% 
+  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
+
+png(file = "Output/AttendancebyHB.png")
+ggplot(data=ae_byboard, aes(x=MonthEndingDate, y=NumberOfAttendancesAll, group=NHSBoardName, color=NHSBoardName)) +
+  geom_line() +
+  labs(title = "Number of attendances by Scottish Health Boards",
+       x = "Date",
+       y = "Number of attendances")
+dev.off() 
 
 #GENDER
 whoattends_sex <- read_excel("Rawdata/2023-09-05-whoattends-sex.xlsx", 
@@ -178,3 +191,20 @@ ggplot(data = EDFife2022_deprivation, aes(x= Month, y= `Rate/100,000`, group= De
        y = "Attendance rate per 100,000") 
 dev.off()
 
+#WAITING TIMES
+ae_4HwaitingbyHB <- ae_monthly_attendance %>% 
+  group_by(NHSBoardName, MonthEndingDate) %>% 
+  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll),
+            NumberWithin4HoursAll=sum(NumberWithin4HoursAll), 
+            PercentageWithin4HoursAll=mean(PercentageWithin4HoursAll))
+
+png(file = "Output/4HwaitingbyHB.png")
+ggplot(data=ae_4HwaitingbyHB, aes(x=MonthEndingDate, y=PercentageWithin4HoursAll, group=NHSBoardName, color=NHSBoardName)) +
+  geom_line() +
+  geom_hline(yintercept=95, color="orange", size=.5) +
+  annotate(geom="text", x=as.Date("2008-04-30"), y=94.5, size=3,
+           label="95% target") +
+  labs(title = "Percentage within 4 hours by Scottish Health Boards",
+       x = "Date",
+       y = "Percentage within 4 hours")
+dev.off()  
