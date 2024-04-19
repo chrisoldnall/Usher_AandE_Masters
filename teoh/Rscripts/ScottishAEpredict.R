@@ -443,3 +443,168 @@ save_plot("Output/aeAttendanceOrkney20182023.svg", fig=ae_attendance_Orkney20182
 #  geom_line(aes(y = fitted1), color = "red")
 
 #ThirtyOneDays_Plot
+
+
+#Glasgow
+
+#Calculating sex, age, simd proportions for Glasgow
+
+#SIMD proportions for Glasgow
+Glasgow_glmproportions <- deprivation %>% 
+  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
+
+#changing month from character to a date
+ymd(Glasgow_glmproportions$Month)
+str(Glasgow_glmproportions)
+
+#adding month and year column
+Glasgow_glmproportions$yearnumeric <- format(as.Date(Glasgow_glmproportions$Month, format="%Y/%m/%d"),"%Y")
+Glasgow_glmproportions$monthnumeric <- format(as.Date(Glasgow_glmproportions$Month, format="%Y/%m/%d"),"%m")
+#calculate total monthly attendances and then proportion
+Glasgow_glmproportions %>% filter(yearnumeric=="2023", monthnumeric=="07") %>% 
+  group_by(Month, Deprivation) %>% 
+  summarise(Attendances=sum(Attendances))
+#33373
+#Adding a new column for Glasgow SIMD proportions in July 2023
+Glasgow_glmproportions_July23simd <- Glasgow_glmproportions %>%
+  filter(yearnumeric=="2023", monthnumeric=="07") %>% 
+  group_by(Month, Deprivation) %>% 
+  summarise(Attendances=sum(Attendances))
+
+Glasgow_glmproportions_July23simd <- Glasgow_glmproportions_July23simd %>%
+  mutate(SIMDprop=Attendances/33373)
+
+#Calculating proportions for Glasgow in July 23 for age
+Glasgow_glmproportions_July23age <- agegroupHB %>%  
+  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
+
+#changing from character to date
+#Tried this didnt work: ymd(Orkney_glmproportions_July23age$Month)
+Glasgow_glmproportions_July23age$Month<-as.Date(Glasgow_glmproportions_July23age$Month)
+str(Glasgow_glmproportions_July23age)
+#adding columns for month and year
+Glasgow_glmproportions_July23age$yearnumeric <- format(as.Date(Glasgow_glmproportions_July23age$Month, format="%Y/%m/%d"), "%Y")
+Glasgow_glmproportions_July23age$monthnumeric <- format(as.Date(Glasgow_glmproportions_July23age$Month, format="%Y/%m/%d"), "%m")
+
+#calculate total monthly attendances and then proportion
+Glasgow_glmproportions_July23age<- Glasgow_glmproportions_July23age %>% filter(yearnumeric=="2023", monthnumeric=="07")%>% 
+  group_by(Month, Age) %>% 
+  summarise(Attendances=sum(Attendances))
+Glasgow_glmproportions_July23age %>% 
+  summarise(Attendances=sum(Attendances))
+#33373
+#Adding a new column for Orkney age proportions in July 2023
+Glasgow_glmproportions_July23age <- Glasgow_glmproportions_July23age %>%
+  mutate(ageprop=Attendances/33373)
+
+#Calculating proportions for Glasgow in July 23 for sex
+
+whoattends_sexHB <- read_excel("Rawdata/2023-09-05-whoattends-sex.xlsx", 
+                               sheet = "HealthBoard")
+
+Glasgow_glmproportions_July23sex <- whoattends_sexHB %>%  
+  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
+
+#changing from character to date
+Glasgow_glmproportions_July23sex$Month<-as.Date(Glasgow_glmproportions_July23sex$Month)
+str(Glasgow_glmproportions_July23sex)
+#adding columns for month and year
+Glasgow_glmproportions_July23sex$yearnumeric <- format(as.Date(Glasgow_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%Y")
+Glasgow_glmproportions_July23sex$monthnumeric <- format(as.Date(Glasgow_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%m")
+
+#calculate total monthly attendances and then proportion
+Glasgow_glmproportions_July23sex<- Glasgow_glmproportions_July23sex %>% filter(yearnumeric=="2023", monthnumeric=="07")%>% 
+  group_by(Month, Sex) %>% 
+  summarise(Attendances=sum(Attendances))
+Glasgow_glmproportions_July23sex %>% 
+  summarise(Attendances=sum(Attendances))
+#33373
+#Adding a new column for Glasgow sex proportions in July 2023
+Glasgow_glmproportions_July23sex <- Glasgow_glmproportions_July23sex %>%
+  mutate(sexprop=Attendances/33373)
+
+#Calculating proportions for Glasgow in July 23 for Dept type
+
+Glasgow_glmproportions_July23type <- ae_monthly_attendance %>% 
+  select(MonthEndingDate, NHSBoardName, DepartmentType, NumberOfAttendancesAll) %>% 
+  filter(between(MonthEndingDate, as.Date("2023-06-30"), as.Date("2023-06-30")),NHSBoardName=="NHS Greater Glasgow & Clyde") %>% 
+  group_by(DepartmentType) %>% 
+  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))  
+#total attendances in ED and MIU = 35443
+
+Glasgow_glmproportions_July23type <- Glasgow_glmproportions_July23type %>% 
+  mutate(typeprop=NumberOfAttendancesAll/35443)
+#ED=0.8186384, MIU=0.1813616
+
+##creating a graph for Glasgow for Jan 2018- July 2023
+#creating a dataframe for Glasgow
+ae_monthly_Glasgow20182023 <-ae_monthly_attendance %>% 
+  select(MonthEndingDate, NHSBoardName, DepartmentType, NumberOfAttendancesAll) %>% 
+  filter(between(MonthEndingDate, as.Date("2017-12-31"), as.Date("2023-06-30")),NHSBoardName=="NHS Greater Glasgow & Clyde") %>% 
+  group_by(MonthEndingDate) %>% 
+  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
+
+ae_monthly_Glasgow20182023 <- ae_monthly_total %>% 
+  filter(between(MonthEndingDate, as.Date("2017-12-31"), as.Date("2023-06-30")),NHSBoardName=="NHS Greater Glasgow & Clyde")
+#aligning the dates in the Glasgow dataframe by combining with the correct column of dates as per in the proportions table
+ae_monthly_Glasgow20182023 <- cbind(ae_monthly_Glasgow20182023, Month=sexagesimddayhourdepttypeHBmonth_proportions$Month)
+
+ae_attendance_Glasgow20182023 <- ggplot(data=ae_monthly_Glasgow20182023, aes(x=Month, y=NumberOfAttendancesAll))+
+  geom_line()+
+  labs(x="Year", 
+       y="Number of A&E attendances at NHS Greater Glasgow and Clyde")
+save_plot("Output/aeAttendanceGlasgow20182023.svg", fig=ae_attendance_Glasgow20182023, width=14, height=12)
+
+##Predictions for Glasgow is not working
+#using real Glasgow proportions for age, sex, simd, type from July 2023
+GlasgowAug23Time<- data.frame(Male =0.493452791, Female =0.497677763, Under18 =0.205825068, EighteentoTwentyfour =0.087945345, TwentyfivetoThirtynine =0.201719953, FortytoSixtyfour =0.282623678,  SixtyfivetoSeventyfour =0.090971744, SIMDOne =0.41566536,SIMDTwo =0.17439247, SIMDThree =0.12435202, SIMDFour =0.11266593, SIMDFive =0.12105594, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =1, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0, NHSFife =0, NHSShetland =0, NHSLanarkshire =0, NHSDumfriesandGalloway =0, NHSForthValley =0, NHSGrampian =0, NHSWesternIsles =0, NHSOrkney =0, NHSTayside =0, NHSGreaterGlasgowandClyde =1, NHSHighland =0, NHSLothian =0, Time=2039)
+predict(glm_sexageSIMDdaytypehourHBTime, GlasgowAug23Time, type="response")
+#208935.9 
+#Estimated 2023 whole population is 5507479, Glasgow population in 2023 is 1185040 (see ScotUpdatespopulation2018to2023glmplot and HBpopulation_estimate_2023_HBnames)
+#so rate in Glasgow for Aug is (1185040/208935) =5.6718 , =  x 1185040 =178.1459
+#(208935/1185040) =0.176, 
+
+#using real orkney proportions for age, sex, simd from July 2023, set ED as 1 because Orkney only has ED
+GlasgowSept23Time<- data.frame(Male =0.493452791, Female =0.497677763, Under18 =0.205825068, EighteentoTwentyfour =0.087945345, TwentyfivetoThirtynine =0.201719953, FortytoSixtyfour =0.282623678,  SixtyfivetoSeventyfour =0.090971744, SIMDOne =0.41566536,SIMDTwo =0.17439247, SIMDThree =0.12435202, SIMDFour =0.11266593, SIMDFive =0.12105594, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =1, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0, NHSFife =0, NHSShetland =0, NHSLanarkshire =0, NHSDumfriesandGalloway =0, NHSForthValley =0, NHSGrampian =0, NHSWesternIsles =0, NHSOrkney =0, NHSTayside =0, NHSGreaterGlasgowandClyde =1, NHSHighland =0, NHSLothian =0, Time=2070)
+predict(glm_sexageSIMDdaytypehourHBTime, OrkneySept23Time, type="response")
+#2910265
+#so rate in Orkney for Sept is (22731/2910265) = 0.0078106, 0.0078106 x 22731 = 177.54
+
+#using real orkney proportions for age, sex, simd from July 2023, set ED as 1 because Orkney only has ED
+GlasgowOct23Time<- data.frame(Male =0.493452791, Female =0.497677763, Under18 =0.205825068, EighteentoTwentyfour =0.087945345, TwentyfivetoThirtynine =0.201719953, FortytoSixtyfour =0.282623678,  SixtyfivetoSeventyfour =0.090971744, SIMDOne =0.41566536,SIMDTwo =0.17439247, SIMDThree =0.12435202, SIMDFour =0.11266593, SIMDFive =0.12105594, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =1, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0, NHSFife =0, NHSShetland =0, NHSLanarkshire =0, NHSDumfriesandGalloway =0, NHSForthValley =0, NHSGrampian =0, NHSWesternIsles =0, NHSOrkney =0, NHSTayside =0, NHSGreaterGlasgowandClyde =1, NHSHighland =0, NHSLothian =0, Time=2100)
+predict(glm_sexageSIMDdaytypehourHBTime, GlasgowOct23Time, type="response")
+#210333.4 
+#so rate in Orkney for Oct is (22731/2919822) = 0.0077851, 0.0077851 x 22731 = 176.962
+
+#Glasgow attendance rates 2018-2023
+Glasgow_rates2018to2023 <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Greater Glasgow and Clyde") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
+Glasgow_Updatespopulation2018to2023 <- HBUpdatespopulation_estimate_HBname %>% filter(HBName=="NHS Greater Glasgow and Clyde")
+Glasgow_Updatespopulation2018to2023 <- Glasgow_Updatespopulation2018to2023 %>% filter(Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
+#combining the dataframe for attendance and Orkney population in 2018-2023
+Glasgow_rates2018to2023 <- merge(Glasgow_rates2018to2023, Glasgow_Updatespopulation2018to2023, by=c("Year"))
+#adding a new column containing the attendance rate
+Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% mutate(attendancerate = Attendances/AllAges)
+#removing unnecessary columns
+Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% select(-MonthEndingDate, -HBName, -HB, -Sex, -Year)
+#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023
+GlasgowAug23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow and Clyde", Attendances = 178, Month = "2023-08-01", AllAges= 1185040, attendancerate=0.0078371)
+GlasgowSept23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow and Clyde", Attendances = 177, Month = "2023-09-01", AllAges= 1185040, attendancerate=0.0078106)
+GlasgowOct23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow and Clyde", Attendances = 176, Month = "2023-10-01", AllAges= 1185040, attendancerate=0.0077851)
+#Combining the dataframe containing actual rates with the prediction for Sept and Aug 2023 
+Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowAug23Time_attendancerate)
+Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowSept23Time_attendancerate)
+Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowOct23Time_attendancerate)
+str(Glasgow_rates2018to2023)
+#changing attendancerate to a numeric
+Glasgow_rates2018to2023$attendancerate <- as.numeric(Glasgow_rates2018to2023$attendancerate) 
+
+#graph of actual Orkney attendance rates followed by predicted
+Glasgow_predict_rates2018to2023 <- ggplot(data=Glasgow_rates2018to2023, aes(x=Month, y=attendancerate))+
+  geom_point()+
+  geom_line()+
+  labs(x="Year",
+       y="Attendance rate")
+save_plot("Output/Glasgow_predict_rates2018to2023.svg", fig=Glasgow_predict_rates2018to2023, width=14, height=12)
+
+
+

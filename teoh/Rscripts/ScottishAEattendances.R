@@ -100,7 +100,7 @@ HistogramAEattendancesbyDeptType <-ggplot(ae_monthly_attendance ,aes(x=NumberOfA
   facet_wrap(~DepartmentType) +
   labs(Title="Number of attendances by department type", 
        x="Number of attendances",
-       y="Count")
+       y="Number of days")
 save_plot("Output/HistogramAEattendancesbyDeptType.svg", fig = HistogramAEattendancesbyDeptType, width=12, height=8)
 
 #saving HistogramAEattendancesbyDeptType as svg with vlines
