@@ -18,5 +18,5 @@ Scottish A&E data.R  - contains all the code which were subsequently broken down
 7. ScottishAEdischargedestination - analysis on discharge destination
 8. ScottishAElogisticregression - analysis on logistic regression
 9. ScottishAEglm - modelling using GLM
-10.ScottishAEpredict - predictions using the GLM model
-11.ScottishAEChoropleth - creation of choropleths on A&E attendances and waiting times
+10. ScottishAEpredict - predictions using the GLM model
+11. ScottishAEChoropleth - creation of choropleths on A&E attendances and waiting times
