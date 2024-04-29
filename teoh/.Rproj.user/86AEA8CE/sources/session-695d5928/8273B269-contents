@@ -1,0 +1,161 @@
+---
+title: "Linear models with time."
+author: "Christopher A Oldnall"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Through this notebook we will look to develop the skills needed to use GLMs for time related data. It will build up from foundation concepts using a small data set to provide you with the skills needed to apply this to a larger data set.
+
+```{r Exercise0}
+library(tidyverse)
+```
+
+------------------------------------------------------------------------
+
+### Inclusion of 'just' Gender.
+
+We will firstly make a data set which has 'total' variable and then two other columns which split this total into M and F (male and female).
+
+```{r load-data, message=FALSE, eval=TRUE}
+set.seed(123) # For reproducibility
+# Generate a sequence of dates for the time variable
+dates <- seq(as.Date("2030-01-01"), by="day", length.out=10)
+# Generate random positive numbers in the thousands for the second variable
+numbers <- sample(1000:9999, 10, replace=TRUE)
+# Create a dataframe
+df <- data.frame(Date = dates, Total_Attendance = numbers)
+# Create a dataframe and split each number equally into M and F
+df <- df %>%
+  mutate(M = round(Total_Attendance * runif(n(), min=0.1, max=0.9)), # Ensure M gets between 10% and 90% of Number
+         F = Total_Attendance - M) # Calculate F as the remainder
+# Print the dataframe
+print(df)
+```
+
+To use the gender variable in a meaningful way, we need to look at the proportion of either males or females throughout; this will then the determine the effect that having more or less of a gender attending affects the overall attendance numbers.
+
+```{r}
+df$Proportion_Male <- df$M / (df$M + df$F)
+```
+
+We can now run this model as follows.
+
+```{r}
+model1 <- lm(Total_Attendance ~ Proportion_Male, data = df)
+summary(model1)
+```
+
+This model will give you an insight into how the proportion of male attendees is related to the total attendance. The summary will provide the coefficient for **`Proportion_Male`**, indicating how much the total attendance is expected to change with a one-unit change (1%) in the proportion of male attendees
+
+### Inclusion of Time.
+
+In order to include time now in our model, we need to create some numerical sequence which relates to the time period.
+
+```{r}
+df$Time <- as.numeric(df$Date - min(df$Date)) + 1
+```
+
+Now we can rewrite our model as follows:
+
+```{r}
+model2 <- lm(Total_Attendance ~ Proportion_Male + Time, data = df)
+summary(model2)
+```
+
+### Inclusion of HB
+
+Now we can include Health Board. First we generate the data and add it to our mock data.
+
+```{r}
+set.seed(42) # For reproducibility
+
+# Assuming you already have a dataframe 'df' with columns: Date, Total_Attendance, M, F
+# and you want to add HB1, HB2, HB3 that sum to Total_Attendance
+
+# Generate random proportions for HB1 and HB2
+# Ensure HB1 + HB2 < 1 to leave room for HB3
+HB1_proportion <- runif(n = nrow(df), min = 0, max = 0.6) # Up to 60% for HB1
+HB2_proportion <- (1 - HB1_proportion) * runif(n = nrow(df), min = 0, max = 0.6) # Up to 60% of the remainder for HB2
+
+# Calculate actual counts for HB1, HB2 and ensure HB3 fills the rest
+df$HB1 <- round(HB1_proportion * df$Total_Attendance)
+df$HB2 <- round(HB2_proportion * df$Total_Attendance)
+df$HB3 <- df$Total_Attendance - (df$HB1 + df$HB2)
+```
+
+We have to 'discard' one of these as otherwise we en-capture the information incorrectly. We do now the same as with the gender split.
+
+```{r}
+df$Proportion_HB1 <- df$HB1 / (df$HB1 + df$HB2 + df$HB3)
+df$Proportion_HB2 <- df$HB2 / (df$HB1 + df$HB2 + df$HB3)
+model3 <- lm(Total_Attendance ~ Proportion_Male + Proportion_HB1 + Proportion_HB2, data = df)
+summary(model3)
+```
+
+### Age Incorporation
+
+To include age, we can do the same for every individual age. This might get quite long so therefore it is worth considering grouping the ages into useful categories and then working out the proportions. Firstly I generate some fake data to add to our example.
+
+```{r}
+set.seed(42) # For reproducibility
+
+# Assuming 'df' is your dataframe with a 'Total_Attendance' column
+n <- nrow(df)
+
+# Generate random proportions for each age group, ensuring they sum to 1
+age_proportions <- matrix(runif(5 * n, min = 0, max = 1), ncol = 5)
+age_proportions <- age_proportions / rowSums(age_proportions)
+
+# Assign the proportions directly to new columns in the dataframe
+df$Prop_Age_0_18 <- age_proportions[,1]
+df$Prop_Age_18_35 <- age_proportions[,2]
+df$Prop_Age_35_65 <- age_proportions[,3]
+df$Prop_Age_65_80 <- age_proportions[,4]
+df$Prop_Age_80_plus <- age_proportions[,5] # Note: This is directly proportional, no adjustment needed
+```
+
+Now we can run the model as before, again noting we don't include all groups.
+
+```{r}
+model4 <- lm(Total_Attendance ~ Proportion_Male + Proportion_HB1 + Proportion_HB2 + Prop_Age_0_18 + Prop_Age_18_35 + Prop_Age_35_65 + Prop_Age_65_80, data = df)
+summary(model4)
+```
+
+### Change to GLM
+
+As discussed, we want to incorporate the poisson GLM instead of the normal LM, since for count data this is more accurate. The code is very similar.
+
+```{r}
+glm_model1 <- glm(Total_Attendance ~ Proportion_Male + Proportion_HB1 + Proportion_HB2 + Prop_Age_0_18 + Prop_Age_18_35 + Prop_Age_35_65 + Prop_Age_65_80, family = poisson(link = "log"), data = df)
+summary(glm_model1)
+```
+
+For the coefficients here, we can exponentiate them and this tells us the % increase in attendances for a 1% increase in this group.
+
+```{r}
+exp_coef <- exp(coef(glm_model1))
+exp_coef
+```
+
+We may want to check if this model is better than the other (normal linear one):
+
+```{r}
+lm1_aic <- AIC(model1)
+lm2_aic <- AIC(model2)
+lm3_aic <- AIC(model3)
+lm4_aic <- AIC(model4)
+glm_aic <- AIC(glm_model1)
+# Create a named vector of AIC values
+aic_values <- c(lm1_aic, lm2_aic, lm3_aic, lm4_aic, glm_aic)
+names(aic_values) <- c("LM1", "LM2", "LM3", "LM4", "GLM1")
+# Print the AIC values for comparison
+print(aic_values)
+# Find the model with the lowest AIC
+min_aic_model <- names(aic_values)[which.min(aic_values)]
+# Print the model with the lowest AIC
+cat("Model with the lowest AIC is:", min_aic_model, "with an AIC of", min(aic_values), "\n")
+```

@@ -45,6 +45,10 @@ summary(glm_sexageSIMDdaytypehourHB_predictions)
 glm_sexageSIMDdaytypehourHBmonth_predictions <- predict(glm_sexageSIMDdaytypehourHBmonth, type = "response")
 summary(glm_sexageSIMDdaytypehourHBmonth_predictions)
 
+#using updated month
+glm_sexageSIMDdaytypehourHBupdatedmonth_predictions <- predict(glm_sexageSIMDdaytypehourHBupdatedmonth, type = "response")
+summary(glm_sexageSIMDdaytypehourHBupdatedmonth_predictions)
+
 glm_sexageSIMDdaytypehourHBTime_predictions <- predict(glm_sexageSIMDdaytypehourHBTime, type = "response")
 summary(glm_sexageSIMDdaytypehourHBTime_predictions)
 
@@ -72,6 +76,13 @@ sexagesimddayhourdepttypeHBmonth_proportionsglmplot <- sexagesimddayhourdepttype
   select(Month, Total_attendances)
 sexagesimddayhourdepttypeHBmonth_proportionsglmplot$Year <- format(as.Date(sexagesimddayhourdepttypeHBmonth_proportions$Month, format="%Y/%m/%d"),"%Y")
 
+#Same as above but including updated month
+#Selecting only the columns needed for glm plot and adding a column for year to join with the population data
+sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot <- sexagesimddayhourdepttypeHBupdatedmonth_proportions %>% 
+  select(Month, Total_attendances)
+sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot$Year <- format(as.Date(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Month, format="%Y/%m/%d"),"%Y")
+
+
 #Same as above but including Time
 #Selecting only the columns needed for glm plot and adding a column for year to join with the population data
 sexagesimddayhourdepttypeHBTime_proportionsglmplot <- sexagesimddayhourdepttypeHBTime_proportions %>% 
@@ -88,6 +99,12 @@ sexagesimddayhourdepttypeHB_proportionsglmplot <-
 sexagesimddayhourdepttypeHBmonth_proportionsglmplot <- 
   merge(ScotUpdatespopulation2018to2023glmplot, sexagesimddayhourdepttypeHBmonth_proportionsglmplot, by=c("Year"))
 
+#same as above but including updated month
+#combining population data with attendance data to create the glm plot
+sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot <- 
+  merge(ScotUpdatespopulation2018to2023glmplot, sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot, by=c("Year"))
+
+
 #same as above but including Time
 #combining population data with attendance data to create the glm plot
 sexagesimddayhourdepttypeHBTime_proportionsglmplot <- 
@@ -101,6 +118,11 @@ sexagesimddayhourdepttypeHB_proportionsglmplot <- sexagesimddayhourdepttypeHB_pr
 #same as above but including month
 #combining the glm predictions for glm_sex_prediction data with actual
 sexagesimddayhourdepttypeHBmonth_proportionsglmplot <- sexagesimddayhourdepttypeHBmonth_proportionsglmplot %>% 
+  mutate("glmsexprediction" = glm_sex_predictions/AllAges, "rates" = Total_attendances/AllAges)
+
+#same as above but including updated month
+#combining the glm predictions for glm_sex_prediction data with actual
+sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot <- sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot %>% 
   mutate("glmsexprediction" = glm_sex_predictions/AllAges, "rates" = Total_attendances/AllAges)
 
 #same as above but including Time instead of month
@@ -135,6 +157,17 @@ sexagesimddayhourdepttypeHBmonth_proportionsglmplot <- sexagesimddayhourdepttype
          "glmsexageSIMDdaytypehourprediction" = glm_sexageSIMDdaytypehour_predictions/AllAges,
          "glmsexageSIMDdaytypehourHBprediction" = glm_sexageSIMDdaytypehourHB_predictions/AllAges,
          "glmsexageSIMDdaytypehourHBmonthprediction" = glm_sexageSIMDdaytypehourHBmonth_predictions/AllAges)
+
+#same as above but including updated month
+#combining the glm predictions for the other glm models with sexagesimddayhourdepttypeHBmonth_proportionsglmplot
+sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot <- sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot %>% 
+  mutate("glmsexageprediction" = glm_sexage_predictions/AllAges,
+         "glmsexageSIMDprediction" = glm_sexageSIMD_predictions/AllAges,
+         "glmsexageSIMDdayprediction" = glm_sexageSIMDday_predictions/AllAges,
+         "glmsexageSIMDdaytypeprediction" = glm_sexageSIMDdaytype_predictions/AllAges,
+         "glmsexageSIMDdaytypehourprediction" = glm_sexageSIMDdaytypehour_predictions/AllAges,
+         "glmsexageSIMDdaytypehourHBprediction" = glm_sexageSIMDdaytypehourHB_predictions/AllAges,
+         "glmsexageSIMDdaytypehourHBupdatedmonthprediction" = glm_sexageSIMDdaytypehourHBupdatedmonth_predictions/AllAges)
 
 #same as above but including Time instead of month
 #combining the glm predictions for the other glm models with sexagesimddayhourdepttypeHBTime_proportionsglmplot
@@ -175,6 +208,21 @@ glmsexageSIMDdaytypehourHBmonthpredictionallinone <- ggplot(data= sexagesimddayh
   geom_line(aes(y=glmsexageSIMDdaytypehourHBprediction), color = "brown")+
   geom_line(aes(y=glmsexageSIMDdaytypehourHBmonthprediction), color = "salmon")
 save_plot("Output/glmsexageSIMDdaytypehourHBmonthpredictionallinone.svg", fig = glmsexageSIMDdaytypehourHBmonthpredictionallinone, width = 6, height = 6)
+
+#same as above including updated month
+glmsexageSIMDdaytypehourHBupdatedmonthpredictionallinone <- ggplot(data= sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot, aes(x=Month))+
+  labs(x="Time", y= "Rate of attendance", title = "glmsexageSIMDdaytypehourHBupdatedmonthpredictionallinone")+
+  geom_line(aes(y= rates), color = "black")+
+  geom_line(aes(y=glmsexprediction), color = "red")+
+  geom_line(aes(y=glmsexageprediction), color = "blue")+
+  geom_line(aes(y=glmsexageSIMDprediction), color = "green")+
+  geom_line(aes(y=glmsexageSIMDdayprediction), color = "yellow")+
+  geom_line(aes(y=glmsexageSIMDdaytypeprediction), color = "orange")+
+  geom_line(aes(y=glmsexageSIMDdaytypehourprediction), color = "purple")+
+  geom_line(aes(y=glmsexageSIMDdaytypehourHBprediction), color = "brown")+
+  geom_line(aes(y=glmsexageSIMDdaytypehourHBupdatedmonthprediction), color = "salmon")
+save_plot("Output/glmsexageSIMDdaytypehourHBupdatedmonthpredictionallinone.svg", fig = glmsexageSIMDdaytypehourHBupdatedmonthpredictionallinone, width = 6, height = 6)
+
 
 
 glmsexprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
@@ -242,6 +290,16 @@ glmsexageSIMDdaytypehourHBmonthprediction <- ggplot(data=sexagesimddayhourdeptty
   geom_line(aes(y=glmsexageSIMDdaytypehourHBmonthprediction), color = "salmon")
 save_plot("Output/glmsexageSIMDdaytypehourHBmonthprediction.svg", fig = glmsexageSIMDdaytypehourHBmonthprediction, width = 5, height = 5)
 
+#using updated month
+glmsexageSIMDdaytypehourHBupdatedmonthprediction <- ggplot(data=sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot, aes(x=Month))+
+  labs(x="Time", y= "Rate of attendance", 
+       #title = "glmsexageSIMDdaytypehourHBupdatedmonthprediction"
+  )+
+  geom_line(aes(y= rates), color = "black")+ 
+  geom_line(aes(y=glmsexageSIMDdaytypehourHBupdatedmonthprediction), color = "salmon")
+save_plot("Output/glmsexageSIMDdaytypehourHBupdatedmonthprediction.svg", fig = glmsexageSIMDdaytypehourHBupdatedmonthprediction, width = 5, height = 5)
+
+
 glmsexageSIMDdaytypehourHBTimeprediction <- ggplot(data=sexagesimddayhourdepttypeHBTime_proportionsglmplot, aes(x=Month))+
   labs(x="Time", y= "Rate of attendance", 
        #title = "glmsexageSIMDdaytypehourHBTimeprediction"
@@ -306,10 +364,63 @@ predict(glm_sexageSIMDdaytypehourHBTime, OrkneyOct23Time, type="response")
 #2919822
 #so rate in Orkney for Oct is (22731/2919822) = 0.0077851, 0.0077851 x 22731 = 176.962
 
+#29 April 2024 - Chris advised that the predictions is using all the proportions to calculate the total Scottish attendance,
+#and then after that to multiple by the proportion for the required location (eg Orkney, or SIMDOne specifically for Orkney), 
+#Calculating prediction using updated month and and including proportions for all
+ScotAug23 <-data.frame(Male =0.4892402, Female =0.4831486, Under18 =0.1824233, EighteentoTwentyfour =0.08412196, TwentyfivetoThirtynine =0.1833776, FortytoSixtyfour =0.2799453,  SixtyfivetoSeventyfour =0.10060757, SIMDOne =0.2573839,SIMDTwo =0.2128418, SIMDThree =0.1744787, SIMDFour =0.1546053, SIMDFive =0.1318929, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =0.8473706, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0.01947048, NHSFife =0.05778455, NHSShetland =0.005656719, NHSLanarkshire =0.1265399, NHSDumfriesandGalloway =0.03022991, NHSForthValley =0.0536222, NHSGrampian =0.07932528, NHSWesternIsles =0.005678588, NHSOrkney =0.004278987, NHSTayside =0.05844061, NHSGreaterGlasgowandClyde =0.2583648, NHSHighland =0.06884285, NHSLothian =0.1691621, Time=2039)
+predict(glm_sexageSIMDdaytypehourHBTime, ScotAug23, type="response")
+#Total attendances for Scotland in August = 137755.2  (real Orkney Oct 23 reading from PHS is 677)
+#Attendance in Orkney (Orkney proportion of total is 0.004278987)
+#137755.2 x 0.004278987=589.45
+#Attendance in Glasgow (Glasgow proportion of total is 0.2583648)(real Glasgow Aug 23 reading from PHS is 35522)
+#137755.2 x 0.2583648=35,591.09
+
+ScotSept23 <-data.frame(Male =0.4892402, Female =0.4831486, Under18 =0.1824233, EighteentoTwentyfour =0.08412196, TwentyfivetoThirtynine =0.1833776, FortytoSixtyfour =0.2799453,  SixtyfivetoSeventyfour =0.10060757, SIMDOne =0.2573839,SIMDTwo =0.2128418, SIMDThree =0.1744787, SIMDFour =0.1546053, SIMDFive =0.1318929, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =0.8473706, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0.01947048, NHSFife =0.05778455, NHSShetland =0.005656719, NHSLanarkshire =0.1265399, NHSDumfriesandGalloway =0.03022991, NHSForthValley =0.0536222, NHSGrampian =0.07932528, NHSWesternIsles =0.005678588, NHSOrkney =0.004278987, NHSTayside =0.05844061, NHSGreaterGlasgowandClyde =0.2583648, NHSHighland =0.06884285, NHSLothian =0.1691621, Time=2070)
+predict(glm_sexageSIMDdaytypehourHBTime, ScotSept23, type="response")
+#Total attendances for Scotland in Sept = 138222.7 (real Orkney Sept 23 reading from PHS is 587)
+#Attendance in Orkney (Orkney proportion of total is 0.004278987)
+#138222.7 x 0.004278987=591.45
+#Attendance in Glasgow (Glasgow proportion of total is 0.2583648)  (real Glasgow Sept 23 reading from PHS is 34999)
+#138222.7 x 0.2583648=35,711.88
+
+ScotOct23 <-data.frame(Male =0.4892402, Female =0.4831486, Under18 =0.1824233, EighteentoTwentyfour =0.08412196, TwentyfivetoThirtynine =0.1833776, FortytoSixtyfour =0.2799453,  SixtyfivetoSeventyfour =0.10060757, SIMDOne =0.2573839,SIMDTwo =0.2128418, SIMDThree =0.1744787, SIMDFour =0.1546053, SIMDFive =0.1318929, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =0.8473706, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0.01947048, NHSFife =0.05778455, NHSShetland =0.005656719, NHSLanarkshire =0.1265399, NHSDumfriesandGalloway =0.03022991, NHSForthValley =0.0536222, NHSGrampian =0.07932528, NHSWesternIsles =0.005678588, NHSOrkney =0.004278987, NHSTayside =0.05844061, NHSGreaterGlasgowandClyde =0.2583648, NHSHighland =0.06884285, NHSLothian =0.1691621, Time=2100)
+predict(glm_sexageSIMDdaytypehourHBTime, ScotOct23, type="response")
+#Total attendances for Scotland in Oct = 138676.6 (real Orkney Oct 23 reading from PHS is 540)
+#Attendance in Orkney (Orkney proportion of total is 0.004278987)
+#138676.6 x 0.004278987=593.39
+#Attendance in Glasgow (Glasgow proportion of total is 0.2583648) (real Glasgow Oct 23 reading from PHS is 34845)
+#138676.6 x 0.2583648=35,829.15
+
+#tried using updated month instead of Time to see how the results differ
+ScotAug23updatedmonth <- data.frame(Male =0.4892402, Female =0.4831486, Under18 =0.1824233, EighteentoTwentyfour =0.08412196, TwentyfivetoThirtynine =0.1833776, FortytoSixtyfour =0.2799453,  SixtyfivetoSeventyfour =0.10060757, SIMDOne =0.2573839,SIMDTwo =0.2128418, SIMDThree =0.1744787, SIMDFour =0.1546053, SIMDFive =0.1318929, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =0.8473706, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0.01947048, NHSFife =0.05778455, NHSShetland =0.005656719, NHSLanarkshire =0.1265399, NHSDumfriesandGalloway =0.03022991, NHSForthValley =0.0536222, NHSGrampian =0.07932528, NHSWesternIsles =0.005678588, NHSOrkney =0.004278987, NHSTayside =0.05844061, NHSGreaterGlasgowandClyde =0.2583648, NHSHighland =0.06884285, NHSLothian =0.1691621, Feb= 0, March=0, April=0, May=0, June=0, July=0, August=1, Sept=0, Oct=0, Nov=0, Dec=0)
+predict(glm_sexageSIMDdaytypehourHBupdatedmonth, ScotAug23updatedmonth, type="response")
+#108639.6
+#Attendance in Orkney (Orkney proportion of total is 0.004278987)
+#108639.6 x 0.004278987=464.86
+#Attendance in Glasgow (Glasgow proportion of total is 0.2583648)
+#108639.6 x 0.2583648=27,556.07
+
+ScotSept23updatedmonth <- data.frame(Male =0.4892402, Female =0.4831486, Under18 =0.1824233, EighteentoTwentyfour =0.08412196, TwentyfivetoThirtynine =0.1833776, FortytoSixtyfour =0.2799453,  SixtyfivetoSeventyfour =0.10060757, SIMDOne =0.2573839,SIMDTwo =0.2128418, SIMDThree =0.1744787, SIMDFour =0.1546053, SIMDFive =0.1318929, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =0.8473706, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0.01947048, NHSFife =0.05778455, NHSShetland =0.005656719, NHSLanarkshire =0.1265399, NHSDumfriesandGalloway =0.03022991, NHSForthValley =0.0536222, NHSGrampian =0.07932528, NHSWesternIsles =0.005678588, NHSOrkney =0.004278987, NHSTayside =0.05844061, NHSGreaterGlasgowandClyde =0.2583648, NHSHighland =0.06884285, NHSLothian =0.1691621, Feb= 0, March=0, April=0, May=0, June=0, July=0, August=0, Sept=1, Oct=0, Nov=0, Dec=0)
+predict(glm_sexageSIMDdaytypehourHBupdatedmonth, ScotSept23updatedmonth, type="response")
+#117194.9
+#Attendance in Orkney (Orkney proportion of total is 0.004278987)
+#117194.9 x 0.004278987=501.47
+#Attendance in Glasgow (Glasgow proportion of total is 0.2583648)
+#117194.9 x 0.2583648=30,278.80
+
+ScotOct23updatedmonth <- data.frame(Male =0.4892402, Female =0.4831486, Under18 =0.1824233, EighteentoTwentyfour =0.08412196, TwentyfivetoThirtynine =0.1833776, FortytoSixtyfour =0.2799453,  SixtyfivetoSeventyfour =0.10060757, SIMDOne =0.2573839,SIMDTwo =0.2128418, SIMDThree =0.1744787, SIMDFour =0.1546053, SIMDFive =0.1318929, Tuesday =0.1456571, Wednesday =0.1449873, Thursday =0.1390299, Friday =0.1377609, Saturday =0.1347645, Sunday =0.1395234, ED =0.8473706, Midnighttoone =0.02342818, Twotothreeam =0.01517344, Threetofouram =0.01303421, Fourtofiveam =0.012867208, Fivetosixam =0.012525249, Sixtosevenam =0.0134716, Seventoeightam =0.01639814, Eighttonineam =0.03026736, Ninetotenam =0.05104735, Tentoelevenam =0.06138565, Eleventonoon =0.06703195, Noontoonepm =0.06518696, Onetotwopm =0.0656164, Twotothreepm =0.06416109, Threetofourpm =0.06517901, Fourtofivepm =0.06414518, Fivetosixpm =0.06195028, Sixtosevenpm =0.06039954, Seventoeightpm =0.05431584, Eighttoninepm =0.05063382, Ninetotenpm =0.04506704, Tentoelevenpm =0.03786999, Eleventomidnight =0.02978226, NHSBorders =0.01947048, NHSFife =0.05778455, NHSShetland =0.005656719, NHSLanarkshire =0.1265399, NHSDumfriesandGalloway =0.03022991, NHSForthValley =0.0536222, NHSGrampian =0.07932528, NHSWesternIsles =0.005678588, NHSOrkney =0.004278987, NHSTayside =0.05844061, NHSGreaterGlasgowandClyde =0.2583648, NHSHighland =0.06884285, NHSLothian =0.1691621, Feb= 0, March=0, April=0, May=0, June=0, July=0, August=0, Sept=0, Oct=1, Nov=0, Dec=0)
+predict(glm_sexageSIMDdaytypehourHBupdatedmonth, ScotOct23updatedmonth, type="response")
+#127143.2
+#Attendance in Orkney (Orkney proportion of total is 0.004278987)
+#127143.2 x 0.004278987=544.04
+#Attendance in Glasgow (Glasgow proportion of total is 0.2583648)
+#127143.2 x 0.2583648=32,849.33
+
+
 #Orkney attendance rates 2018-2023
 Orkney_rates2018to2023 <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Orkney") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
 Orkney_Updatespopulation2018to2023 <- HBUpdatespopulation_estimate_HBname %>% filter(HBName=="NHS Orkney")
-Orkney_Updatespopulation2018to2023 <- Orkney_Updatespopulation2018to2023 %>% filter(Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
+Orkney_Updatespopulation2018to2023 <- Orkney_Updatespopulation2018to2023 %>% filter(Year=="2018"|Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
 #combining the dataframe for attendance and Orkney population in 2018-2023
 Orkney_rates2018to2023 <- merge(Orkney_rates2018to2023, Orkney_Updatespopulation2018to2023, by=c("Year"))
 #adding a new column containing the attendance rate
@@ -317,9 +428,9 @@ Orkney_rates2018to2023 <- Orkney_rates2018to2023 %>% mutate(attendancerate = Att
 #removing unnecessary columns
 Orkney_rates2018to2023 <- Orkney_rates2018to2023 %>% select(-MonthEndingDate, -HBName, -HB, -Sex, -Year)
 #creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023
-OrkneyAug23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 178, Month = "2023-08-01", AllAges= 22731, attendancerate=0.0078371)
-OrkneySept23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 177, Month = "2023-09-01", AllAges= 22731, attendancerate=0.0078106)
-OrkneyOct23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 176, Month = "2023-10-01", AllAges= 22731, attendancerate=0.0077851)
+OrkneyAug23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 589, Month = "2023-08-01", AllAges= 22731, attendancerate=0.0259118)
+OrkneySept23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 591, Month = "2023-09-01", AllAges= 22731, attendancerate=0.0259997)
+OrkneyOct23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 593, Month = "2023-10-01", AllAges= 22731, attendancerate=0.0260877)
 #Combining the dataframe containing actual rates with the prediction for Sept and Aug 2023 
 Orkney_rates2018to2023 <- rbind(Orkney_rates2018to2023, OrkneyAug23Time_attendancerate)
 Orkney_rates2018to2023 <- rbind(Orkney_rates2018to2023, OrkneySept23Time_attendancerate)
@@ -577,9 +688,9 @@ predict(glm_sexageSIMDdaytypehourHBTime, GlasgowOct23Time, type="response")
 #so rate in Orkney for Oct is (22731/2919822) = 0.0077851, 0.0077851 x 22731 = 176.962
 
 #Glasgow attendance rates 2018-2023
-Glasgow_rates2018to2023 <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Greater Glasgow and Clyde") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
+Glasgow_rates2018to2023 <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Greater Glasgow & Clyde") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
 Glasgow_Updatespopulation2018to2023 <- HBUpdatespopulation_estimate_HBname %>% filter(HBName=="NHS Greater Glasgow and Clyde")
-Glasgow_Updatespopulation2018to2023 <- Glasgow_Updatespopulation2018to2023 %>% filter(Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
+Glasgow_Updatespopulation2018to2023 <- Glasgow_Updatespopulation2018to2023 %>% filter(Year=="2018"|Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
 #combining the dataframe for attendance and Orkney population in 2018-2023
 Glasgow_rates2018to2023 <- merge(Glasgow_rates2018to2023, Glasgow_Updatespopulation2018to2023, by=c("Year"))
 #adding a new column containing the attendance rate
@@ -587,9 +698,9 @@ Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% mutate(attendancerate = A
 #removing unnecessary columns
 Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% select(-MonthEndingDate, -HBName, -HB, -Sex, -Year)
 #creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023
-GlasgowAug23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow and Clyde", Attendances = 178, Month = "2023-08-01", AllAges= 1185040, attendancerate=0.0078371)
-GlasgowSept23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow and Clyde", Attendances = 177, Month = "2023-09-01", AllAges= 1185040, attendancerate=0.0078106)
-GlasgowOct23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow and Clyde", Attendances = 176, Month = "2023-10-01", AllAges= 1185040, attendancerate=0.0077851)
+GlasgowAug23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35591, Month = "2023-08-01", AllAges= 1192485, attendancerate=0.0298461)
+GlasgowSept23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35712, Month = "2023-09-01", AllAges= 1192485, attendancerate=0.0299475)
+GlasgowOct23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35829, Month = "2023-10-01", AllAges= 1192485, attendancerate=0.0300457)
 #Combining the dataframe containing actual rates with the prediction for Sept and Aug 2023 
 Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowAug23Time_attendancerate)
 Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowSept23Time_attendancerate)
@@ -606,5 +717,13 @@ Glasgow_predict_rates2018to2023 <- ggplot(data=Glasgow_rates2018to2023, aes(x=Mo
        y="Attendance rate")
 save_plot("Output/Glasgow_predict_rates2018to2023.svg", fig=Glasgow_predict_rates2018to2023, width=14, height=12)
 
+#Orkney and Glasgow in the same graph
+Orkney_Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, Orkney_rates2018to2023)
 
-
+Orkney_Glasgow_predict_rates2018to2023 <- ggplot(data=Orkney_Glasgow_rates2018to2023, aes(x=Month, y=attendancerate, ggroup=NHSBoardName, color=NHSBoardName))+
+  geom_point()+
+  geom_line()+
+  labs(x="Year", 
+       y="Attendance rate", 
+       col="NHS Board Name")
+save_plot("Output/Orkney_Glasgow_predict_rates2018to2023.svg", fig=Orkney_Glasgow_predict_rates2018to2023, width=14, height=12)

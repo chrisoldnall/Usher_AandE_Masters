@@ -410,6 +410,44 @@ monthattendances_proportions20182023wideJantoDec <- monthattendances_proportions
 #combine month proportions for 2018 to 2023 to sexagesimddayhourdepttypeHB_proportions
 sexagesimddayhourdepttypeHBmonth_proportions<- cbind(sexagesimddayhourdepttypeHB_proportions, monthattendances_proportions20182023wideJantoDec)
 
+#29 April 2024- Chris advised that if using month, should't calculate proportion based on year's attendance. Should show as 1 if it's that month, and 0 for others.
+#Recreating dataframe for month - adding new Updated columns with new values
+sexagesimddayhourdepttypeHBupdatedmonth_proportions <- sexagesimddayhourdepttypeHB_proportions
+
+#adding a new column for month
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$monthnumeric <-as.numeric(format(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Month, "%m"))
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$yearnumeric <-as.numeric(format(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Month, "%Y"))
+
+#To set up the proportions for each month as a separate column
+sexagesimddayhourdepttypeHBupdatedmonth_proportions <- sexagesimddayhourdepttypeHBupdatedmonth_proportions %>% 
+  mutate(Jan = ifelse(.$monthnumeric=='1', '1', '0'),
+         Feb = ifelse(.$monthnumeric=='2', '1', '0'),
+         March = ifelse(.$monthnumeric=='3', '1', '0'),
+         April = ifelse(.$monthnumeric=='4', '1', '0'),
+         May = ifelse(.$monthnumeric=='5', '1', '0'),
+         June = ifelse(.$monthnumeric=='6', '1', '0'),
+         July = ifelse(.$monthnumeric=='7', '1', '0'),
+         August = ifelse(.$monthnumeric=='8', '1', '0'),
+         Sept = ifelse(.$monthnumeric=='9', '1', '0'),
+         Oct = ifelse(.$monthnumeric=='10', '1', '0'),
+         Nov = ifelse(.$monthnumeric=='11', '1', '0'),
+         Dec = ifelse(.$monthnumeric=='12', '1', '0'))
+
+#To change from character to numeric
+
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$Jan <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Jan)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$Feb <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Feb)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$March <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$March)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$April <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$April)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$May <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$May)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$June <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$June)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$July <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$July)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$August <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$August)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$Sept <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Sept)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$Oct <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Oct)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$Nov <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Nov)
+sexagesimddayhourdepttypeHBupdatedmonth_proportions$Dec <- as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Dec)
+
 #Including time in the data frame
 #example given: df$Time <- as.numeric(df$Date - min(df$Date)) + 1
 sexagesimddayhourdepttypeHBmonthTime_proportions <- sexagesimddayhourdepttypeHBmonth_proportions %>% 
@@ -419,6 +457,10 @@ sexagesimddayhourdepttypeHBmonthTime_proportions <- sexagesimddayhourdepttypeHBm
 sexagesimddayhourdepttypeHBTime_proportions <- sexagesimddayhourdepttypeHB_proportions %>% 
   mutate(Time = as.numeric(sexagesimddayhourdepttypeHB_proportions$Month - min(sexagesimddayhourdepttypeHB_proportions$Month)) + 1)
 
+#29 April 2024- Chris advised that if using month, should't calculate proportion based on year's attendance. Should show as 1 if it's that month, and 0 for others.
+#Recreating dataframe which includes Time for Updated month
+sexagesimddayhourdepttypeHBupdatedmonthTime_proportions <- sexagesimddayhourdepttypeHBupdatedmonth_proportions %>% 
+  mutate(Time = as.numeric(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Month - min(sexagesimddayhourdepttypeHBupdatedmonth_proportions$Month)) + 1)
 
 #don't need to use this, just for information, this is how to delete a column from a dataframe
 #sexagesimddayhourdepttypeHB_proportions <-sexagesimddayhourdepttypeHB_proportions %>% select(-monthproportions)
