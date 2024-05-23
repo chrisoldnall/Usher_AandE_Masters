@@ -6,6 +6,7 @@
 #install.packages("ggplot2")
 #install.packages("sf")
 #install.packages("sjPlot")
+#install.packages("pscl")
 
 library(tidyverse)
 library(here)
@@ -16,6 +17,7 @@ library(lubridate)
 library(sf)
 library(scales)
 library(sjPlot)
+library(pscl)
 
 #TEST FOR NORMALITY
 
@@ -151,7 +153,6 @@ cat("Model with the lowest AIC is:", min_aic_model_lmglm, "with an AIC of", min(
 #Model with the lowest AIC is: LMsexageSIMDdaytypehourHB with an AIC of 1299.850 
 #GLM with lowest AIC was GLMsexageSIMDdaytypehourHB with an AIC of 3501.943 
 
-
 # Create a named vector of glm AIC values
 aic_values_glm <- c(glm_sex_aic, glm_sexage_aic, glm_sexageSIMD_aic, glm_sexageSIMDday_aic, glm_sexageSIMDdaytype_aic, glm_sexageSIMDdaytypehour_aic, glm_sexageSIMDdaytypehourHB_aic, glm_sexageSIMDdaytypehourHBmonth_aic)
 names(aic_values_glm) <- c("GLMsex", "GLMsexage", "GLMsexageSIMD", "GLMsexageSIMDday", "GLMsexageSIMDdaytype", "GLMsexageSIMDdaytypehour", "GLMsexageSIMDdaytypehourHB", "GLMsexageSIMDdaytypehourHBmonth")
@@ -161,4 +162,20 @@ print(aic_values_glm)
 min_aic_model_glm <- names(aic_values_glm)[which.min(aic_values_glm)]
 # Print the model with the lowest AIC
 cat("Model with the lowest AIC is:", min_aic_model_glm, "with an AIC of", min(aic_values_glm), "\n")
+
+#McFadden's R-squared
+#with reference to https://www.statology.org/glm-r-squared/
+#method one using the package pscl  
+pR2(glm_sexageSIMDdaytypehourHBTime)['McFadden']
+pR2(glm_sexageSIMDdaytypehourHBupdatedmonth)['McFadden']
+
+#method two using the following equation
+with(summary(glm_sexageSIMDdaytypehourHBTime), 1 - deviance/null.deviance)
+with(summary(glm_sexageSIMDdaytypehourHBupdatedmonth), 1 - deviance/null.deviance)
+
+#method three
+#Logistic Regression: R Square Type Measures in R (youtube.com) https://www.youtube.com/watch?v=L2zf3N101Xg 
+#Pseudo R2 is 1 - (residual deviance/null deviance) 
+#for glm_sexageSIMDdaytypehourHBTime:  1 - (2389.2/194949.2) = 0.987722. 
+#for glm_sexageSIMDdaytypehourHBupdatedmonth: 1- (-2.0386e-10/1.9495e+05) = about 1 
 

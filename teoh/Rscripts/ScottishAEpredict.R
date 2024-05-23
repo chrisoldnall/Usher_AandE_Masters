@@ -52,6 +52,7 @@ summary(glm_sexageSIMDdaytypehourHBupdatedmonth_predictions)
 glm_sexageSIMDdaytypehourHBTime_predictions <- predict(glm_sexageSIMDdaytypehourHBTime, type = "response")
 summary(glm_sexageSIMDdaytypehourHBTime_predictions)
 
+
 #model_1_predictions <- predict(model_1, type="response")
 #summary(model_1_predictions)
 
