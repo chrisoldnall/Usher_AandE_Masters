@@ -120,7 +120,7 @@ ae_4HwaitingbyHB_2012$percent4Hr<-ae_4HwaitingbyHB_2012$NumberWithin4HoursAll/ae
 ae_4HwaitingbyHB_2012$percent4Hr<-ae_4HwaitingbyHB_2012$percent4Hr*100
 
 #rounding up percent4Hr to 1 decimal point
-ae_4HwaitingbyHB_2012$percent4Hr<-round(ae_4HwaitingbyHB_2012$percent4Hr,digits = 1)
+ae_4HwaitingbyHB_2012$percent4Hr<-round(ae_4HwaitingbyHB_2012$percent4Hr,digits = 3)
 
 #Creating the dataframe with percent within 4 hours by HB
 aeHBwaiting4Hr2012 <- data.frame(
@@ -181,7 +181,7 @@ ae_byboard_Updatedpopulation_2022$attendanceperpop<-ae_byboard_Updatedpopulation
 ae_byboard_Updatedpopulation_2022$attendanceper1000pop<-ae_byboard_Updatedpopulation_2022$attendanceperpop*1000
 
 #rounding up attendanceper1000pop to 1 decimal point
-ae_byboard_Updatedpopulation_2022$attendanceper1000pop<-round(ae_byboard_Updatedpopulation_2022$attendanceper1000pop,digits = 1)
+ae_byboard_Updatedpopulation_2022$attendanceper1000pop<-round(ae_byboard_Updatedpopulation_2022$attendanceper1000pop,digits = 3)
 
 #Creating the dataframe with attendanceper1000pop in 2022 by HB
 ae_byboard_Updatedpopulation_2022 <- data.frame(
@@ -240,7 +240,7 @@ ae_byboard_Updatedpopulation_2012$attendanceperpop<-ae_byboard_Updatedpopulation
 ae_byboard_Updatedpopulation_2012$attendanceper1000pop<-ae_byboard_Updatedpopulation_2012$attendanceperpop*1000
 
 #rounding up attendanceper1000pop to 1 decimal point
-ae_byboard_Updatedpopulation_2012$attendanceper1000pop<-round(ae_byboard_Updatedpopulation_2012$attendanceper1000pop,digits = 1)
+ae_byboard_Updatedpopulation_2012$attendanceper1000pop<-round(ae_byboard_Updatedpopulation_2012$attendanceper1000pop,digits = 3)
 
 #Creating the dataframe with attendanceper1000pop in 2012 by HB
 ae_byboard_Updatedpopulation_2012 <- data.frame(
@@ -299,7 +299,7 @@ ScottishMapUpdatedattendancerate2012 <- ggplot(data = scottish_health_boardsUpda
                         direction = -1, 
                         limits=c(10, 35),
                         guide_legend(title = "Attendance rate \nper 1000 population")) +
-  #labs(title = "Attendance rate per 1000 population in 2012 \nby Scottish health board", fill = "attendanceper1000pop") +
+  #labs(title = "Attendance rate per 1,000 population in 2012 \nby Scottish health board", fill = "attendanceper1000pop") +
   #theme_minimal()
   theme_void()
 save_plot("Output/ScottishMapUpdatedattendancerate2012.svg", fig = ScottishMapUpdatedattendancerate2012, width = 12, height = 14)

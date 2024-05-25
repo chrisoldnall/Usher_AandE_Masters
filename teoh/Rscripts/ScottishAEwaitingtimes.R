@@ -98,7 +98,7 @@ ae_4HwaitingbyHB_2022$percent4Hr<-ae_4HwaitingbyHB_2022$NumberWithin4HoursAll/ae
 ae_4HwaitingbyHB_2022$percent4Hr<-ae_4HwaitingbyHB_2022$percent4Hr*100
 
 #rounding up percent4Hr to 1 decimal point
-ae_4HwaitingbyHB_2022$percent4Hr<-round(ae_4HwaitingbyHB_2022$percent4Hr,digits = 1)
+ae_4HwaitingbyHB_2022$percent4Hr<-round(ae_4HwaitingbyHB_2022$percent4Hr,digits = 3)
 
 #Side ways bar chart of waiting times within 4 hours by HB in 2022
 png(file = "Output/percent4HwaitingbyHB2022.png")
@@ -127,7 +127,7 @@ percent4HwaitingbyHB2022 <- ggplot(ae_4HwaitingbyHB_2022reorder, aes(x=NHSBoardN
     #title = "Percentage A&E attendances seen within 4 hours by \nScottish Health Boards in 2022",
     y = "Percentage A&E attendances seen within 4 hours",
     x = "NHS Health Board")
-save_plot("Output/percent4HwaitingbyHB2022.svg", fig = percent4HwaitingbyHB2022, width = 19, height = 14)
+save_plot("Output/percent4HwaitingbyHB2022.svg", fig = percent4HwaitingbyHB2022, width = 28, height = 14)
 
 #Map to demonstrate 4H waiting by HB
 ae_4HwaitingbyHB$PercentOver4HoursAll <- 100 - ae_4HwaitingbyHB$PercentageWithin4HoursAll

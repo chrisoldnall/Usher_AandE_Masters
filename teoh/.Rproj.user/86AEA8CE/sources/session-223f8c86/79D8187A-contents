@@ -26,6 +26,7 @@ view(ae_monthly_attendance)
 head(ae_monthly_attendance)
 str(ae_monthly_attendance)
 summary(ae_monthly_attendance)
+#mean waiting time = 96.732% 28/2/2015 NHS Western Isle
 
 #Count number of ED and MIU/Other sites
 ae_monthly_attendance %>% filter(DepartmentType=="ED") %>% count(LocationName)
@@ -47,7 +48,10 @@ ae_monthly_attendance[which.max(ae_monthly_attendance$PercentageWithin4HoursAll)
 
 #Summary split by ED and MIU/Other
 ae_monthly_attendance %>%filter(DepartmentType == 'ED')%>%summary()
+#mean 92.072% 31/12/2008 NHS Grampian, 92.074% 31/7/2020 NHS Lanarkshire
 ae_monthly_attendance %>%filter(DepartmentType == 'MIU/Other')%>%summary()
+#min 49.596 31/12/2022 NHS Lothian
+#mean 99.361% 28/2/2017 NHS Highland, 99.3569% 31/8/2016 NHS Ayshire, multiple 
 
 ae_monthly_attendance %>%
   summarise(mean=mean(NumberOfAttendancesAll), 
