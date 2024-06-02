@@ -119,7 +119,7 @@ dev.off()
 ae_4HwaitingbyHB_2022reorder <- ae_4HwaitingbyHB_2022 %>% 
   mutate(NHSBoardName = fct_reorder(NHSBoardName, percent4Hr)) #to reorder by value
 
-percent4HwaitingbyHB2022 <- ggplot(ae_4HwaitingbyHB_2022reorder, aes(x=NHSBoardName, y=percent4Hr)) +
+percent4HwaitingbyHB2022 <- ggplot(ae_4HwaitingbyHB_2022reorder, aes(x=NHSBoardName, y=percent4Hr, label=sprintf("%0.3f", round(percent4Hr, digits = 3)))) +
   geom_col()+
   geom_text(aes(label=percent4Hr), hjust = -0.2, size=2.5)+
   coord_flip()+
@@ -127,7 +127,7 @@ percent4HwaitingbyHB2022 <- ggplot(ae_4HwaitingbyHB_2022reorder, aes(x=NHSBoardN
     #title = "Percentage A&E attendances seen within 4 hours by \nScottish Health Boards in 2022",
     y = "Percentage A&E attendances seen within 4 hours",
     x = "NHS Health Board")
-save_plot("Output/percent4HwaitingbyHB2022.svg", fig = percent4HwaitingbyHB2022, width = 28, height = 14)
+save_plot("Output/percent4HwaitingbyHB2022testlabel.svg", fig = percent4HwaitingbyHB2022, width = 32, height = 14)
 
 #Map to demonstrate 4H waiting by HB
 ae_4HwaitingbyHB$PercentOver4HoursAll <- 100 - ae_4HwaitingbyHB$PercentageWithin4HoursAll
