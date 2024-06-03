@@ -194,7 +194,7 @@ AttendanceTotal <- ggplot(data=ae_monthly_total, aes(x=MonthEndingDate, y=Number
   labs(
     #title = "Total number of Scottish accident and emergency (A&E) attendances",
     x = "Year",
-    y = "Total number of Scottish A&E attendances")
+    y = "Total number of A&E attendances")
 save_plot("Output/AttendanceTotal.svg", fig = AttendanceTotal, width = 14, height = 12) 
 
 #Creating line plot for Grampian, Lothian and Western Isle
