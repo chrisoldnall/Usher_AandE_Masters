@@ -83,7 +83,7 @@ attendancemonthyearheatmap1 <- ggplot(attendance_monthenddate, aes(x = year, y =
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 6))
+  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
 save_plot("Output/attendancemonthyearheatmap1.svg", fig = attendancemonthyearheatmap1, width = 16, height = 14)
 
 #ED
@@ -123,7 +123,7 @@ attendanceEDmonthyearscaledheatmap1 <- ggplot(attendance_monthenddateED, aes(x =
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 6))
+  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
 save_plot("Output/attendanceEDmonthyearscaledheatmap1.svg", fig = attendanceEDmonthyearscaledheatmap1, width = 16, height = 14)
 
 png(file = "Output/attendanceEDmonthyearheatmap.png")
@@ -155,7 +155,7 @@ attendanceEDmonthyearheatmap1 <- ggplot(attendance_monthenddateED, aes(x = year,
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 6))
+  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
 save_plot("Output/attendanceEDmonthyearheatmap1.svg", fig = attendanceEDmonthyearheatmap1, width = 16, height = 14)
 
 #MIU/Other
@@ -195,7 +195,7 @@ attendanceMIUmonthyearscaledheatmap1 <- ggplot(attendance_monthenddateMIUOther, 
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 6))
+  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
 save_plot("Output/attendanceMIUmonthyearscaledheatmap1.svg", fig = attendanceMIUmonthyearscaledheatmap1, width = 16, height = 14)
 
 #did not adjust scale to be the same as ED
@@ -226,7 +226,7 @@ attendanceMIUmonthyearheatmap1 <- ggplot(attendance_monthenddateMIUOther, aes(x 
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 6))
+  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
 save_plot("Output/attendanceMIUmonthyearheatmap1.svg", fig = attendanceMIUmonthyearheatmap1, width = 16, height = 14)
 
 #Heat map attendance by time of the day - weekend and weekdays
@@ -271,6 +271,7 @@ arrivalhrScotEDwkdyheatmap1 <- ggplot(arrivalhrScotEDwkdy, aes(x = Month, y = Ho
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        limits=c(0, 6500),
                        guide_legend(title = "Attendances")) +
+  scale_y_discrete(limits = rev(levels(as.factor(arrivalhrScotEDwkdy$Hour))))+
   labs(
     #title = "Heatmap of Scottish emergency department \nattendances by weekday arrival hour",
     x = "Year",
@@ -311,6 +312,7 @@ arrivalhrScotMIUOtherwkdyscaledheatmap1 <- ggplot(arrivalhrScotMIUOtherwkdy, aes
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        limits=c(0, 6500),
                        guide_legend(title = "Attendances")) +
+  scale_y_discrete(limits = rev(levels(as.factor(arrivalhrScotEDwkdy$Hour))))+
   labs(
     #title = "Heatmap of Scottish minor injuries and other units attendances by \nweekday arrival hour",
     x = "Year",
@@ -343,6 +345,7 @@ arrivalhrScotMIUOtherwkdyheatmap1 <- ggplot(arrivalhrScotMIUOtherwkdy, aes(x = M
   ) +
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        guide_legend(title = "Attendances")) +
+  scale_y_discrete(limits = rev(levels(as.factor(arrivalhrScotEDwkdy$Hour))))+
   labs(
     #title = "Heatmap of Scottish minor injuries and other units attendances by \nweekday arrival hour",
     x = "Year",
@@ -383,6 +386,7 @@ arrivalhrScotEDwkndheatmap1 <- ggplot(arrivalhrScotEDwknd, aes(x = Month, y = Ho
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        limits=c(0, 3000),
                        guide_legend(title = "Attendances")) +
+  scale_y_discrete(limits = rev(levels(as.factor(arrivalhrScotEDwkdy$Hour))))+
   labs(
     #title = "Heatmap of Scottish emergency department attendances by weekend \narrival hour",
     x = "Year",
@@ -421,6 +425,7 @@ arrivalhrScotMIUOtherwkndscaledheatmap1 <- ggplot(arrivalhrScotMIUOtherwknd, aes
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        limits=c(0, 3000),
                        guide_legend(title = "Attendances")) +
+  scale_y_discrete(limits = rev(levels(as.factor(arrivalhrScotEDwkdy$Hour))))+
   labs(
     #title = "Heatmap of Scottish minor injuries and other units attendances by \nweekend arrival hour",
     x = "Year",
@@ -450,6 +455,7 @@ arrivalhrScotMIUOtherwkndheatmap1 <- ggplot(arrivalhrScotMIUOtherwknd, aes(x = M
   ) +
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        guide_legend(title = "Attendances")) +
+  scale_y_discrete(limits = rev(levels(as.factor(arrivalhrScotEDwkdy$Hour))))+
   labs(
     #title = "Heatmap of Scottish minor injuries and other units attendances by \nweekend arrival hour",
     x = "Year",

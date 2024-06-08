@@ -227,7 +227,7 @@ save_plot("Output/glmsexageSIMDdaytypehourHBupdatedmonthpredictionallinone.svg",
 
 
 glmsexprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexprediction"
   )+
   geom_line(aes(y= rates), color = "black")+
@@ -235,7 +235,7 @@ glmsexprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, 
 save_plot("Output/glmsexprediction.svg", fig = glmsexprediction, width = 5, height = 5)
 
 glmsexageprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageprediction"
   )+
   geom_line(aes(y= rates), color = "black")+
@@ -243,7 +243,7 @@ glmsexageprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplo
 save_plot("Output/glmsexageprediction.svg", fig = glmsexageprediction, width = 5, height = 5)
 
 glmsexageSIMDprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDprediction"
   )+
   geom_line(aes(y= rates), color = "black")+
@@ -251,7 +251,7 @@ glmsexageSIMDprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsgl
 save_plot("Output/glmsexageSIMDprediction.svg", fig = glmsexageSIMDprediction, width = 5, height = 5)
 
 glmsexageSIMDdayprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDdayprediction"
   )+
   geom_line(aes(y= rates), color = "black")+
@@ -259,7 +259,7 @@ glmsexageSIMDdayprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportion
 save_plot("Output/glmsexageSIMDdayprediction.svg", fig = glmsexageSIMDdayprediction, width = 5, height = 5)
 
 glmsexageSIMDdaytypeprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDdaytypeprediction"
   )+
   geom_line(aes(y= rates), color = "black")+
@@ -267,7 +267,7 @@ glmsexageSIMDdaytypeprediction <- ggplot(data=sexagesimddayhourdepttypeHB_propor
 save_plot("Output/glmsexageSIMDdaytypeprediction.svg", fig = glmsexageSIMDdaytypeprediction, width = 5, height = 5)
 
 glmsexageSIMDdaytypehourprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDdaytypehourprediction"
   )+
   geom_line(aes(y= rates), color = "black")+
@@ -275,7 +275,7 @@ glmsexageSIMDdaytypehourprediction <- ggplot(data=sexagesimddayhourdepttypeHB_pr
 save_plot("Output/glmsexageSIMDdaytypehourprediction.svg", fig = glmsexageSIMDdaytypehourprediction, width = 5, height = 5)
 
 glmsexageSIMDdaytypehourHBprediction <- ggplot(data=sexagesimddayhourdepttypeHB_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDdaytypehourHBprediction"
   )+
   geom_line(aes(y= rates), color = "black")+
@@ -284,7 +284,7 @@ save_plot("Output/glmsexageSIMDdaytypehourHBprediction.svg", fig = glmsexageSIMD
 
 ##FOR SOME REASON THE BLACK LINE ON THIS DOESN'T SHOW CLEARLY, THOUGH IT SHOWS IF RAN ALONE
 glmsexageSIMDdaytypehourHBmonthprediction <- ggplot(data=sexagesimddayhourdepttypeHBmonth_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDdaytypehourHBmonthprediction"
   )+
   geom_line(aes(y= rates), color = "black")+ 
@@ -293,7 +293,7 @@ save_plot("Output/glmsexageSIMDdaytypehourHBmonthprediction.svg", fig = glmsexag
 
 #using updated month
 glmsexageSIMDdaytypehourHBupdatedmonthprediction <- ggplot(data=sexagesimddayhourdepttypeHBupdatedmonth_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDdaytypehourHBupdatedmonthprediction"
   )+
   geom_line(aes(y= rates), color = "black")+ 
@@ -302,7 +302,7 @@ save_plot("Output/glmsexageSIMDdaytypehourHBupdatedmonthprediction.svg", fig = g
 
 
 glmsexageSIMDdaytypehourHBTimeprediction <- ggplot(data=sexagesimddayhourdepttypeHBTime_proportionsglmplot, aes(x=Month))+
-  labs(x="Time", y= "Rate of attendance", 
+  labs(x="Time", y= "Attendance rate", 
        #title = "glmsexageSIMDdaytypehourHBTimeprediction"
   )+
   geom_line(aes(y= rates), color = "black")+ 
@@ -466,7 +466,13 @@ predict(glm_sexageSIMDdaytypehourHBupdatedmonth, ScotJan24updatedmonth, type="re
 #92906.21  x 0.2583648=24,003.69
 
 #Orkney attendance rates 2018-2023
+#adding new Month column based on assumption that end of one month is first day of next month
 Orkney_rates2018to2023 <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Orkney") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
+#removing the Month ending dateand year column
+Orkney_rates2018to2023 <- Orkney_rates2018to2023 %>% select(-MonthEndingDate, -Year)
+#Adding a new column for year
+Orkney_rates2018to2023$Year <- as.numeric(format(Orkney_rates2018to2023$Month, "%Y"))
+#Getting population estimate data for 2018-2023
 Orkney_Updatespopulation2018to2023 <- HBUpdatespopulation_estimate_HBname %>% filter(HBName=="NHS Orkney")
 Orkney_Updatespopulation2018to2023 <- Orkney_Updatespopulation2018to2023 %>% filter(Year=="2018"|Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
 #combining the dataframe for attendance and Orkney population in 2018-2023
@@ -474,8 +480,8 @@ Orkney_rates2018to2023 <- merge(Orkney_rates2018to2023, Orkney_Updatespopulation
 #adding a new column containing the attendance rate
 Orkney_rates2018to2023 <- Orkney_rates2018to2023 %>% mutate(attendancerate = Attendances/AllAges)
 #removing unnecessary columns
-Orkney_rates2018to2023 <- Orkney_rates2018to2023 %>% select(-MonthEndingDate, -HBName, -HB, -Sex, -Year)
-#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023
+Orkney_rates2018to2023 <- Orkney_rates2018to2023 %>% select(-HBName, -HB, -Sex, -Year)
+#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023 using model based on time
 OrkneyAug23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 589, Month = "2023-08-01", AllAges= 22731, attendancerate=0.0259118)
 OrkneySept23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 591, Month = "2023-09-01", AllAges= 22731, attendancerate=0.0259997)
 OrkneyOct23Time_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 593, Month = "2023-10-01", AllAges= 22731, attendancerate=0.0260877)
@@ -516,72 +522,72 @@ predict(glm_sexageSIMDdaytypehourHBmonth, OrkneyAug23, type="response")
 
 
 
-#Calculating sex, age, simd proportions for Orkney
+#Calculating sex, age, simd proportions for Orkney - realised I didn't need to do this in the end
 
 #SIMD proportions for Orkney
-Orkney_glmproportions <- deprivation %>% 
-  filter(HealthBoard=="NHS Orkney")
+#Orkney_glmproportions <- deprivation %>% 
+#  filter(HealthBoard=="NHS Orkney")
 
 #changing month from character to a date
-ymd(Orkney_glmproportions$Month)
-str(Orkney_glmproportions)
+#ymd(Orkney_glmproportions$Month)
+#str(Orkney_glmproportions)
 
 #adding month and year column
-Orkney_glmproportions$yearnumeric <- format(as.Date(Orkney_glmproportions$Month, format="%Y/%m/%d"),"%Y")
-Orkney_glmproportions$monthnumeric <- format(as.Date(Orkney_glmproportions$Month, format="%Y/%m/%d"),"%m")
+#Orkney_glmproportions$yearnumeric <- format(as.Date(Orkney_glmproportions$Month, format="%Y/%m/%d"),"%Y")
+#Orkney_glmproportions$monthnumeric <- format(as.Date(Orkney_glmproportions$Month, format="%Y/%m/%d"),"%m")
 #calculate total monthly attendances and then proportion
-Orkney_glmproportions %>% filter(yearnumeric=="2023", monthnumeric=="07") %>% 
-  summarise(Attendances=sum(Attendances))
+#Orkney_glmproportions %>% filter(yearnumeric=="2023", monthnumeric=="07") %>% 
+#  summarise(Attendances=sum(Attendances))
 #670
 #Adding a new column for Orkney SIMD proportions in July 2023
-Orkney_glmproportions_July23simd <- Orkney_glmproportions %>%
-  filter(yearnumeric=="2023", monthnumeric=="07") %>% 
-  mutate(SIMDprop=Attendances/670)
+#Orkney_glmproportions_July23simd <- Orkney_glmproportions %>%
+#  filter(yearnumeric=="2023", monthnumeric=="07") %>% 
+#  mutate(SIMDprop=Attendances/670)
 
 #Calculating proportions for Orkney in July 23 for age
-Orkney_glmproportions_July23age <- agegroupHB %>%  
-  filter(HealthBoard=="NHS Orkney")
+#Orkney_glmproportions_July23age <- agegroupHB %>%  
+#  filter(HealthBoard=="NHS Orkney")
 
 #changing from character to date
 #Tried this didnt work: ymd(Orkney_glmproportions_July23age$Month)
-Orkney_glmproportions_July23age$Month<-as.Date(Orkney_glmproportions_July23age$Month)
-str(Orkney_glmproportions_July23age)
+#Orkney_glmproportions_July23age$Month<-as.Date(Orkney_glmproportions_July23age$Month)
+#str(Orkney_glmproportions_July23age)
 #adding columns for month and year
-Orkney_glmproportions_July23age$yearnumeric <- format(as.Date(Orkney_glmproportions_July23age$Month, format="%Y/%m/%d"), "%Y")
-Orkney_glmproportions_July23age$monthnumeric <- format(as.Date(Orkney_glmproportions_July23age$Month, format="%Y/%m/%d"), "%m")
+#Orkney_glmproportions_July23age$yearnumeric <- format(as.Date(Orkney_glmproportions_July23age$Month, format="%Y/%m/%d"), "%Y")
+#Orkney_glmproportions_July23age$monthnumeric <- format(as.Date(Orkney_glmproportions_July23age$Month, format="%Y/%m/%d"), "%m")
 
 #calculate total monthly attendances and then proportion
-Orkney_glmproportions_July23age<- Orkney_glmproportions_July23age %>% filter(yearnumeric=="2023", monthnumeric=="07")
-Orkney_glmproportions_July23age %>% 
-  summarise(Attendances=sum(Attendances))
+#Orkney_glmproportions_July23age<- Orkney_glmproportions_July23age %>% filter(yearnumeric=="2023", monthnumeric=="07")
+#Orkney_glmproportions_July23age %>% 
+#  summarise(Attendances=sum(Attendances))
 #670
 #Adding a new column for Orkney age proportions in July 2023
-Orkney_glmproportions_July23age <- Orkney_glmproportions_July23age %>%
-  mutate(ageprop=Attendances/670)
+#Orkney_glmproportions_July23age <- Orkney_glmproportions_July23age %>%
+#  mutate(ageprop=Attendances/670)
 
 #Calculating proportions for Orkney in July 23 for sex
 
-whoattends_sexHB <- read_excel("Rawdata/2023-09-05-whoattends-sex.xlsx", 
-                               sheet = "HealthBoard")
+#whoattends_sexHB <- read_excel("Rawdata/2023-09-05-whoattends-sex.xlsx", 
+#                               sheet = "HealthBoard")
 
-Orkney_glmproportions_July23sex <- whoattends_sexHB %>%  
-  filter(HealthBoard=="NHS Orkney")
+#Orkney_glmproportions_July23sex <- whoattends_sexHB %>%  
+#  filter(HealthBoard=="NHS Orkney")
 
 #changing from character to date
-Orkney_glmproportions_July23sex$Month<-as.Date(Orkney_glmproportions_July23sex$Month)
-str(Orkney_glmproportions_July23sex)
+#Orkney_glmproportions_July23sex$Month<-as.Date(Orkney_glmproportions_July23sex$Month)
+#str(Orkney_glmproportions_July23sex)
 #adding columns for month and year
-Orkney_glmproportions_July23sex$yearnumeric <- format(as.Date(Orkney_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%Y")
-Orkney_glmproportions_July23sex$monthnumeric <- format(as.Date(Orkney_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%m")
+#Orkney_glmproportions_July23sex$yearnumeric <- format(as.Date(Orkney_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%Y")
+#Orkney_glmproportions_July23sex$monthnumeric <- format(as.Date(Orkney_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%m")
 
 #calculate total monthly attendances and then proportion
-Orkney_glmproportions_July23sex<- Orkney_glmproportions_July23sex %>% filter(yearnumeric=="2023", monthnumeric=="07")
-Orkney_glmproportions_July23sex %>% 
-  summarise(Attendances=sum(Attendances))
+#Orkney_glmproportions_July23sex<- Orkney_glmproportions_July23sex %>% filter(yearnumeric=="2023", monthnumeric=="07")
+#Orkney_glmproportions_July23sex %>% 
+#  summarise(Attendances=sum(Attendances))
 #670
 #Adding a new column for Orkney sex proportions in July 2023
-Orkney_glmproportions_July23sex <- Orkney_glmproportions_July23sex %>%
-  mutate(sexprop=Attendances/670)
+#Orkney_glmproportions_July23sex <- Orkney_glmproportions_July23sex %>%
+#  mutate(sexprop=Attendances/670)
 
 #Just for information how to delete a column
 #Orkney_glmproportions <-Orkney_glmproportions %>% select(-Year)
@@ -614,93 +620,93 @@ save_plot("Output/aeAttendanceOrkney20182023.svg", fig=ae_attendance_Orkney20182
 
 #Glasgow
 
-#Calculating sex, age, simd proportions for Glasgow
+#Calculating sex, age, simd proportions for Glasgow - realised I didn't need to do this in the end
 
 #SIMD proportions for Glasgow
-Glasgow_glmproportions <- deprivation %>% 
-  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
+#Glasgow_glmproportions <- deprivation %>% 
+#  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
 
 #changing month from character to a date
-ymd(Glasgow_glmproportions$Month)
-str(Glasgow_glmproportions)
+#ymd(Glasgow_glmproportions$Month)
+#str(Glasgow_glmproportions)
 
 #adding month and year column
-Glasgow_glmproportions$yearnumeric <- format(as.Date(Glasgow_glmproportions$Month, format="%Y/%m/%d"),"%Y")
-Glasgow_glmproportions$monthnumeric <- format(as.Date(Glasgow_glmproportions$Month, format="%Y/%m/%d"),"%m")
+#Glasgow_glmproportions$yearnumeric <- format(as.Date(Glasgow_glmproportions$Month, format="%Y/%m/%d"),"%Y")
+#Glasgow_glmproportions$monthnumeric <- format(as.Date(Glasgow_glmproportions$Month, format="%Y/%m/%d"),"%m")
 #calculate total monthly attendances and then proportion
-Glasgow_glmproportions %>% filter(yearnumeric=="2023", monthnumeric=="07") %>% 
-  group_by(Month, Deprivation) %>% 
-  summarise(Attendances=sum(Attendances))
+#Glasgow_glmproportions %>% filter(yearnumeric=="2023", monthnumeric=="07") %>% 
+#  group_by(Month, Deprivation) %>% 
+#  summarise(Attendances=sum(Attendances))
 #33373
 #Adding a new column for Glasgow SIMD proportions in July 2023
-Glasgow_glmproportions_July23simd <- Glasgow_glmproportions %>%
-  filter(yearnumeric=="2023", monthnumeric=="07") %>% 
-  group_by(Month, Deprivation) %>% 
-  summarise(Attendances=sum(Attendances))
+#Glasgow_glmproportions_July23simd <- Glasgow_glmproportions %>%
+#  filter(yearnumeric=="2023", monthnumeric=="07") %>% 
+#  group_by(Month, Deprivation) %>% 
+#  summarise(Attendances=sum(Attendances))
 
-Glasgow_glmproportions_July23simd <- Glasgow_glmproportions_July23simd %>%
-  mutate(SIMDprop=Attendances/33373)
+#Glasgow_glmproportions_July23simd <- Glasgow_glmproportions_July23simd %>%
+#  mutate(SIMDprop=Attendances/33373)
 
 #Calculating proportions for Glasgow in July 23 for age
-Glasgow_glmproportions_July23age <- agegroupHB %>%  
-  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
+#Glasgow_glmproportions_July23age <- agegroupHB %>%  
+#  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
 
 #changing from character to date
 #Tried this didnt work: ymd(Orkney_glmproportions_July23age$Month)
-Glasgow_glmproportions_July23age$Month<-as.Date(Glasgow_glmproportions_July23age$Month)
-str(Glasgow_glmproportions_July23age)
+#Glasgow_glmproportions_July23age$Month<-as.Date(Glasgow_glmproportions_July23age$Month)
+#str(Glasgow_glmproportions_July23age)
 #adding columns for month and year
-Glasgow_glmproportions_July23age$yearnumeric <- format(as.Date(Glasgow_glmproportions_July23age$Month, format="%Y/%m/%d"), "%Y")
-Glasgow_glmproportions_July23age$monthnumeric <- format(as.Date(Glasgow_glmproportions_July23age$Month, format="%Y/%m/%d"), "%m")
+#Glasgow_glmproportions_July23age$yearnumeric <- format(as.Date(Glasgow_glmproportions_July23age$Month, format="%Y/%m/%d"), "%Y")
+#Glasgow_glmproportions_July23age$monthnumeric <- format(as.Date(Glasgow_glmproportions_July23age$Month, format="%Y/%m/%d"), "%m")
 
 #calculate total monthly attendances and then proportion
-Glasgow_glmproportions_July23age<- Glasgow_glmproportions_July23age %>% filter(yearnumeric=="2023", monthnumeric=="07")%>% 
-  group_by(Month, Age) %>% 
-  summarise(Attendances=sum(Attendances))
-Glasgow_glmproportions_July23age %>% 
-  summarise(Attendances=sum(Attendances))
+#Glasgow_glmproportions_July23age<- Glasgow_glmproportions_July23age %>% filter(yearnumeric=="2023", monthnumeric=="07")%>% 
+#  group_by(Month, Age) %>% 
+#  summarise(Attendances=sum(Attendances))
+#Glasgow_glmproportions_July23age %>% 
+#  summarise(Attendances=sum(Attendances))
 #33373
 #Adding a new column for Orkney age proportions in July 2023
-Glasgow_glmproportions_July23age <- Glasgow_glmproportions_July23age %>%
-  mutate(ageprop=Attendances/33373)
+#Glasgow_glmproportions_July23age <- Glasgow_glmproportions_July23age %>%
+#  mutate(ageprop=Attendances/33373)
 
 #Calculating proportions for Glasgow in July 23 for sex
 
-whoattends_sexHB <- read_excel("Rawdata/2023-09-05-whoattends-sex.xlsx", 
-                               sheet = "HealthBoard")
+#whoattends_sexHB <- read_excel("Rawdata/2023-09-05-whoattends-sex.xlsx", 
+#                               sheet = "HealthBoard")
 
-Glasgow_glmproportions_July23sex <- whoattends_sexHB %>%  
-  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
+#Glasgow_glmproportions_July23sex <- whoattends_sexHB %>%  
+#  filter(HealthBoard=="NHS Greater Glasgow & Clyde")
 
 #changing from character to date
-Glasgow_glmproportions_July23sex$Month<-as.Date(Glasgow_glmproportions_July23sex$Month)
-str(Glasgow_glmproportions_July23sex)
+#Glasgow_glmproportions_July23sex$Month<-as.Date(Glasgow_glmproportions_July23sex$Month)
+#str(Glasgow_glmproportions_July23sex)
 #adding columns for month and year
-Glasgow_glmproportions_July23sex$yearnumeric <- format(as.Date(Glasgow_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%Y")
-Glasgow_glmproportions_July23sex$monthnumeric <- format(as.Date(Glasgow_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%m")
+#Glasgow_glmproportions_July23sex$yearnumeric <- format(as.Date(Glasgow_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%Y")
+#Glasgow_glmproportions_July23sex$monthnumeric <- format(as.Date(Glasgow_glmproportions_July23sex$Month, format="%Y/%m/%d"), "%m")
 
 #calculate total monthly attendances and then proportion
-Glasgow_glmproportions_July23sex<- Glasgow_glmproportions_July23sex %>% filter(yearnumeric=="2023", monthnumeric=="07")%>% 
-  group_by(Month, Sex) %>% 
-  summarise(Attendances=sum(Attendances))
-Glasgow_glmproportions_July23sex %>% 
-  summarise(Attendances=sum(Attendances))
+#Glasgow_glmproportions_July23sex<- Glasgow_glmproportions_July23sex %>% filter(yearnumeric=="2023", monthnumeric=="07")%>% 
+#  group_by(Month, Sex) %>% 
+#  summarise(Attendances=sum(Attendances))
+#Glasgow_glmproportions_July23sex %>% 
+#  summarise(Attendances=sum(Attendances))
 #33373
 #Adding a new column for Glasgow sex proportions in July 2023
-Glasgow_glmproportions_July23sex <- Glasgow_glmproportions_July23sex %>%
-  mutate(sexprop=Attendances/33373)
+#Glasgow_glmproportions_July23sex <- Glasgow_glmproportions_July23sex %>%
+#  mutate(sexprop=Attendances/33373)
 
 #Calculating proportions for Glasgow in July 23 for Dept type
 
-Glasgow_glmproportions_July23type <- ae_monthly_attendance %>% 
-  select(MonthEndingDate, NHSBoardName, DepartmentType, NumberOfAttendancesAll) %>% 
-  filter(between(MonthEndingDate, as.Date("2023-06-30"), as.Date("2023-06-30")),NHSBoardName=="NHS Greater Glasgow & Clyde") %>% 
-  group_by(DepartmentType) %>% 
-  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))  
+#Glasgow_glmproportions_July23type <- ae_monthly_attendance %>% 
+#  select(MonthEndingDate, NHSBoardName, DepartmentType, NumberOfAttendancesAll) %>% 
+#  filter(between(MonthEndingDate, as.Date("2023-06-30"), as.Date("2023-06-30")),NHSBoardName=="NHS Greater Glasgow & Clyde") %>% 
+#  group_by(DepartmentType) %>% 
+#  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))  
 #total attendances in ED and MIU = 35443
 
-Glasgow_glmproportions_July23type <- Glasgow_glmproportions_July23type %>% 
-  mutate(typeprop=NumberOfAttendancesAll/35443)
+#Glasgow_glmproportions_July23type <- Glasgow_glmproportions_July23type %>% 
+#  mutate(typeprop=NumberOfAttendancesAll/35443)
 #ED=0.8186384, MIU=0.1813616
 
 ##creating a graph for Glasgow for Jan 2018- July 2023
@@ -744,16 +750,22 @@ predict(glm_sexageSIMDdaytypehourHBTime, GlasgowOct23Time, type="response")
 #so rate in Orkney for Oct is (22731/2919822) = 0.0077851, 0.0077851 x 22731 = 176.962
 
 #Glasgow attendance rates 2018-2023
+#adding new Month column based on assumption that end of one month is first day of next month
 Glasgow_rates2018to2023 <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Greater Glasgow & Clyde") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
+#removing the Month ending date and year column
+Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% select(-MonthEndingDate, -Year)
+#Adding a new column for year
+Glasgow_rates2018to2023$Year <- as.numeric(format(Glasgow_rates2018to2023$Month, "%Y"))
+#Getting population estimate data for 2018-2023
 Glasgow_Updatespopulation2018to2023 <- HBUpdatespopulation_estimate_HBname %>% filter(HBName=="NHS Greater Glasgow and Clyde")
 Glasgow_Updatespopulation2018to2023 <- Glasgow_Updatespopulation2018to2023 %>% filter(Year=="2018"|Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
-#combining the dataframe for attendance and Orkney population in 2018-2023
+#combining the dataframe for attendance and population in 2018-2023
 Glasgow_rates2018to2023 <- merge(Glasgow_rates2018to2023, Glasgow_Updatespopulation2018to2023, by=c("Year"))
 #adding a new column containing the attendance rate
 Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% mutate(attendancerate = Attendances/AllAges)
 #removing unnecessary columns
-Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% select(-MonthEndingDate, -HBName, -HB, -Sex, -Year)
-#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023
+Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% select(-HBName, -HB, -Sex, -Year)
+#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023 using  model based on time
 GlasgowAug23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35591, Month = "2023-08-01", AllAges= 1192485, attendancerate=0.0298461)
 GlasgowSept23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35712, Month = "2023-09-01", AllAges= 1192485, attendancerate=0.0299475)
 GlasgowOct23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35829, Month = "2023-10-01", AllAges= 1192485, attendancerate=0.0300457)
@@ -773,7 +785,7 @@ str(Glasgow_rates2018to2023)
 #changing attendancerate to a numeric
 Glasgow_rates2018to2023$attendancerate <- as.numeric(Glasgow_rates2018to2023$attendancerate) 
 
-#graph of actual Orkney attendance rates followed by predicted
+#graph of actual Glasgow attendance rates followed by predicted
 Glasgow_predict_rates2018to2023 <- ggplot(data=Glasgow_rates2018to2023, aes(x=Month, y=attendancerate))+
   geom_point()+
   geom_line()+
@@ -781,7 +793,7 @@ Glasgow_predict_rates2018to2023 <- ggplot(data=Glasgow_rates2018to2023, aes(x=Mo
        y="Attendance rate")
 save_plot("Output/Glasgow_predict_rates2018to2023.svg", fig=Glasgow_predict_rates2018to2023, width=14, height=12)
 
-#Orkney and Glasgow in the same graph
+#Orkney and Glasgow in the same graph for model based on time
 Orkney_Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, Orkney_rates2018to2023)
 
 Orkney_Glasgow_predict_rates2018to2023 <- ggplot(data=Orkney_Glasgow_rates2018to2023, aes(x=Month, y=attendancerate, ggroup=NHSBoardName, color=NHSBoardName))+
@@ -805,6 +817,109 @@ Orkney_Glasgow_predict_rates2018to2023 <- ggplot(data=Orkney_Glasgow_rates2018to
        y="Attendance rate", 
        col="NHS Board Name")
 save_plot("Output/Orkney_Glasgow_predict_rates2018to2023vline.svg", fig=Orkney_Glasgow_predict_rates2018to2023, width=18, height=12)
+
+#_________________________Orkney and Glasgow in the same graph for model based on month
+#Orkney attendance rates 2018-2023
+#adding new Month column based on assumption that end of one month is first day of next month
+Orkney_rates2018to2023month <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Orkney") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
+#removing the Month ending dateand year column
+Orkney_rates2018to2023month <- Orkney_rates2018to2023month %>% select(-MonthEndingDate, -Year)
+#Adding a new column for year
+Orkney_rates2018to2023month$Year <- as.numeric(format(Orkney_rates2018to2023month$Month, "%Y"))
+#Getting population estimate data for 2018-2023
+Orkney_Updatespopulation2018to2023month <- HBUpdatespopulation_estimate_HBname %>% filter(HBName=="NHS Orkney")
+Orkney_Updatespopulation2018to2023month <- Orkney_Updatespopulation2018to2023month %>% filter(Year=="2018"|Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
+#combining the dataframe for attendance and Orkney population in 2018-2023
+Orkney_rates2018to2023month <- merge(Orkney_rates2018to2023month, Orkney_Updatespopulation2018to2023month, by=c("Year"))
+#adding a new column containing the attendance rate
+Orkney_rates2018to2023month <- Orkney_rates2018to2023month %>% mutate(attendancerate = Attendances/AllAges)
+#removing unnecessary columns
+Orkney_rates2018to2023month <- Orkney_rates2018to2023month %>% select(-HBName, -HB, -Sex, -Year)
+#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023 using model based on month
+OrkneyAug23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 465, Month = "2023-08-01", AllAges= 22731, attendancerate=0.0204566)
+OrkneySept23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 501, Month = "2023-09-01", AllAges= 22731, attendancerate=0.0220404)
+OrkneyOct23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 544, Month = "2023-10-01", AllAges= 22731, attendancerate=0.0239321)
+OrkneyNov23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 424, Month = "2023-11-01", AllAges= 22731, attendancerate=0.0186529)
+OrkneyDec23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 306, Month = "2023-12-01", AllAges= 22731, attendancerate=0.0134618)
+OrkneyJan24Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 400, Month = "2024-01-01", AllAges= 22731, attendancerate=0.0175971)
+
+#Combining the dataframe containing actual rates with the prediction for Sept and Aug 2023 
+Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneyAug23Month_attendancerate)
+Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneySept23Month_attendancerate)
+Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneyOct23Month_attendancerate)
+Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneyNov23Month_attendancerate)
+Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneyDec23Month_attendancerate)
+Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneyJan24Month_attendancerate)
+
+str(Orkney_rates2018to2023)
+#changing attendancerate to a numeric
+Orkney_rates2018to2023month$attendancerate <- as.numeric(Orkney_rates2018to2023month$attendancerate) 
+
+
+#Glasgow attendance rates 2018-2023
+#adding new Month column based on assumption that end of one month is first day of next month
+Glasgow_rates2018to2023month <- ae_byboard2018to2023 %>% filter(NHSBoardName=="NHS Greater Glasgow & Clyde") %>% mutate(Month = ae_byboard2018to2023_proportionsnewdate$Month)
+#removing the Month ending date and year column
+Glasgow_rates2018to2023month <- Glasgow_rates2018to2023month %>% select(-MonthEndingDate, -Year)
+#Adding a new column for year
+Glasgow_rates2018to2023month$Year <- as.numeric(format(Glasgow_rates2018to2023month$Month, "%Y"))
+#Getting population estimate data for 2018-2023
+Glasgow_Updatespopulation2018to2023month <- HBUpdatespopulation_estimate_HBname %>% filter(HBName=="NHS Greater Glasgow and Clyde")
+Glasgow_Updatespopulation2018to2023month <- Glasgow_Updatespopulation2018to2023month %>% filter(Year=="2018"|Year=="2019"|Year=="2020"|Year=="2021"|Year=="2022"|Year=="2023")
+#combining the dataframe for attendance and population in 2018-2023
+Glasgow_rates2018to2023month <- merge(Glasgow_rates2018to2023month, Glasgow_Updatespopulation2018to2023month, by=c("Year"))
+#adding a new column containing the attendance rate
+Glasgow_rates2018to2023month <- Glasgow_rates2018to2023month %>% mutate(attendancerate = Attendances/AllAges)
+#removing unnecessary columns
+Glasgow_rates2018to2023month <- Glasgow_rates2018to2023month %>% select(-HBName, -HB, -Sex, -Year)
+#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023 using  model based on month
+GlasgowAug23Month_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 27556, Month = "2023-08-01", AllAges= 1192485, attendancerate=0.0231080)
+GlasgowSept23Month_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 30279, Month = "2023-09-01", AllAges= 1192485, attendancerate=0.0253915)
+GlasgowOct23Month_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 32849, Month = "2023-10-01", AllAges= 1192485, attendancerate=0.0275467)
+GlasgowNov23Month_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 25608, Month = "2023-11-01", AllAges= 1192485, attendancerate=0.0214745)
+GlasgowDec23Month_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 18470, Month = "2023-12-01", AllAges= 1192485, attendancerate=0.0154887)
+GlasgowJan24Month_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 24004, Month = "2024-01-01", AllAges= 1192485, attendancerate=0.0201294)
+
+#Combining the dataframe containing actual rates with the prediction for Sept and Aug 2023 
+Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, GlasgowAug23Month_attendancerate)
+Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, GlasgowSept23Month_attendancerate)
+Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, GlasgowOct23Month_attendancerate)
+Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, GlasgowNov23Month_attendancerate)
+Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, GlasgowDec23Month_attendancerate)
+Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, GlasgowJan24Month_attendancerate)
+
+str(Glasgow_rates2018to2023)
+#changing attendancerate to a numeric
+Glasgow_rates2018to2023month$attendancerate <- as.numeric(Glasgow_rates2018to2023month$attendancerate) 
+
+#Orkney and Glasgow in the same graph for model based on time
+Orkney_Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, Orkney_rates2018to2023month)
+
+Orkney_Glasgow_predict_rates2018to2023month <- ggplot(data=Orkney_Glasgow_rates2018to2023month, aes(x=Month, y=attendancerate, ggroup=NHSBoardName, color=NHSBoardName))+
+  geom_point()+
+  geom_line()+
+  labs(x="Year", 
+       y="Attendance rate", 
+       col="NHS Board Name")
+save_plot("Output/Orkney_Glasgow_predict_rates2018to2023month.svg", fig=Orkney_Glasgow_predict_rates2018to2023month, width=14, height=12)
+
+Orkney_Glasgow_predict_rates2018to2023month <- ggplot(data=Orkney_Glasgow_rates2018to2023month, aes(x=Month, y=attendancerate, ggroup=NHSBoardName, color=NHSBoardName))+
+  geom_point()+
+  geom_line()+
+  geom_vline(xintercept = as.Date("2023-08-01"), color="orange", linewidth=.5)+
+  annotate(geom="text", x=as.Date("2023-03-01"), y=0.0325, size=3, label="Actual")+
+  annotate(geom="text", x=as.Date("2024-01-01"), y=0.0325, size=3, label="Predicted")+
+  geom_segment(aes(x=as.Date("2023-06-01"), y=0.0335, xend = as.Date("2022-12-01"), yend = 0.0335), arrow=arrow(length = unit(0.3, 'cm')), color='black')+
+  
+  geom_segment(aes(x=as.Date("2023-10-01"), y=0.0335, xend = as.Date("2024-04-01"), yend = 0.0335), arrow=arrow(length = unit(0.3, 'cm')), color='black')+#annotate(geom="text", x=as.Date("2023-03-01"), y=0.0340, size=3, label= sprintf('\u2191'))+
+  labs(x="Year", 
+       y="Attendance rate", 
+       col="NHS Board Name")
+save_plot("Output/Orkney_Glasgow_predict_rates2018to2023vlinemonth.svg", fig=Orkney_Glasgow_predict_rates2018to2023month, width=18, height=12)
+
+
+
+#_______________end
 
 
 #Orkney graph comparing GLM based on month, time and actual PHS values

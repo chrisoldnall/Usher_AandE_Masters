@@ -59,11 +59,12 @@ dev.off()
 
 fourHwaitingbyHB_nocolour <- ggplot(data=ae_4HwaitingbyHB, aes(x=MonthEndingDate, y=PercentageWithin4HoursAll, group=NHSBoardName)) +
   geom_line() +
-  geom_hline(yintercept= c(80,95), color="orange", size=.5) +
-  annotate(geom="text", x=as.Date("2008-04-30"), y=94.5, size=3,
+  geom_vline(xintercept = as.Date("2020-01-01"), color="orange", linewidth=.5)+
+  geom_hline(yintercept= c(78,95), color="orange", size=.5) +
+  annotate(geom="text", x=as.Date("2008-04-30"), y=94.0, size=3,
            label="95% target") +
-  annotate(geom="text", x=as.Date("2008-04-30"), y=79.5, size=3,
-           label="80% target") +
+  annotate(geom="text", x=as.Date("2008-04-30"), y=77.0, size=3,
+           label="78% target") +
   labs(
     #title = "Percentage A&E attendances seen within 4 hours \nby Scottish Health Boards",
     x = "Year",
