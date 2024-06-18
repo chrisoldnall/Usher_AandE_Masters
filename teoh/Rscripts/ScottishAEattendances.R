@@ -204,7 +204,7 @@ Grampian_Lothian_WesternIsle <- ae_monthly_attendance %>%
   group_by(NHSBoardName, MonthEndingDate) %>% 
   summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
 
-Grampian_Lothian_WesternIsleAE <- ggplot(data=Grampian_Lothian_WesternIsle, aes(x=MonthEndingDate, y=NumberOfAttendancesAll, ggroup=NHSBoardName, color=NHSBoardName)) +
+Grampian_Lothian_WesternIsleAEwithpop <- ggplot(data=Grampian_Lothian_WesternIsle, aes(x=MonthEndingDate, y=NumberOfAttendancesAll, ggroup=NHSBoardName, color=NHSBoardName)) +
   geom_line() +
   #scale_x_continuous(breaks=seq(2007,2024,2))+
   scale_y_continuous(labels=scales::comma)+
@@ -212,8 +212,9 @@ Grampian_Lothian_WesternIsleAE <- ggplot(data=Grampian_Lothian_WesternIsle, aes(
     #title = "Total number of accident and emergency (A&E) attendances at \nNHS Grampian, NHS Lothian and NHS Western Isles",
     x = "Year",
     y = "Total number of A&E attendances",
-    col="NHS Health Board")
-save_plot("Output/Grampian_Lothian_WesternIsleAE.svg", fig = Grampian_Lothian_WesternIsle, width = 14, height = 12)
+    col="NHS Health Board (average \npopulation size from 2007-2023)") +
+  scale_color_manual(labels = c("NHS Grampian (577,324)", "NHS Lothian (868,464)", "NHS Western Isles (27,072)"), values = c("red", "green", "blue"))
+save_plot("Output/Grampian_Lothian_WesternIsleAEwithpop.svg", fig = Grampian_Lothian_WesternIsleAEwithpop, width = 14, height = 12)
 
 
 
