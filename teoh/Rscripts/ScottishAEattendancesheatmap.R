@@ -72,7 +72,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-attendancemonthyearheatmap1 <- ggplot(attendance_monthenddate, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
+attendancemonthyearheatmap2 <- ggplot(attendance_monthenddate, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
   geom_tile() +
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        limits=c(65000, 154000),
@@ -83,8 +83,10 @@ attendancemonthyearheatmap1 <- ggplot(attendance_monthenddate, aes(x = year, y =
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
-save_plot("Output/attendancemonthyearheatmap1.svg", fig = attendancemonthyearheatmap1, width = 16, height = 14)
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1, size = 10),
+        axis.text.y = element_text(angle=0, vjust=.5, hjust=1, size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/attendancemonthyearheatmap2.svg", fig = attendancemonthyearheatmap2, width = 16, height = 14)
 
 #ED
 
@@ -112,7 +114,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-attendanceEDmonthyearscaledheatmap1 <- ggplot(attendance_monthenddateED, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
+attendanceEDmonthyearscaledheatmap2 <- ggplot(attendance_monthenddateED, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
   geom_tile() +
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        limits=c(7000, 154000),
@@ -123,8 +125,10 @@ attendanceEDmonthyearscaledheatmap1 <- ggplot(attendance_monthenddateED, aes(x =
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
-save_plot("Output/attendanceEDmonthyearscaledheatmap1.svg", fig = attendanceEDmonthyearscaledheatmap1, width = 16, height = 14)
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1, size = 10),
+        axis.text.y = element_text(angle=0, vjust=.5, hjust=1, size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/attendanceEDmonthyearscaledheatmap2.svg", fig = attendanceEDmonthyearscaledheatmap2, width = 16, height = 14)
 
 png(file = "Output/attendanceEDmonthyearheatmap.png")
 ggplot(attendance_monthenddateED, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
@@ -145,7 +149,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-attendanceEDmonthyearheatmap1 <- ggplot(attendance_monthenddateED, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
+attendanceEDmonthyearheatmap2 <- ggplot(attendance_monthenddateED, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
   geom_tile() +
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        guide_legend(title = "Attendances")) +
@@ -155,8 +159,10 @@ attendanceEDmonthyearheatmap1 <- ggplot(attendance_monthenddateED, aes(x = year,
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
-save_plot("Output/attendanceEDmonthyearheatmap1.svg", fig = attendanceEDmonthyearheatmap1, width = 16, height = 14)
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1, size = 10),
+        axis.text.y = element_text(angle=0, vjust=.5, hjust=1, size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/attendanceEDmonthyearheatmap2.svg", fig = attendanceEDmonthyearheatmap2, width = 16, height = 14)
 
 #MIU/Other
 
@@ -184,7 +190,7 @@ dev.off()
 
 #same heatmap as above but with different colouration
 
-attendanceMIUmonthyearscaledheatmap1 <- ggplot(attendance_monthenddateMIUOther, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
+attendanceMIUmonthyearscaledheatmap2 <- ggplot(attendance_monthenddateMIUOther, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
   geom_tile() +
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        limits=c(7000, 154000),
@@ -195,8 +201,10 @@ attendanceMIUmonthyearscaledheatmap1 <- ggplot(attendance_monthenddateMIUOther, 
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
-save_plot("Output/attendanceMIUmonthyearscaledheatmap1.svg", fig = attendanceMIUmonthyearscaledheatmap1, width = 16, height = 14)
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1, size = 10),
+        axis.text.y = element_text(angle=0, vjust=.5, hjust=1, size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/attendanceMIUmonthyearscaledheatmap2.svg", fig = attendanceMIUmonthyearscaledheatmap2, width = 16, height = 14)
 
 #did not adjust scale to be the same as ED
 png(file = "Output/attendanceMIUmonthyearheatmap.png")
@@ -216,7 +224,7 @@ dev.off()
 
 #same as above but with different colouration
 
-attendanceMIUmonthyearheatmap1 <- ggplot(attendance_monthenddateMIUOther, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
+attendanceMIUmonthyearheatmap2 <- ggplot(attendance_monthenddateMIUOther, aes(x = year, y = month, fill = NumberOfAttendancesAll)) +
   geom_tile() +
   scale_fill_gradientn(colors = colorRampPalette(c("blue","green", "yellow", "red"))(1000),
                        guide_legend(title = "Attendances")) +
@@ -226,8 +234,10 @@ attendanceMIUmonthyearheatmap1 <- ggplot(attendance_monthenddateMIUOther, aes(x 
     x = "Year",
     y = "Month")+
   theme_minimal() +
-  theme(axis.text.x = element_text(angle=45, vjust=.5, hjust=1, size = 9))
-save_plot("Output/attendanceMIUmonthyearheatmap1.svg", fig = attendanceMIUmonthyearheatmap1, width = 16, height = 14)
+  theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1, size = 10),
+        axis.text.y = element_text(angle=0, vjust=.5, hjust=1, size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/attendanceMIUmonthyearheatmap2.svg", fig = attendanceMIUmonthyearheatmap2, width = 16, height = 14)
 
 #Heat map attendance by time of the day - weekend and weekdays
 #Importing when people attend arrival hour
@@ -264,7 +274,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-arrivalhrScotEDwkdyheatmap1 <- ggplot(arrivalhrScotEDwkdy, aes(x = Month, y = Hour, fill = Attendances)) +
+arrivalhrScotEDwkdyheatmap2 <- ggplot(arrivalhrScotEDwkdy, aes(x = Month, y = Hour, fill = Attendances)) +
   geom_tile(
     width=50 #to remove the vertical white lines
   ) +
@@ -277,9 +287,18 @@ arrivalhrScotEDwkdyheatmap1 <- ggplot(arrivalhrScotEDwkdy, aes(x = Month, y = Ho
     x = "Year",
     y = "Arrival hour")+
   #theme_minimal() +
-  theme(axis.ticks = element_line())
+  theme(axis.ticks = element_line(),
 #axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
-save_plot("Output/arrivalhrScotEDwkdyheatmap1.svg", fig = arrivalhrScotEDwkdyheatmap1, width = 17, height = 18)
+  axis.text.x = element_text(
+    #angle=0, vjust=.5, hjust=1, 
+    size = 10),
+  axis.title=element_text(size=10),
+  axis.text.y = element_text(
+    #angle=0, vjust=.5, hjust=1, 
+    size = 10),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 11))
+save_plot("Output/arrivalhrScotEDwkdyheatmap2.svg", fig = arrivalhrScotEDwkdyheatmap2, width = 17, height = 18)
 
 #Heat map for weekday MIU/Other Only attendance by arrival hour
 arrivalhrScotMIUOtherwkdy <- arrivalhrScot %>% 
@@ -305,7 +324,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-arrivalhrScotMIUOtherwkdyscaledheatmap1 <- ggplot(arrivalhrScotMIUOtherwkdy, aes(x = Month, y = Hour, fill = Attendances)) +
+arrivalhrScotMIUOtherwkdyscaledheatmap2 <- ggplot(arrivalhrScotMIUOtherwkdy, aes(x = Month, y = Hour, fill = Attendances)) +
   geom_tile(
     width=50 #to remove the vertical white lines
   ) +
@@ -318,9 +337,18 @@ arrivalhrScotMIUOtherwkdyscaledheatmap1 <- ggplot(arrivalhrScotMIUOtherwkdy, aes
     x = "Year",
     y = "Arrival hour")+
   #theme_minimal() +
-  theme(axis.ticks = element_line())
-#axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
-save_plot("Output/arrivalhrScotMIUOtherwkdyscaledheatmap1.svg", fig = arrivalhrScotMIUOtherwkdyscaledheatmap1, width = 17, height = 18)
+  theme(axis.ticks = element_line(),
+        #axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+        axis.text.x = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        axis.title=element_text(size=10),
+        axis.text.y = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/arrivalhrScotMIUOtherwkdyscaledheatmap2.svg", fig = arrivalhrScotMIUOtherwkdyscaledheatmap2, width = 17, height = 18)
 
 #did not adjust scale to be the same as ED
 png(file = "Output/arrivalhrScotMIUOtherwkdyheatmap.png")
@@ -339,7 +367,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-arrivalhrScotMIUOtherwkdyheatmap1 <- ggplot(arrivalhrScotMIUOtherwkdy, aes(x = Month, y = Hour, fill = Attendances)) +
+arrivalhrScotMIUOtherwkdyheatmap2 <- ggplot(arrivalhrScotMIUOtherwkdy, aes(x = Month, y = Hour, fill = Attendances)) +
   geom_tile(
     width=50 #to remove the vertical white lines
   ) +
@@ -351,9 +379,18 @@ arrivalhrScotMIUOtherwkdyheatmap1 <- ggplot(arrivalhrScotMIUOtherwkdy, aes(x = M
     x = "Year",
     y = "Arrival hour")+
   #theme_minimal() +
-  theme(axis.ticks = element_line())
-#axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
-save_plot("Output/arrivalhrScotMIUOtherwkdyheatmap1.svg", fig = arrivalhrScotMIUOtherwkdyheatmap1, width = 17, height = 18)
+  theme(axis.ticks = element_line(),
+        #axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+        axis.text.x = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        axis.title=element_text(size=10),
+        axis.text.y = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/arrivalhrScotMIUOtherwkdyheatmap2.svg", fig = arrivalhrScotMIUOtherwkdyheatmap2, width = 17, height = 18)
 
 #Heat map for weekend ED only attendances by arrival hour
 arrivalhrScotEDwknd <- arrivalhrScot %>% 
@@ -379,7 +416,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-arrivalhrScotEDwkndheatmap1 <- ggplot(arrivalhrScotEDwknd, aes(x = Month, y = Hour, fill = Attendances)) +
+arrivalhrScotEDwkndheatmap2 <- ggplot(arrivalhrScotEDwknd, aes(x = Month, y = Hour, fill = Attendances)) +
   geom_tile(
     width=50 #to remove the vertical white lines
   ) +
@@ -392,9 +429,18 @@ arrivalhrScotEDwkndheatmap1 <- ggplot(arrivalhrScotEDwknd, aes(x = Month, y = Ho
     x = "Year",
     y = "Arrival hour")+
   #theme_minimal() +
-  theme(axis.ticks = element_line())
-#axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
-save_plot("Output/arrivalhrScotEDwkndheatmap1.svg", fig = arrivalhrScotEDwkndheatmap1, width = 17, height = 18)
+  theme(axis.ticks = element_line(),
+        #axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+        axis.text.x = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        axis.title=element_text(size=10),
+        axis.text.y = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/arrivalhrScotEDwkndheatmap2.svg", fig = arrivalhrScotEDwkndheatmap2, width = 17, height = 18)
 
 #Heat map for weekend MIU/Other Only attendance by arrival hour
 arrivalhrScotMIUOtherwknd <- arrivalhrScot %>% 
@@ -418,7 +464,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-arrivalhrScotMIUOtherwkndscaledheatmap1 <- ggplot(arrivalhrScotMIUOtherwknd, aes(x = Month, y = Hour, fill = Attendances)) +
+arrivalhrScotMIUOtherwkndscaledheatmap2 <- ggplot(arrivalhrScotMIUOtherwknd, aes(x = Month, y = Hour, fill = Attendances)) +
   geom_tile(
     width=50 #to remove the vertical white lines
   ) +
@@ -431,9 +477,18 @@ arrivalhrScotMIUOtherwkndscaledheatmap1 <- ggplot(arrivalhrScotMIUOtherwknd, aes
     x = "Year",
     y = "Arrival hour")+
   #theme_minimal() +
-  theme(axis.ticks = element_line())
-#axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
-save_plot("Output/arrivalhrScotMIUOtherwkndscaledheatmap1.svg", fig = arrivalhrScotMIUOtherwkndscaledheatmap1, width = 17, height = 18)
+  theme(axis.ticks = element_line(),
+        #axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+        axis.text.x = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        axis.title=element_text(size=10),
+        axis.text.y = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/arrivalhrScotMIUOtherwkndscaledheatmap2.svg", fig = arrivalhrScotMIUOtherwkndscaledheatmap2, width = 17, height = 18)
 
 #did not adjust scale to be the same as ED
 png(file = "Output/arrivalhrScotMIUOtherwkndheatmap.png")
@@ -449,7 +504,7 @@ dev.off()
 
 #same heatmap as above but with different colouration and scale
 
-arrivalhrScotMIUOtherwkndheatmap1 <- ggplot(arrivalhrScotMIUOtherwknd, aes(x = Month, y = Hour, fill = Attendances)) +
+arrivalhrScotMIUOtherwkndheatmap2 <- ggplot(arrivalhrScotMIUOtherwknd, aes(x = Month, y = Hour, fill = Attendances)) +
   geom_tile(
     width=50 #to remove the vertical white lines
   ) +
@@ -461,7 +516,16 @@ arrivalhrScotMIUOtherwkndheatmap1 <- ggplot(arrivalhrScotMIUOtherwknd, aes(x = M
     x = "Year",
     y = "Arrival hour")+
   #theme_minimal() +
-  theme(axis.ticks = element_line())
-#axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
-save_plot("Output/arrivalhrScotMIUOtherwkndheatmap1.svg", fig = arrivalhrScotMIUOtherwkndheatmap1, width = 17, height = 18)
+  theme(axis.ticks = element_line(),
+        #axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+        axis.text.x = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        axis.title=element_text(size=10),
+        axis.text.y = element_text(
+          #angle=0, vjust=.5, hjust=1, 
+          size = 10),
+        legend.title = element_text(size = 10),
+        legend.text = element_text(size = 11))
+save_plot("Output/arrivalhrScotMIUOtherwkndheatmap2.svg", fig = arrivalhrScotMIUOtherwkndheatmap2, width = 17, height = 18)
 
