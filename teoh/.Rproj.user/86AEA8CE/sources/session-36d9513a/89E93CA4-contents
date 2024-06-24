@@ -101,7 +101,7 @@ Scot_ED_attendancerate_agegroup_legendbottom <- ggplot(data = agegroupScotED, ae
   labs(
     #title = "Attendance rate per 100,000 in Scottish emergency departments \nby age group",
     x = "Year",
-    y = "Attendance rate per 100,000")
+    y = "Attendance rate per 100,000 population")
 save_plot("Output/Scot_ED_attendancerate_agegroup_legendbottom.svg", fig = Scot_ED_attendancerate_agegroup_legendbottom, width = 12, height = 14)
 
 
@@ -146,7 +146,7 @@ Scot_MIUOther_attendancerate_agegroup_legendbottom <- ggplot(data = agegroupScot
   labs(
     #title = "Attendance rate per 100,000 in Scottish MIU/Other by age group",
     x = "Year",
-    y = "Attendance rate per 100,000") 
+    y = "Attendance rate per 100,000 population") 
 save_plot("Output/Scot_MIUOther_attendancerate_agegroup_legendbottom.svg", fig = Scot_MIUOther_attendancerate_agegroup_legendbottom, width = 12, height = 14)
 
 
@@ -194,5 +194,5 @@ Scot_AE_attendancerate_agegroup_legendbottom <- ggplot(data = agegroupScotAE, ae
   labs(
     #title = "Attendance rate per 100,000 in Scottish A&E by age group",
     x = "Year",
-    y = "Attendance rate per 100,000") 
+    y = "Attendance rate per 100,000 population") 
 save_plot("Output/Scot_AE_attendancerate_agegroup_legendbottom.svg", fig = Scot_AE_attendancerate_agegroup_legendbottom, width = 12, height = 14)

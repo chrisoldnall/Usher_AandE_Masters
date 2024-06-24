@@ -98,5 +98,5 @@ Attendanceratetotalbysex <- ggplot(data=whoattends_sex_total %>% filter(!Sex%in%
   labs(
     #title = "Scottish A&E attendance rate per 100,000 by sex",
     x = "Year",
-    y = "Attendance rate per 100,000")
+    y = "Attendance rate per 100,000 population")
 save_plot("Output/Attendanceratetotalbysex.svg", fig = Attendanceratetotalbysex, width = 14, height = 12)

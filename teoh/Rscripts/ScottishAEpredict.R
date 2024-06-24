@@ -765,7 +765,7 @@ Glasgow_rates2018to2023 <- merge(Glasgow_rates2018to2023, Glasgow_Updatespopulat
 Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% mutate(attendancerate = Attendances/AllAges)
 #removing unnecessary columns
 Glasgow_rates2018to2023 <- Glasgow_rates2018to2023 %>% select(-HBName, -HB, -Sex, -Year)
-#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023 using  model based on time
+#creating a dataframe for the attendance rate predicted for Aug 2023 till Jan 2024 using  model based on time
 GlasgowAug23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35591, Month = "2023-08-01", AllAges= 1192485, attendancerate=0.0298461)
 GlasgowSept23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35712, Month = "2023-09-01", AllAges= 1192485, attendancerate=0.0299475)
 GlasgowOct23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 35829, Month = "2023-10-01", AllAges= 1192485, attendancerate=0.0300457)
@@ -773,7 +773,7 @@ GlasgowNov23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde
 GlasgowDec23Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 36069, Month = "2023-12-01", AllAges= 1192485, attendancerate=0.0302469)
 GlasgowJan24Time_attendancerate <- c(NHSBoardName = "NHS Greater Glasgow & Clyde", Attendances = 36191, Month = "2024-01-01", AllAges= 1192485, attendancerate=0.0303492)
 
-#Combining the dataframe containing actual rates with the prediction for Sept and Aug 2023 
+#Combining the dataframe containing actual rates with the prediction for Sept 2023 till Jan 2024 
 Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowAug23Time_attendancerate)
 Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowSept23Time_attendancerate)
 Glasgow_rates2018to2023 <- rbind(Glasgow_rates2018to2023, GlasgowOct23Time_attendancerate)
@@ -815,7 +815,9 @@ Orkney_Glasgow_predict_rates2018to2023 <- ggplot(data=Orkney_Glasgow_rates2018to
   geom_segment(aes(x=as.Date("2023-10-01"), y=0.0335, xend = as.Date("2024-04-01"), yend = 0.0335), arrow=arrow(length = unit(0.3, 'cm')), color='black')+#annotate(geom="text", x=as.Date("2023-03-01"), y=0.0340, size=3, label= sprintf('\u2191'))+
   labs(x="Year", 
        y="Attendance rate", 
-       col="NHS Board Name")
+       col="NHS Board Name")+
+  scale_color_manual(labels = c("NHS Greater Glasgow and Clyde", "NHS Orkney"), values = c("coral1", "darkturquoise"))
+
 save_plot("Output/Orkney_Glasgow_predict_rates2018to2023vline.svg", fig=Orkney_Glasgow_predict_rates2018to2023, width=18, height=12)
 
 #_________________________Orkney and Glasgow in the same graph for model based on month
@@ -835,7 +837,7 @@ Orkney_rates2018to2023month <- merge(Orkney_rates2018to2023month, Orkney_Updates
 Orkney_rates2018to2023month <- Orkney_rates2018to2023month %>% mutate(attendancerate = Attendances/AllAges)
 #removing unnecessary columns
 Orkney_rates2018to2023month <- Orkney_rates2018to2023month %>% select(-HBName, -HB, -Sex, -Year)
-#creating a dataframe for the attendance rate predicted for Aug 2023 and Sept 2023 using model based on month
+#creating a dataframe for the attendance rate predicted for Aug 2023 to Jan 2024 using model based on month
 OrkneyAug23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 465, Month = "2023-08-01", AllAges= 22731, attendancerate=0.0204566)
 OrkneySept23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 501, Month = "2023-09-01", AllAges= 22731, attendancerate=0.0220404)
 OrkneyOct23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 544, Month = "2023-10-01", AllAges= 22731, attendancerate=0.0239321)
@@ -843,7 +845,7 @@ OrkneyNov23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 
 OrkneyDec23Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 306, Month = "2023-12-01", AllAges= 22731, attendancerate=0.0134618)
 OrkneyJan24Month_attendancerate <- c(NHSBoardName = "NHS Orkney", Attendances = 400, Month = "2024-01-01", AllAges= 22731, attendancerate=0.0175971)
 
-#Combining the dataframe containing actual rates with the prediction for Sept and Aug 2023 
+#Combining the dataframe containing actual rates with the prediction for Sept 2023 to Jan 2024 
 Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneyAug23Month_attendancerate)
 Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneySept23Month_attendancerate)
 Orkney_rates2018to2023month <- rbind(Orkney_rates2018to2023month, OrkneyOct23Month_attendancerate)
@@ -892,7 +894,7 @@ str(Glasgow_rates2018to2023)
 #changing attendancerate to a numeric
 Glasgow_rates2018to2023month$attendancerate <- as.numeric(Glasgow_rates2018to2023month$attendancerate) 
 
-#Orkney and Glasgow in the same graph for model based on time
+#Orkney and Glasgow in the same graph for model based on month
 Orkney_Glasgow_rates2018to2023month <- rbind(Glasgow_rates2018to2023month, Orkney_rates2018to2023month)
 
 Orkney_Glasgow_predict_rates2018to2023month <- ggplot(data=Orkney_Glasgow_rates2018to2023month, aes(x=Month, y=attendancerate, ggroup=NHSBoardName, color=NHSBoardName))+
@@ -914,7 +916,8 @@ Orkney_Glasgow_predict_rates2018to2023month <- ggplot(data=Orkney_Glasgow_rates2
   geom_segment(aes(x=as.Date("2023-10-01"), y=0.0335, xend = as.Date("2024-04-01"), yend = 0.0335), arrow=arrow(length = unit(0.3, 'cm')), color='black')+#annotate(geom="text", x=as.Date("2023-03-01"), y=0.0340, size=3, label= sprintf('\u2191'))+
   labs(x="Year", 
        y="Attendance rate", 
-       col="NHS Board Name")
+       col="NHS Board Name")+
+  scale_color_manual(labels = c("NHS Greater Glasgow and Clyde", "NHS Orkney"), values = c("coral1", "darkturquoise"))
 save_plot("Output/Orkney_Glasgow_predict_rates2018to2023vlinemonth.svg", fig=Orkney_Glasgow_predict_rates2018to2023month, width=18, height=12)
 
 
