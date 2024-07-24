@@ -666,7 +666,7 @@ save_plot("Output/aeAttendanceOrkney20182023.svg", fig=ae_attendance_Orkney20182
 #Glasgow_glmproportions_July23age %>% 
 #  summarise(Attendances=sum(Attendances))
 #33373
-#Adding a new column for Orkney age proportions in July 2023
+#Adding a new column for Glasgow age proportions in July 2023
 #Glasgow_glmproportions_July23age <- Glasgow_glmproportions_July23age %>%
 #  mutate(ageprop=Attendances/33373)
 
