@@ -162,3 +162,5 @@ aeScotland2022 <-ae_monthly_totalJan2019toDec2022 %>%
   labs(x= "Month", 
        y = "Total number of Scottish A&E attendance")
 save_plot("Output/aeScotland2022.svg", fig=aeScotland2022, width=14, height=12)
+
+
