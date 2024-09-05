@@ -47,9 +47,11 @@ CovidScottishdattendancerate2022 <- ggplot(data = Covidscottish_health_boardsatt
   geom_sf(aes(fill = attendanceper1000pop)) +  # Plot the health board regions with fill mapped to your data
   geom_sf_text(data = labels_data, aes(label = HBName), size = 3) +  # Add labels
   #scale_fill_viridis_c() +  # Optional: Use a nice color scale
-  scale_fill_continuous(labels = label_comma(), type="viridis", 
+  scale_fill_continuous(labels = label_comma(), 
+                        type="viridis", 
                         direction = -1, 
                         limits=c(10, 35),
+                        #low = "yellow", high = "dodgerblue",
                         guide_legend(title = "Attendance rate \nper 1000 population")) +
   #labs(title = "Attendance rate per 1000 population in 2022 \nby Scottish health board", fill = "attendanceper1000pop") +
   #theme_minimal()
@@ -139,7 +141,7 @@ Covid_monthlyae_popest4hour2022 <- data.frame(
 Covidscottish_health_boards4hour2022 <- scottish_health_boards %>%
   left_join(Covid_monthlyae_popest4hour2022, by="HBName")
 
-#Choropleth attendancerateper1000pop 2022 - I increased the width and height compared to attendance rate diagram as the choropleth was too small
+#Choropleth patients seen within 4 hours 2022 - I increased the width and height compared to attendance rate diagram as the choropleth was too small
 CovidScottish4hour2022 <- ggplot(data = Covidscottish_health_boards4hour2022) + 
   geom_sf(aes(fill = PercentageWithin4HoursAll)) +  # Plot the health board regions with fill mapped to your data
   geom_sf_text(data = labels_data, aes(label = HBName), size = 3) +  # Add labels
@@ -147,7 +149,7 @@ CovidScottish4hour2022 <- ggplot(data = Covidscottish_health_boards4hour2022) +
   scale_fill_continuous(labels = label_comma(), type="viridis", 
                         direction = -1, 
                         limits=c(55, 100),
-                        guide_legend(title = "Percentage patients seen within 4 hours")) +
+                        guide_legend(title = "Percentage patients \nseen within 4 hours")) +
   #labs(title = "Percentage patients seen within 4 hours in 2022 \nby Scottish health board", fill = "PercentageWithin4HoursAll") +
   #theme_minimal()
   theme_void()
@@ -208,7 +210,7 @@ CovidScottish4hour2022calculated <- ggplot(data = Covidscottish_health_boards4ho
   scale_fill_continuous(labels = label_comma(), type="viridis", 
                         direction = -1, 
                         limits=c(55, 100),
-                        guide_legend(title = "Percentage patients seen within 4 hours")) +
+                        guide_legend(title = "Percentage patients \nseen within 4 hours")) +
   #labs(title = "Percentage patients seen within 4 hours in 2022 \nby Scottish health board", fill = "PercentageWithin4HoursAll") +
   #theme_minimal()
   theme_void()
@@ -240,7 +242,7 @@ CovidScottish4hour2020 <- ggplot(data = Covidscottish_health_boards4hour2020) +
   scale_fill_continuous(labels = label_comma(), type="viridis", 
                         direction = -1, 
                         limits=c(55, 100),
-                        guide_legend(title = "Percentage patients seen within 4 hours")) +
+                        guide_legend(title = "Percentage patients \nseen within 4 hours")) +
   #labs(title = "Percentage patients seen within 4 hours in 2020 \nby Scottish health board", fill = "PercentageWithin4HoursAll") +
   #theme_minimal()
   theme_void()
@@ -273,7 +275,7 @@ CovidScottish4hour2020calculated <- ggplot(data = Covidscottish_health_boards4ho
   scale_fill_continuous(labels = label_comma(), type="viridis", 
                         direction = -1, 
                         limits=c(55, 100),
-                        guide_legend(title = "Percentage patients seen within 4 hours")) +
+                        guide_legend(title = "Percentage patients \nseen within 4 hours")) +
   #labs(title = "Percentage patients seen within 4 hours in 2020 \nby Scottish health board", fill = "PercentageWithin4HoursAll") +
   #theme_minimal()
   theme_void()
@@ -305,7 +307,7 @@ CovidScottish4hour2018 <- ggplot(data = Covidscottish_health_boards4hour2018) +
   scale_fill_continuous(labels = label_comma(), type="viridis", 
                         direction = -1, 
                         limits=c(55, 100),
-                        guide_legend(title = "Percentage patients seen within 4 hours")) +
+                        guide_legend(title = "Percentage patients \nseen within 4 hours")) +
   #labs(title = "Percentage patients seen within 4 hours in 2018 \nby Scottish health board", fill = "PercentageWithin4HoursAll") +
   #theme_minimal()
   theme_void()
@@ -338,7 +340,7 @@ CovidScottish4hour2018calculated <- ggplot(data = Covidscottish_health_boards4ho
   scale_fill_continuous(labels = label_comma(), type="viridis", 
                         direction = -1, 
                         limits=c(55, 100),
-                        guide_legend(title = "Percentage patients seen within 4 hours")) +
+                        guide_legend(title = "Percentage patients \nseen within 4 hours")) +
   #labs(title = "Percentage patients seen within 4 hours in 2018 \nby Scottish health board", fill = "PercentageWithin4HoursAll") +
   #theme_minimal()
   theme_void()

@@ -21,6 +21,9 @@ library(sjPlot)
 #Loading population estimate (only till 2022) csv file
 Covid_HBpopulation_estimate <- read_csv(here("Rawdata", "20240809Popestimate_HB2019_1981to2022.csv"))
 
+#Checking if there are null values, result returned zero
+sum(is.na(Covid_HBpopulation_estimate))
+
 #Filtering out total Scottish estimates (HB S92000003) for each year, leaving just individual HBs in the list
 Covid_HBpopulation_estimate <- Covid_HBpopulation_estimate %>%
   select(Year, HB, Sex, AllAges) %>% 
@@ -36,6 +39,15 @@ Covid_HBpopulation_estimate <- merge(Covid_HBpopulation_estimate, HB_names_only,
 
 #Loading A&E monthly attendance and waiting times csv file
 Covid_monthlyae_activity <- read_csv(here("Rawdata", "monthlyae_activity_202406.csv"))
+
+#Checking if there are null values, result returned 138776
+sum(is.na(Covid_monthlyae_activity))
+#Checking if there are null values for NumberOfAttendancesAll, result returned zero
+sum(is.na(Covid_monthlyae_activity$NumberOfAttendancesAll))
+#Checking if there are null values for NumberWithin4HoursAll, result returned zero
+sum(is.na(Covid_monthlyae_activity$NumberWithin4HoursAll))
+#Checking if there are null values for PercentageWithin4HoursAll, result returned zero
+sum(is.na(Covid_monthlyae_activity$PercentageWithin4HoursAll))
 
 #creating a new column for Year using the first 4 digits of the Month column
 Covid_monthlyae_activity$Year <- substr(Covid_monthlyae_activity$Month, 1,4)
