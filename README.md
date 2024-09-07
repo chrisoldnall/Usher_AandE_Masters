@@ -20,3 +20,8 @@ Scottish A&E data.R  - contains all the code which were subsequently broken down
 9. ScottishAEglm - modelling using GLM
 10. ScottishAEpredict - predictions using the GLM model
 11. ScottishAEChoropleth - creation of choropleths on A&E attendances and waiting times
+
+For COVID-19 work
+- ScottishAECovidattendancerate - run this first
+- ScottishAECovidChoropleth
+- ScottishAECovidGLM
