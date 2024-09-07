@@ -1,6 +1,7 @@
 #ScottishCovidGLM
 
 ##BEFORE DOING GLM REMEMBER TO LIMIT TO REQUIRED DATE RANGE using filter##
+
 ##To combine all the individual variable dataframes into one to perform the GLM##
 #Covid_monthlyae_glmdemographicsage
 #Covid_monthlyae_glmdemographicssex
@@ -32,19 +33,19 @@ library(sjPlot)
 
 #A&E attendances
 #Loading A&E monthly attendance and waiting times csv file
-Covid_monthlyae_glm <- read_csv(here("Rawdata", "monthlyae_activity_202406.csv"))
+#Covid_monthlyae_glm <- read_csv(here("Rawdata", "monthlyae_activity_202406.csv"))
 
 #Attendance and percentage within 4 hours by HB each month
-Covid_monthlyae_glm <- Covid_monthlyae_glm %>% 
-  select(Month, 
-         #HBT, 
-         #DepartmentType, 
-         NumberOfAttendancesAll) %>% 
-  group_by(Month 
-          #,HBT
-          #,DepartmentType
-          ) %>% 
-  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
+#Covid_monthlyae_glm <- Covid_monthlyae_glm %>% 
+#  select(Month, 
+#         #HBT, 
+#         #DepartmentType, 
+#         NumberOfAttendancesAll) %>% 
+#  group_by(Month 
+#          #,HBT
+#          #,DepartmentType
+#          ) %>% 
+#  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
 
 
 #Demographics
