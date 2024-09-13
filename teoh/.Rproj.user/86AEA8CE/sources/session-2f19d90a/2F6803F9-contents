@@ -1,19 +1,5 @@
 #ScottishCovidGLM
 
-##BEFORE DOING GLM REMEMBER TO LIMIT TO REQUIRED DATE RANGE using filter##
-
-##To combine all the individual variable dataframes into one to perform the GLM##
-#Covid_monthlyae_glmdemographicsage
-#Covid_monthlyae_glmdemographicssex
-#Covid_monthlyae_glmdemographicsdeprivation
-#Covid_monthlyae_glmdemographicsdepttype
-#Covid_monthlyae_glmdemographicsHB
-#Covid_monthlyae_glmdemographicsCoviddate_all
-#Covid_monthlyae_glmwhenday
-#Covid_monthlyae_glmwhenhour
-#Covid_monthlyae_glmwhenmonth
-
-
 #install.packages("tidyverse")
 #install.packages("here")
 #install.packages("dplyr")
@@ -484,4 +470,26 @@ Covid_monthlyae_glmwhenmonth$Nov <- as.numeric(Covid_monthlyae_glmwhenmonth$Nov)
 Covid_monthlyae_glmwhenmonth$Dec <- as.numeric(Covid_monthlyae_glmwhenmonth$Dec)
 
 
+#Combining all the proportions data into one table using merge
+#Covid_monthlyae_glmdemographicsage
+#Covid_monthlyae_glmdemographicssex
+#Covid_monthlyae_glmdemographicsdeprivation
+#Covid_monthlyae_glmdemographicsdepttype
+#Covid_monthlyae_glmdemographicsHB
+#Covid_monthlyae_glmdemographicsCoviddate_all
+#Covid_monthlyae_glmwhenday
+#Covid_monthlyae_glmwhenhour
+#Covid_monthlyae_glmwhenmonth
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmdemographicsCoviddate_all, Covid_monthlyae_glmdemographicsdepttype, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicssex, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicsage, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicsdeprivation, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhenday, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhenmonth, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhenhour, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicsHB, by=c("date"))
 
+#To limit the GLM data to Jan 2018 to Dec 2022.
+Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>%
+  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+  
