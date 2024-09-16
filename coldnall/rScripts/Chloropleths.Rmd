@@ -1,0 +1,193 @@
+```{r LoadingPackages}
+# List of packages
+packages <- c(
+  "tidyverse", "here", "readxl", 
+  "lubridate", "sf", "scales", "sjPlot",
+  "ggrepel"
+)
+
+# Load packages
+lapply(packages, library, character.only = TRUE)
+```
+
+```{r ShapeFile}
+# Path to the shapefile
+shapefile_path <- here("data/AdaptedData", "SG_NHS_HealthBoards_2019", "SG_NHS_HealthBoards_2019.shp")
+
+# Read the shapefile
+scottish_health_boards <- st_read(shapefile_path)
+
+# Create centroids for labels
+labels_data <- scottish_health_boards %>%
+  mutate(geometry = st_centroid(geometry))
+```
+
+```{r DataImport}
+# Import the dataset from the specified path
+data <- read_csv(here("data/ProcessedData", "AE_Pop_Merged_Per1000_Summary.csv"))
+
+health_board_acronyms <- c(
+  "Ayrshire and Arran" = "Ayrshire\nand\nArran",
+  "Borders" = "Borders",
+  "Dumfries and Galloway" = "Dumfries and Galloway",
+  "Forth Valley" = "Forth Valley",
+  "Fife" = "Fife",
+  "Grampian" = "Grampian",
+  "Greater Glasgow and Clyde" = "Greater\nGlasgow\nand Clyde",
+  "Highland" = "Highland",
+  "Lanarkshire" = "Lanarkshire",
+  "Lothian" = "Lothian",
+  "Orkney" = "Orkney",
+  "Shetland" = "Shetland",
+  "Tayside" = "Tayside",
+  "Western Isles" = "Western Isles"
+)
+```
+
+```{r CholoroplethFunction}
+create_choropleth_scenario <- function(shape_data, data, year, scenario = c("attendance", "waiting_time"), output_path = NULL) {
+  scenario <- match.arg(scenario)
+  
+  # Ensure output path ends with .svg
+  if (!is.null(output_path)) {
+    if (!grepl("\\.svg$", output_path)) {
+      output_path <- paste0(output_path, ".svg")
+    }
+  } else {
+    # Default filename if no output path is provided
+    output_path <- paste0("CovidScottish_", scenario, "_", year, ".svg")
+  }
+  
+  # Step 1: Filter the relevant data based on the scenario
+  if (scenario == "attendance") {
+    filtered_data <- data %>%
+      filter(Year == year) %>%
+      select(HBName, attendanceper1000pop) %>%
+      mutate(attendanceper1000pop = round(attendanceper1000pop, 1)) %>%
+      mutate(HBName = str_replace(HBName, "NHS ", ""))  # Remove "NHS " prefix
+  } else if (scenario == "waiting_time") {
+    filtered_data <- data %>%
+      filter(Year == year) %>%
+      select(HBName, PercentageWithin4HoursAll) %>%
+      mutate(PercentageWithin4HoursAll = round(PercentageWithin4HoursAll, 1)) %>%
+      mutate(HBName = str_replace(HBName, "NHS ", ""))  # Remove "NHS " prefix
+  }
+  
+  # Step 2: Add the HBAbbreviation column
+  filtered_data <- filtered_data %>%
+    mutate(HBAbbreviation = sapply(HBName, function(x) {
+      if (x %in% names(health_board_acronyms)) {
+        return(health_board_acronyms[[x]])
+      } else {
+        return(x)  # Use full name if no acronym is found
+      }
+    }))
+  
+  # Step 3: Merge the shapefile with the filtered data
+  merged_data <- shape_data %>%
+    left_join(filtered_data, by = "HBName")
+  
+  # Step 4: Create the base plot
+  p <- ggplot(merged_data) +
+    geom_sf(aes(fill = if (scenario == "attendance") attendanceper1000pop else PercentageWithin4HoursAll)) +
+    theme_void() +
+    labs(title = paste(if (scenario == "attendance") "A&E Attendance Rate per 1000 Population in" else "Percentage Seen Within 4 Hours in", year))
+  
+  # Step 5: Conditionally add the appropriate color scale
+  if (scenario == "attendance") {
+    p <- p + scale_fill_gradientn(
+      colors = c("green", "yellow", "red"),
+      values = scales::rescale(c(0, 20, 35)),  # Fixed range for attendance
+      name = "Attendance per 1000 Population",
+      limits = c(0, 35),  # Fixed range
+      breaks = seq(0, 35, 10)  # Breaks at every 5 units
+    )
+  } else if (scenario == "waiting_time") {
+    p <- p + scale_fill_gradientn(
+      colors = c("red", "yellow", "green"),
+      values = scales::rescale(c(60, 95, 100)),  # Emphasize the range below 95%, but include 0-100%
+      name = "Percentage Seen Within 4 Hours",
+      limits = c(0, 100),  # Show the entire 0-100% range
+      breaks = seq(0, 100, 20),  # Add breaks every 10% for clarity
+      labels = function(x) paste0(x, "%")  # Add % symbol to labels
+    )
+  }
+
+  # Step 6: Add general labels for most health boards, excluding Orkney, Fife, and Shetland
+  p <- p + 
+    geom_sf_label(data = merged_data %>% filter(!HBName %in% c("Orkney", "Fife", "Shetland", "Greater Glasgow and Clyde", "Ayrshire and Arran")), aes(label = HBAbbreviation), size = 3, label.size = 0.25, fill = "white", alpha = 0.7) +
+  
+    # Fine-tune the label positions for Orkney, Fife, and Shetland
+    geom_sf_label(data = merged_data %>% filter(HBName == "Greater Glasgow and Clyde"), aes(label = HBAbbreviation), 
+                  nudge_x = 2000, size = 2, label.size = 0.25, fill = "white", alpha = 0.7) +  # Nudge Orkney label upwards more
+    geom_sf_label(data = merged_data %>% filter(HBName == "Orkney"), aes(label = HBAbbreviation), 
+                  nudge_y = 3000, size = 3, label.size = 0.25, fill = "white", alpha = 0.7) +  # Nudge Orkney label upwards more
+    geom_sf_label(data = merged_data %>% filter(HBName == "Fife"), aes(label = HBAbbreviation), 
+                  nudge_y = 7000, size = 3, label.size = 0.25, fill = "white", alpha = 0.7) +  # Nudge Fife label upwards more
+    geom_sf_label(data = merged_data %>% filter(HBName == "Shetland"), aes(label = HBAbbreviation), 
+                  nudge_y = -5000, nudge_x = -10000, size = 3, label.size = 0.25, fill = "white", alpha = 0.7) +  # Nudge Shetland label down and to the left
+    geom_sf_label(data = merged_data %>% filter(HBName == "Ayrshire and Arran"), aes(label = HBAbbreviation), 
+                  nudge_y = -2000, nudge_x = -5000, size = 3, label.size = 0.25, fill = "white", alpha = 0.7)  # Nudge Shetland label down and to the left
+  
+  # Step 7: Save the plot as an SVG file
+  ggsave(output_path, plot = p, width = 16, height = 18, device = "svg")
+  
+  return(p)  # Optionally return the plot for further use
+}
+```
+
+```{r GenerateChloropleths}
+# Generate attendance rate choropleth for 2022
+create_choropleth_scenario(
+  shape_data = scottish_health_boards,
+  data = data,
+  year = 2022,
+  scenario = "attendance",
+  output_path = "coldnall/results/CovidScottishAttendanceRate2022.svg"
+)
+
+# Generate waiting time choropleth for 2022
+create_choropleth_scenario(
+  shape_data = scottish_health_boards,
+  data = data,
+  year = 2022,
+  scenario = "waiting_time",
+  output_path = "coldnall/results/CovidScottish4Hour2022.svg"
+)
+
+# Generate attendance rate choropleth for 2020
+create_choropleth_scenario(
+  shape_data = scottish_health_boards,
+  data = data,
+  year = 2020,
+  scenario = "attendance",
+  output_path = "coldnall/results/CovidScottishAttendanceRate2020.svg"
+)
+
+# Generate waiting time choropleth for 2020
+create_choropleth_scenario(
+  shape_data = scottish_health_boards,
+  data = data,
+  year = 2020,
+  scenario = "waiting_time",
+  output_path = "coldnall/results/CovidScottish4Hour2020.svg"
+)
+
+# Generate attendance rate choropleth for 2018
+create_choropleth_scenario(
+  shape_data = scottish_health_boards,
+  data = data,
+  year = 2018,
+  scenario = "attendance",
+  output_path = "coldnall/results/CovidScottishAttendanceRate2018.svg"
+)
+
+# Generate waiting time choropleth for 2018
+create_choropleth_scenario(
+  shape_data = scottish_health_boards,
+  data = data,
+  year = 2018,
+  scenario = "waiting_time",
+  output_path = "coldnall/results/CovidScottish4Hour2018.svg"
+)
+```
