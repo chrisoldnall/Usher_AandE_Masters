@@ -45,7 +45,7 @@ health_board_acronyms <- c(
 ```
 
 ```{r CholoroplethFunction}
-create_choropleth_scenario <- function(shape_data, data, year, scenario = c("attendance", "waiting_time"), output_path = NULL) {
+create_choropleth_scenario <- function(shape_data, data, year, scenario = c("attendance", "waiting_time"), title = NULL, output_path = NULL) {
   scenario <- match.arg(scenario)
   
   # Ensure output path ends with .svg
@@ -53,9 +53,6 @@ create_choropleth_scenario <- function(shape_data, data, year, scenario = c("att
     if (!grepl("\\.svg$", output_path)) {
       output_path <- paste0(output_path, ".svg")
     }
-  } else {
-    # Default filename if no output path is provided
-    output_path <- paste0("CovidScottish_", scenario, "_", year, ".svg")
   }
   
   # Step 1: Filter the relevant data based on the scenario
@@ -90,9 +87,8 @@ create_choropleth_scenario <- function(shape_data, data, year, scenario = c("att
   # Step 4: Create the base plot
   p <- ggplot(merged_data) +
     geom_sf(aes(fill = if (scenario == "attendance") attendanceper1000pop else PercentageWithin4HoursAll)) +
-    theme_void() +
-    labs(title = paste(if (scenario == "attendance") "A&E Attendance Rate per 1000 Population in" else "Percentage Seen Within 4 Hours in", year))
-  
+    theme_void()
+
   # Step 5: Conditionally add the appropriate color scale
   if (scenario == "attendance") {
     p <- p + scale_fill_gradientn(
@@ -113,6 +109,18 @@ create_choropleth_scenario <- function(shape_data, data, year, scenario = c("att
     )
   }
 
+  # Step 5: Add the title
+  if (is.null(title)) {
+    # Default title if not provided
+    title <- if (scenario == "attendance") {
+      paste("A&E Attendance Rate per 1000 Population in", year)
+    } else {
+      paste("Percentage Seen Within 4 Hours in", year)
+    }
+  }
+  # Add the title to the plot and increase title size
+  p <- p + labs(title = title) +
+    theme(plot.title = element_text(size = 64, face = "bold", hjust = 0.5))  # Adjust title size
   # Step 6: Add general labels for most health boards, excluding Orkney, Fife, and Shetland
   p <- p + 
     geom_sf_label(data = merged_data %>% filter(!HBName %in% c("Orkney", "Fife", "Shetland", "Greater Glasgow and Clyde", "Ayrshire and Arran")), aes(label = HBAbbreviation), size = 3, label.size = 0.25, fill = "white", alpha = 0.7) +
@@ -130,9 +138,14 @@ create_choropleth_scenario <- function(shape_data, data, year, scenario = c("att
                   nudge_y = -2000, nudge_x = -5000, size = 3, label.size = 0.25, fill = "white", alpha = 0.7)  # Nudge Shetland label down and to the left
   
   # Step 7: Save the plot as an SVG file
-  ggsave(output_path, plot = p, width = 16, height = 18, device = "svg")
-  
-  return(p)  # Optionally return the plot for further use
+  # If an output path is provided, save the plot, otherwise return it
+  if (!is.null(output_path)) {
+    ggsave(output_path, plot = p, width = 16, height = 18, device = "svg")
+    print(paste("Choropleth saved as", output_path))
+    return(output_path)  # Return the file path
+  } else {
+    return(p)  # Return the plot object if no output path
+  }
 }
 ```
 
@@ -143,6 +156,7 @@ create_choropleth_scenario(
   data = data,
   year = 2022,
   scenario = "attendance",
+  title = "Custom Title for A&E Attendance in 2018",
   output_path = "coldnall/results/CovidScottishAttendanceRate2022.svg"
 )
 
@@ -190,4 +204,43 @@ create_choropleth_scenario(
   scenario = "waiting_time",
   output_path = "coldnall/results/CovidScottish4Hour2018.svg"
 )
+```
+
+```{r CholoroplethGrid}
+# Install the necessary package for combining plots if you don't have it
+# install.packages("patchwork")
+
+library(patchwork)  # For combining plots
+
+# Function to generate and return plots without saving
+create_plot_for_year <- function(shape_data, data, year, scenario, title) {
+  p <- create_choropleth_scenario(
+    shape_data = shape_data,
+    data = data,
+    year = year,
+    scenario = scenario,
+    title = title
+  )
+  return(p)
+}
+
+# Generate the plots for each year and scenario
+attendance_2018 <- create_plot_for_year(scottish_health_boards, data, 2018, "attendance", title="A")
+attendance_2020 <- create_plot_for_year(scottish_health_boards, data, 2020, "attendance", title="B")
+attendance_2022 <- create_plot_for_year(scottish_health_boards, data, 2022, "attendance", title="C")
+
+waiting_time_2018 <- create_plot_for_year(scottish_health_boards, data, 2018, "waiting_time", title="D")
+waiting_time_2020 <- create_plot_for_year(scottish_health_boards, data, 2020, "waiting_time", title="E")
+waiting_time_2022 <- create_plot_for_year(scottish_health_boards, data, 2022, "waiting_time", title="F")
+
+# Combine the plots into a 3x2 grid
+grid_plot <- (attendance_2018 | attendance_2020 | attendance_2022) /
+             (waiting_time_2018 | waiting_time_2020 | waiting_time_2022)
+
+# Display the combined grid
+print(grid_plot)
+
+# Save the grid as an SVG or PNG file with increased width and height to avoid squishing
+ggsave("CovidScottish_WaitingAttendance_2018_2020_2022.svg", plot = grid_plot, width = 45, height = 30, device = "svg")
+ggsave("CovidScottish_WaitingAttendance_2018_2020_2022.png", plot = grid_plot, width = 45, height = 30, device = "png")
 ```
