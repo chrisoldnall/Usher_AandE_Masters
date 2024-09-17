@@ -1,4 +1,4 @@
-#ScottishCovidGLM
+#ScottishCovidGLM1_data
 
 #install.packages("tidyverse")
 #install.packages("here")
@@ -264,49 +264,49 @@ Covid_monthlyae_glmdemographicsCoviddate <- Covid_monthlyae_glmdemographics %>%
 Covid_monthlyae_glmdemographicsCoviddate_a <- Covid_monthlyae_glmdemographicsCoviddate %>% 
   filter(between(date, as.Date('2018-01-01'), as.Date('2020-03-31'))) %>% 
   mutate(Coviddate1 = 0,
-         Covidadate2 = 0, 
+         Coviddate2 = 0, 
          Coviddate3 = 0,
          Coviddate4 = 1)
 
 Covid_monthlyae_glmdemographicsCoviddate_b <- Covid_monthlyae_glmdemographicsCoviddate %>% 
   filter(between(date, as.Date('2020-04-01'), as.Date('2020-05-31'))) %>% 
   mutate(Coviddate1 = 1,
-         Covidadate2 = 0, 
+         Coviddate2 = 0, 
          Coviddate3 = 0,
          Coviddate4 = 0)
 
 Covid_monthlyae_glmdemographicsCoviddate_c <- Covid_monthlyae_glmdemographicsCoviddate %>% 
   filter(between(date, as.Date('2020-06-01'), as.Date('2020-09-30'))) %>% 
   mutate(Coviddate1 = 0,
-         Covidadate2 = 0, 
+         Coviddate2 = 0, 
          Coviddate3 = 1,
          Coviddate4 = 0)
 
 Covid_monthlyae_glmdemographicsCoviddate_d <- Covid_monthlyae_glmdemographicsCoviddate %>% 
   filter(between(date, as.Date('2020-10-01'), as.Date('2020-12-31'))) %>% 
   mutate(Coviddate1 = 0,
-         Covidadate2 = 1, 
+         Coviddate2 = 1, 
          Coviddate3 = 0,
          Coviddate4 = 0)
 
 Covid_monthlyae_glmdemographicsCoviddate_e <- Covid_monthlyae_glmdemographicsCoviddate %>% 
   filter(between(date, as.Date('2021-01-01'), as.Date('2021-04-30'))) %>% 
   mutate(Coviddate1 = 1,
-         Covidadate2 = 0, 
+         Coviddate2 = 0, 
          Coviddate3 = 0,
          Coviddate4 = 0)
 
 Covid_monthlyae_glmdemographicsCoviddate_f <- Covid_monthlyae_glmdemographicsCoviddate %>% 
   filter(between(date, as.Date('2021-05-01'), as.Date('2021-07-31'))) %>% 
   mutate(Coviddate1 = 0,
-         Covidadate2 = 0, 
+         Coviddate2 = 0, 
          Coviddate3 = 1,
          Coviddate4 = 0)
 
 Covid_monthlyae_glmdemographicsCoviddate_g <- Covid_monthlyae_glmdemographicsCoviddate %>% 
   filter(between(date, as.Date('2021-08-01'), as.Date('2024-06-30'))) %>% 
   mutate(Coviddate1 = 0,
-         Covidadate2 = 0, 
+         Coviddate2 = 0, 
          Coviddate3 = 0,
          Coviddate4 = 1)
 
@@ -492,4 +492,10 @@ Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdem
 #To limit the GLM data to Jan 2018 to Dec 2022.
 Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>%
   filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+
+#To include Time into the data frame
+#example given: df$Time <- as.numeric(df$Date - min(df$Date)) + 1
+Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>% 
+  mutate(Time = as.numeric(Covid_monthlyae_glmprop$date - min(Covid_monthlyae_glmprop$date)) + 1)
+
   
