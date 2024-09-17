@@ -1,0 +1,148 @@
+# Data Creation Script 
+
+In order to create the COVID indicators for the study, we need to create the script which will read in the data and create the necessary variables.
+
+```{r LoadPackages, include=FALSE}
+# List of packages
+packages <- c(
+  "tidyverse", "here", "readxl", 
+  "lubridate", "sf", "scales", "sjPlot",
+  "ggrepel"
+)
+
+# Load packages
+lapply(packages, library, character.only = TRUE)
+```
+
+```{r PopulationDataImportandClean}
+# Load population estimate CSV file (up to 2022)
+Population_Estimates <- read_csv(here("data/AdaptedData", "20240809Popestimate_HB2019_1981to2022.csv"))
+
+# Check for missing values in the population estimate data
+sum(is.na(Population_Estimates)) # Returns 3024
+
+# Filter out total Scottish estimates and retain individual Health Boards (HB)
+Population_Estimates_Filtered <- Population_Estimates %>%
+  select(Year, HB, Sex, AllAges) %>% 
+  filter(!HB == "S92000003", Sex == "All")
+
+# Load Health Board names and select relevant columns
+HB_Data <- read_csv(here("data/AdaptedData", "HealthBoard_2014_2019_names.csv"))
+HB_Names_Only <- HB_Data %>% 
+  select(HB, HBName)
+
+# Merge population estimates with Health Board names
+PopEstimatesAdapted <- merge(Population_Estimates_Filtered, HB_Names_Only, by = "HB")
+
+# Calculate the midpoint for each health board based on the Year
+PopEstimatesAdapted <- PopEstimatesAdapted %>%
+  group_by(HBName) %>%
+  mutate(midpoint = median(Year))
+
+# Find the midpoint for each HBName based on Year
+PopEstimatesAdapted <- PopEstimatesAdapted %>%
+  group_by(HBName) %>%
+  mutate(midpoint = Year[which.min(abs(Year - median(Year)))])
+
+PopEstimatesAdapted %>%
+  ggplot(aes(x = Year, y = AllAges, group = HBName, color = HBName)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "Population Estimates for Health Boards in Scotland (1981-2022)",
+    x = "Year", y = "Population Estimate"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  # Add text labels at the midpoint year, using geom_label_repel to avoid overlap
+  geom_label_repel(
+    data = PopEstimatesAdapted %>% group_by(HBName) %>% slice(which.min(abs(Year - median(Year)))),
+    aes(label = HBName),
+    nudge_y = 10000,    # Adjust to move the text above the lines
+    vjust = -0.5,       # Align vertically just above the line
+    size = 3,           # Adjust text size if necessary
+    box.padding = 0.5,  # Space between text labels and lines
+    point.padding = 0.5,
+    segment.color = 'grey50', # Line connecting labels to their points
+    max.overlaps = 10  # Adjust this if you still see overlaps
+  ) +
+  coord_cartesian(clip = "off")
+```
+
+```{r A&EDataImportandClean}
+# Load A&E monthly attendance and waiting times data
+Monthly_AE_Data <- read_csv(here("data/AdaptedData", "monthlyae_activity_202406.csv"))
+
+# Check for missing values in the data
+sum(is.na(Monthly_AE_Data))  # Check overall
+sum(is.na(Monthly_AE_Data$NumberOfAttendancesAll))  # Specific column checks
+sum(is.na(Monthly_AE_Data$NumberWithin4HoursAll))
+sum(is.na(Monthly_AE_Data$PercentageWithin4HoursAll))
+
+# Create a new Year and numeric Month column from the Month data
+Monthly_AE_Data$Year <- substr(Monthly_AE_Data$Month, 1, 4)
+Monthly_AE_Data$monthnumeric <- substr(Monthly_AE_Data$Month, 5, 6)
+
+# Group data by Year, Month, and Health Board (HBT) and summarize A&E activity
+Monthly_AE_Data_Formatted <- Monthly_AE_Data %>%
+  select(HBT, NumberOfAttendancesAll, PercentageWithin4HoursAll, Year, monthnumeric) %>%
+  group_by(Year, monthnumeric, HBT) %>%
+  summarise(
+    NumberOfAttendancesAll = sum(NumberOfAttendancesAll),
+    PercentageWithin4HoursAll = mean(PercentageWithin4HoursAll)
+  )
+
+# Change column name from HBT to HB for consistency (and month re-format)
+colnames(Monthly_AE_Data_Formatted) <- c("Year", "Month", "HB", "NumberOfAttendancesAll", "PercentageWithin4HoursAll")
+```
+
+```{r MergePopAEData}
+# Merge A&E activity with population estimates
+AE_Pop_Merged <- merge(Monthly_AE_Data_Formatted, PopEstimatesAdapted, by = c("HB", "Year"))
+
+# Calculate attendance per population and per 1,000 population
+AE_Pop_Merged_Per1000 <- AE_Pop_Merged %>%
+  mutate(
+    attendanceperpop = NumberOfAttendancesAll / AllAges,
+    attendanceper1000pop = attendanceperpop * 1000
+  )
+
+# Summarize data for each Health Board by year
+AE_Pop_Merged_Per1000_Summary <- AE_Pop_Merged_Per1000 %>%
+  select(HB, Year, NumberOfAttendancesAll, PercentageWithin4HoursAll, AllAges, attendanceperpop, attendanceper1000pop) %>%
+  group_by(Year, HB) %>%
+  summarise(
+    NumberOfAttendancesAll = sum(NumberOfAttendancesAll),
+    PercentageWithin4HoursAll = mean(PercentageWithin4HoursAll),
+    AllAges = mean(AllAges),
+    attendanceperpop = mean(attendanceperpop),
+    attendanceper1000pop = mean(attendanceper1000pop)
+  )
+
+# Add Health Board names to the dataset
+AE_Pop_Merged_Per1000_Summary <- merge(AE_Pop_Merged_Per1000_Summary, HB_Names_Only, by = "HB")
+
+# Ensure 'Year' is numeric
+AE_Pop_Merged_Per1000_Summary <- AE_Pop_Merged_Per1000_Summary %>%
+  mutate(Year = as.numeric(Year))
+
+# Continue with plotting
+AE_Pop_Merged_Per1000_Summary %>%
+  ggplot(aes(x = Year, y = attendanceper1000pop, group = HBName, color = HBName)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "A&E Attendance per 1000 Population for Health Boards in Scotland (2014-2024)",
+    x = "Year", y = "A&E Attendance per 1000 Population",
+    color = "Health Board"  # Legend title
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",   # Place the legend on the right side
+    legend.title = element_text(size = 10),   # Adjust legend title size
+    legend.text = element_text(size = 8)      # Adjust legend text size
+  )
+
+# Save the AE_Pop_Merged_Per1000_Summary object as a CSV file
+write_csv(AE_Pop_Merged_Per1000_Summary, here("data/ProcessedData", "AE_Pop_Merged_Per1000_Summary.csv"))
+```
