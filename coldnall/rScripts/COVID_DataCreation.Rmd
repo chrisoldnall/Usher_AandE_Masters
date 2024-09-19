@@ -69,6 +69,33 @@ PopEstimatesAdapted %>%
   coord_cartesian(clip = "off")
 ```
 
+```{r A&EDataImportandClean_DEPRECIATED}
+# # Load A&E monthly attendance and waiting times data
+# Monthly_AE_Data <- read_csv(here("data/AdaptedData", "monthlyae_activity_202406.csv"))
+
+# # Check for missing values in the data
+# sum(is.na(Monthly_AE_Data))  # Check overall
+# sum(is.na(Monthly_AE_Data$NumberOfAttendancesAll))  # Specific column checks
+# sum(is.na(Monthly_AE_Data$NumberWithin4HoursAll))
+# sum(is.na(Monthly_AE_Data$PercentageWithin4HoursAll))
+
+# # Create a new Year and numeric Month column from the Month data
+# Monthly_AE_Data$Year <- substr(Monthly_AE_Data$Month, 1, 4)
+# Monthly_AE_Data$monthnumeric <- substr(Monthly_AE_Data$Month, 5, 6)
+
+# # Group data by Year, Month, and Health Board (HBT) and summarize A&E activity
+# Monthly_AE_Data_Formatted <- Monthly_AE_Data %>%
+#   select(HBT, NumberOfAttendancesAll, PercentageWithin4HoursAll, Year, monthnumeric) %>%
+#   group_by(Year, monthnumeric, HBT) %>%
+#   summarise(
+#     NumberOfAttendancesAll = sum(NumberOfAttendancesAll),
+#     PercentageWithin4HoursAll = mean(PercentageWithin4HoursAll)
+#   )
+
+# # Change column name from HBT to HB for consistency (and month re-format)
+# colnames(Monthly_AE_Data_Formatted) <- c("Year", "Month", "HB", "NumberOfAttendancesAll", "PercentageWithin4HoursAll")
+```
+
 ```{r A&EDataImportandClean}
 # Load A&E monthly attendance and waiting times data
 Monthly_AE_Data <- read_csv(here("data/AdaptedData", "monthlyae_activity_202406.csv"))
@@ -83,17 +110,22 @@ sum(is.na(Monthly_AE_Data$PercentageWithin4HoursAll))
 Monthly_AE_Data$Year <- substr(Monthly_AE_Data$Month, 1, 4)
 Monthly_AE_Data$monthnumeric <- substr(Monthly_AE_Data$Month, 5, 6)
 
+# If NumberWithin4HoursAll is not present, calculate it based on PercentageWithin4HoursAll and NumberOfAttendancesAll
+Monthly_AE_Data <- Monthly_AE_Data %>%
+  mutate(NumberWithin4HoursAll = (PercentageWithin4HoursAll / 100) * NumberOfAttendancesAll)
+
 # Group data by Year, Month, and Health Board (HBT) and summarize A&E activity
 Monthly_AE_Data_Formatted <- Monthly_AE_Data %>%
-  select(HBT, NumberOfAttendancesAll, PercentageWithin4HoursAll, Year, monthnumeric) %>%
+  select(HBT, NumberOfAttendancesAll, NumberWithin4HoursAll, Year, monthnumeric) %>%
   group_by(Year, monthnumeric, HBT) %>%
   summarise(
     NumberOfAttendancesAll = sum(NumberOfAttendancesAll),
-    PercentageWithin4HoursAll = mean(PercentageWithin4HoursAll)
+    NumberWithin4HoursAll = sum(NumberWithin4HoursAll),
+    PercentageWithin4HoursAll = sum(NumberWithin4HoursAll) / sum(NumberOfAttendancesAll) * 100  # Calculating percentage manually
   )
 
 # Change column name from HBT to HB for consistency (and month re-format)
-colnames(Monthly_AE_Data_Formatted) <- c("Year", "Month", "HB", "NumberOfAttendancesAll", "PercentageWithin4HoursAll")
+colnames(Monthly_AE_Data_Formatted) <- c("Year", "Month", "HB", "NumberOfAttendancesAll", "NumberWithin4HoursAll", "PercentageWithin4HoursAll")
 ```
 
 ```{r MergePopAEData}
@@ -113,7 +145,7 @@ AE_Pop_Merged_Per1000_Summary <- AE_Pop_Merged_Per1000 %>%
   group_by(Year, HB) %>%
   summarise(
     NumberOfAttendancesAll = sum(NumberOfAttendancesAll),
-    PercentageWithin4HoursAll = mean(PercentageWithin4HoursAll),
+    PercentageWithin4HoursAll = mean(PercentageWithin4HoursAll),  # This mean is fine here since it's for summarizing
     AllAges = mean(AllAges),
     attendanceperpop = mean(attendanceperpop),
     attendanceper1000pop = mean(attendanceper1000pop)
@@ -145,4 +177,55 @@ AE_Pop_Merged_Per1000_Summary %>%
 
 # Save the AE_Pop_Merged_Per1000_Summary object as a CSV file
 write_csv(AE_Pop_Merged_Per1000_Summary, here("data/ProcessedData", "AE_Pop_Merged_Per1000_Summary.csv"))
+```
+
+```{r MergePopAEData_DEPRECIATED}
+# # Merge A&E activity with population estimates
+# AE_Pop_Merged <- merge(Monthly_AE_Data_Formatted, PopEstimatesAdapted, by = c("HB", "Year"))
+
+# # Calculate attendance per population and per 1,000 population
+# AE_Pop_Merged_Per1000 <- AE_Pop_Merged %>%
+#   mutate(
+#     attendanceperpop = NumberOfAttendancesAll / AllAges,
+#     attendanceper1000pop = attendanceperpop * 1000
+#   )
+
+# # Summarize data for each Health Board by year
+# AE_Pop_Merged_Per1000_Summary <- AE_Pop_Merged_Per1000 %>%
+#   select(HB, Year, NumberOfAttendancesAll, PercentageWithin4HoursAll, AllAges, attendanceperpop, attendanceper1000pop) %>%
+#   group_by(Year, HB) %>%
+#   summarise(
+#     NumberOfAttendancesAll = sum(NumberOfAttendancesAll),
+#     PercentageWithin4HoursAll = mean(PercentageWithin4HoursAll),
+#     AllAges = mean(AllAges),
+#     attendanceperpop = mean(attendanceperpop),
+#     attendanceper1000pop = mean(attendanceper1000pop)
+#   )
+
+# # Add Health Board names to the dataset
+# AE_Pop_Merged_Per1000_Summary <- merge(AE_Pop_Merged_Per1000_Summary, HB_Names_Only, by = "HB")
+
+# # Ensure 'Year' is numeric
+# AE_Pop_Merged_Per1000_Summary <- AE_Pop_Merged_Per1000_Summary %>%
+#   mutate(Year = as.numeric(Year))
+
+# # Continue with plotting
+# AE_Pop_Merged_Per1000_Summary %>%
+#   ggplot(aes(x = Year, y = attendanceper1000pop, group = HBName, color = HBName)) +
+#   geom_line() +
+#   scale_y_continuous(labels = scales::comma) +
+#   labs(
+#     title = "A&E Attendance per 1000 Population for Health Boards in Scotland (2014-2024)",
+#     x = "Year", y = "A&E Attendance per 1000 Population",
+#     color = "Health Board"  # Legend title
+#   ) +
+#   theme_minimal() +
+#   theme(
+#     legend.position = "right",   # Place the legend on the right side
+#     legend.title = element_text(size = 10),   # Adjust legend title size
+#     legend.text = element_text(size = 8)      # Adjust legend text size
+#   )
+
+# # Save the AE_Pop_Merged_Per1000_Summary object as a CSV file
+# write_csv(AE_Pop_Merged_Per1000_Summary, here("data/ProcessedData", "AE_Pop_Merged_Per1000_Summary.csv"))
 ```

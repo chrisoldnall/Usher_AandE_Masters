@@ -100,7 +100,7 @@ create_choropleth_scenario <- function(shape_data, data, year, scenario = c("att
     )
   } else if (scenario == "waiting_time") {
     p <- p + scale_fill_gradientn(
-      colors = c("red", "yellow", "green"),
+      colors = c("green", "yellow", "red"),
       values = scales::rescale(c(60, 95, 100)),  # Emphasize the range below 95%, but include 0-100%
       name = "Percentage Seen Within 4 Hours",
       limits = c(0, 100),  # Show the entire 0-100% range
@@ -157,7 +157,7 @@ create_choropleth_scenario(
   year = 2022,
   scenario = "attendance",
   title = "Custom Title for A&E Attendance in 2018",
-  output_path = "coldnall/results/CovidScottishAttendanceRate2022.svg"
+  output_path = "coldnall/results/COVID_Choloropleths/Updated/CovidScottishAttendanceRate2022.svg"
 )
 
 # Generate waiting time choropleth for 2022
@@ -166,7 +166,7 @@ create_choropleth_scenario(
   data = data,
   year = 2022,
   scenario = "waiting_time",
-  output_path = "coldnall/results/CovidScottish4Hour2022.svg"
+  output_path = "coldnall/results/COVID_Choloropleths/Updated/CovidScottish4Hour2022.svg"
 )
 
 # Generate attendance rate choropleth for 2020
@@ -175,7 +175,7 @@ create_choropleth_scenario(
   data = data,
   year = 2020,
   scenario = "attendance",
-  output_path = "coldnall/results/CovidScottishAttendanceRate2020.svg"
+  output_path = "coldnall/results/COVID_Choloropleths/Updated/CovidScottishAttendanceRate2020.svg"
 )
 
 # Generate waiting time choropleth for 2020
@@ -184,7 +184,7 @@ create_choropleth_scenario(
   data = data,
   year = 2020,
   scenario = "waiting_time",
-  output_path = "coldnall/results/CovidScottish4Hour2020.svg"
+  output_path = "coldnall/results/COVID_Choloropleths/Updated/CovidScottish4Hour2020.svg"
 )
 
 # Generate attendance rate choropleth for 2018
@@ -193,7 +193,7 @@ create_choropleth_scenario(
   data = data,
   year = 2018,
   scenario = "attendance",
-  output_path = "coldnall/results/CovidScottishAttendanceRate2018.svg"
+  output_path = "coldnall/results/COVID_Choloropleths/Updated/CovidScottishAttendanceRate2018.svg"
 )
 
 # Generate waiting time choropleth for 2018
@@ -202,7 +202,7 @@ create_choropleth_scenario(
   data = data,
   year = 2018,
   scenario = "waiting_time",
-  output_path = "coldnall/results/CovidScottish4Hour2018.svg"
+  output_path = "coldnall/results/COVID_Choloropleths/Updated/CovidScottish4Hour2018.svg"
 )
 ```
 
@@ -220,6 +220,11 @@ create_plot_for_year <- function(shape_data, data, year, scenario, title) {
     year = year,
     scenario = scenario,
     title = title
+  ) +
+  theme(
+    legend.key.size = unit(4, 'cm'),         # Increase legend key size
+    legend.text = element_text(size = 48),   # Increase legend text size
+    legend.title = element_text(size = 48)   # Increase legend title size
   )
   return(p)
 }
@@ -233,9 +238,17 @@ waiting_time_2018 <- create_plot_for_year(scottish_health_boards, data, 2018, "w
 waiting_time_2020 <- create_plot_for_year(scottish_health_boards, data, 2020, "waiting_time", title="E")
 waiting_time_2022 <- create_plot_for_year(scottish_health_boards, data, 2022, "waiting_time", title="F")
 
-# Combine the plots into a 3x2 grid
+# Combine the plots into a 3x2 grid and collect the legend
 grid_plot <- (attendance_2018 | attendance_2020 | attendance_2022) /
-             (waiting_time_2018 | waiting_time_2020 | waiting_time_2022)
+             (waiting_time_2018 | waiting_time_2020 | waiting_time_2022) +
+             plot_layout(guides = "collect") &
+             theme(
+               legend.position = "right",  # Adjust legend position ("bottom", "top", "left", or "right")
+               legend.key.size = unit(4, 'cm'),  # Increase legend key size
+               legend.text = element_text(size = 48),  # Increase legend text size
+               legend.title = element_text(size = 48)  # Increase legend title size
+             )
+
 
 # Display the combined grid
 print(grid_plot)
