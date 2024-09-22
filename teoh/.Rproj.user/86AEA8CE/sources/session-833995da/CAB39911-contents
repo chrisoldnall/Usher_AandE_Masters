@@ -346,3 +346,32 @@ CovidScottish4hour2018calculated <- ggplot(data = Covidscottish_health_boards4ho
   theme_void()
 save_plot("Output/CovidScottish4hour2018calculated.svg", fig = CovidScottish4hour2018calculated, width = 16, height = 18)
 
+#To compare the attendance rate per 1000 population for the different years 2018, 2020 and 2022
+#Creating a data frame containing the attendance rate per 1000 population for 2018, 2020 and 2022
+Compareattendanceper1000_2018_2020_2022 <- Covid_monthlyae_popest2018 %>% 
+  left_join(Covid_monthlyae_popest2020, by="HBName") %>% 
+  left_join(Covid_monthlyae_popest2022, by="HBName")
+#changing column names so it is clear which is for which year
+colnames(Compareattendanceper1000_2018_2020_2022)<- c("HBName", "Attendanceper1000_2018","Attendanceper1000_2020","Attendanceper1000_2022")
+
+#Calculating the differences between each year
+Compareattendanceper1000_2018_2020_2022$diff2020_2018 <- Compareattendanceper1000_2018_2020_2022$Attendanceper1000_2020 - Compareattendanceper1000_2018_2020_2022$Attendanceper1000_2018
+Compareattendanceper1000_2018_2020_2022$diff2022_2020 <- Compareattendanceper1000_2018_2020_2022$Attendanceper1000_2022 - Compareattendanceper1000_2018_2020_2022$Attendanceper1000_2020
+Compareattendanceper1000_2018_2020_2022$diff2022_2018 <- Compareattendanceper1000_2018_2020_2022$Attendanceper1000_2022 - Compareattendanceper1000_2018_2020_2022$Attendanceper1000_2018
+
+
+#To compare the percentage patients seen within 4 hours for the different years 2018, 2020 and 2022
+#Creating a data frame containing the percentage seen within 4 hours for 2018, 2020 and 2022
+Compare4hr_2018_2020_2022 <- Covid_monthlyae_activity4hour2018 %>% 
+  left_join(Covid_monthlyae_activity4hour2020, by="HBName") %>% 
+  left_join(Covid_monthlyae_activity4hour2022, by="HBName")
+#changing column names so it is clear which is for which year
+colnames(Compare4hr_2018_2020_2022)<- c("HBName", "Percent4hr2018","Percent4hr2020","Percent4hr2022")
+
+#Calculating the differences between each year
+Compare4hr_2018_2020_2022$diff2020_2018 <- Compare4hr_2018_2020_2022$Percent4hr2020 - Compare4hr_2018_2020_2022$Percent4hr2018
+Compare4hr_2018_2020_2022$diff2022_2020 <- Compare4hr_2018_2020_2022$Percent4hr2022 - Compare4hr_2018_2020_2022$Percent4hr2020
+Compare4hr_2018_2020_2022$diff2022_2018 <- Compare4hr_2018_2020_2022$Percent4hr2022 - Compare4hr_2018_2020_2022$Percent4hr2018
+
+
+

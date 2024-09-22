@@ -49,7 +49,7 @@ Covid_monthlyae_glmdemographicstotal %>%
 
 #GLM including data for COVID
 
-#Coviddate2 had a typo as Covidadate2
+#Coviddate2 had a typo as Covidadate2 - has been corrected in the script
 #Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>% 
 #  rename("Coviddate2" = "Covidadate2")
 
@@ -114,6 +114,13 @@ Covidglm_CoviddatesexageSIMDdaytypehourHBTime <- glm(NumberOfAttendances ~ Covid
                                                       family = poisson(link = "log"), 
                                                       data = Covid_monthlyae_glmprop)
 summary(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
+
+#For the coefficients here, we can exponentiate them and this tells us the % increase in attendances for a 1% increase in this group
+exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBmonth <- exp(coef(Covidglm_CoviddatesexageSIMDdaytypehourHBmonth))
+exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBmonth
+
+exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBTime <- exp(coef(Covidglm_CoviddatesexageSIMDdaytypehourHBTime))
+exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBTime
 
 
 #To calculate the AIC
