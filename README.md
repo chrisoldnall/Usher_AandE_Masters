@@ -23,6 +23,7 @@ Scottish A&E data.R  - contains all the code which were subsequently broken down
 
 For COVID-19 work
 - ScottishAECovidattendancerate - run this first to get the attendance rates used in the Choropleth
+- ScottishAECovidDescriptiveStatistics - basic analysis of the data, restricted by date
 - ScottishAECovidChoropleth - to create the attendance rate and waiting times choropleth for 2012 and 2022
 - ScottishAECovidGLM - to be run first before the other GLMs. To create the dataframe containing the proportions
 - ScottishAECovidGLM2 - to be run before ScottishAECovidGLM3. to create the GLM models
