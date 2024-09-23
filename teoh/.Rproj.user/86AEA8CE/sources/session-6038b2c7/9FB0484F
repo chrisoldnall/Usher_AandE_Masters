@@ -1,27 +1,27 @@
 {
-    "id": "6B1D7D85",
-    "path": "C:/Users/hui_p/Documents/GitHub/Usher_AandE_Masters/teoh/Rscripts/ScottishAEglm.R",
-    "project_path": "Rscripts/ScottishAEglm.R",
+    "id": "9FB0484F",
+    "path": "C:/Users/hui_p/Documents/GitHub/Usher_AandE_Masters/teoh/Rscripts/ScottishAECovidGLM2.R",
+    "project_path": "Rscripts/ScottishAECovidGLM2.R",
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1713013491408.0,
+    "created": 1726226109695.0,
     "source_on_save": false,
-    "relative_order": 11,
+    "relative_order": 22,
     "properties": {
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "110,0",
-        "scrollLine": "103"
+        "cursorPosition": "34,27",
+        "scrollLine": "17"
     },
     "folds": "",
-    "lastKnownWriteTime": 1716474222,
+    "lastKnownWriteTime": 1727100053,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1716474222410,
+    "last_content_update": 1727100053707,
     "read_only": false,
     "read_only_alternatives": []
 }

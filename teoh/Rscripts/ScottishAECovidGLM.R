@@ -61,6 +61,10 @@ Covid_monthlyae_glmdemographicstotal <- Covid_monthlyae_glmdemographics %>%
   group_by(date) %>% 
   summarise(NumberOfAttendances=sum(NumberOfAttendances))
 
+#To limit the data to Jan 2018 to Dec 2022.
+Covid_monthlyae_glmdemographicstotal <- Covid_monthlyae_glmdemographicstotal %>%
+  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+
 #AGE
 
 #calculating total attendances by age groups

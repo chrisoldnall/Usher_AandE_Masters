@@ -113,3 +113,34 @@ Covid_monthlyae_activitydescrip %>%filter(DepartmentType == 'Minor Injury Unit o
             max=max(NumberOfAttendancesAll), 
             var=var(NumberOfAttendancesAll))
 #mean=370, median=139,  sd=612, min=1,  max=4394, var=374601
+
+
+Covid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescrip %>%
+  select(date, Year, HBT, NumberOfAttendancesAll, NumberWithin4HoursAll) %>% 
+  group_by(date) %>% 
+  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll),
+            NumberWithin4HoursAll=sum(NumberWithin4HoursAll))
+
+#Histogram of total number of attendances July 2007-Dec 2022- distribution skewed to the right, not normal
+HistogramCovid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescriptotal %>% 
+  ggplot(aes(x=NumberOfAttendancesAll))+
+  geom_histogram()
+#save_plot("Output/HistogramCovid_monthlyae_glmdemographicstotal.svg", fig = HistogramCovid_monthlyae_glmdemographicstotal, width = 14, height = 12)
+
+#Refer to Data analysis for epidemiology - Week 2 Statistical inference in R (part 1) - 'Assumption checking and data transformation'
+#Q_Q plot Jan 2018-Dec 2022
+QQplotCovid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescriptotal %>% 
+  ggplot(aes(sample=NumberOfAttendancesAll)) +
+  stat_qq() +
+  stat_qq_line(color=2)
+#save_plot("Output/QQplotglmdemographicstotal.svg", fig = QQplotglmdemographicstotal, width = 14, height = 12)
+
+#Kolmogorov-Smirnov test of normality July 2007-Dec 2022
+Covid_monthlyae_activitydescriptotal %>% 
+  pull(NumberOfAttendancesAll) %>% 
+  ks.test(., "pnorm", mean=mean(.), sd=sd(.))
+#D = 0.1297, p-value = 0.00383
+#alternative hypothesis: two-sided
+#Warning message:
+#  In ks.test.default(., "pnorm", mean = mean(.), sd = sd(.)) :
+#  ties should not be present for the Kolmogorov-Smirnov test
