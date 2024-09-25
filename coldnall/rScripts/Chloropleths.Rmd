@@ -3,7 +3,7 @@
 packages <- c(
   "tidyverse", "here", "readxl", 
   "lubridate", "sf", "scales", "sjPlot",
-  "ggrepel"
+  "ggrepel", "grid"
 )
 
 # Load packages
@@ -48,10 +48,10 @@ health_board_acronyms <- c(
 create_choropleth_scenario <- function(shape_data, data, year, scenario = c("attendance", "waiting_time"), title = NULL, output_path = NULL) {
   scenario <- match.arg(scenario)
   
-  # Ensure output path ends with .svg
+  # Ensure output path ends with .png
   if (!is.null(output_path)) {
-    if (!grepl("\\.svg$", output_path)) {
-      output_path <- paste0(output_path, ".svg")
+    if (!grepl("\\.png$", output_path)) {
+      output_path <- paste0(output_path, ".png")
     }
   }
   
@@ -111,42 +111,99 @@ create_choropleth_scenario <- function(shape_data, data, year, scenario = c("att
 
   # Step 5: Add the title
   if (is.null(title)) {
-    # Default title if not provided
     title <- if (scenario == "attendance") {
       paste("A&E Attendance Rate per 1000 Population in", year)
     } else {
       paste("Percentage Seen Within 4 Hours in", year)
     }
   }
-  # Add the title to the plot and increase title size
+  
   p <- p + labs(title = title) +
-    theme(plot.title = element_text(size = 64, face = "bold", hjust = 0.5))  # Adjust title size
+    theme(plot.title = element_text(size = 32, face = "bold", hjust = 0.5))
+  
   # Step 6: Add general labels for most health boards, excluding Orkney, Fife, and Shetland
   p <- p + 
-    geom_sf_label(data = merged_data %>% filter(!HBName %in% c("Orkney", "Fife", "Shetland", "Greater Glasgow and Clyde", "Ayrshire and Arran", "Borders")), aes(label = HBAbbreviation), size = 8, label.size = 1, fill = "white", alpha = 0.7) +
-  
-    # Fine-tune the label positions for Orkney, Fife, and Shetland
-    #geom_sf_label(data = merged_data %>% filter(HBName == "Greater Glasgow and Clyde"), aes(label = HBAbbreviation), 
-    #              nudge_x = 2000, size = 8, label.size = 1, fill = "white", alpha = 0.7) +  # Nudge Orkney label upwards more
+    geom_sf_label(data = merged_data %>% filter(!HBName %in% c("Borders", "Orkney", "Fife", "Shetland", "Greater Glasgow and Clyde", "Ayrshire and Arran", "Lothian", "Lanarkshire")), 
+                  aes(label = HBAbbreviation), size = 8, label.size = 1, fill = "white", alpha = 0.7)
+
+  # Add labels for Orkney, Fife, and Shetland with nudges
+  p <- p + 
     geom_sf_label(data = merged_data %>% filter(HBName == "Orkney"), aes(label = HBAbbreviation), 
-                  nudge_y = 3000, size = 8, label.size = 1, fill = "white", alpha = 0.7) +  # Nudge Orkney label upwards more
+                  nudge_y = 3000, size = 8, label.size = 1, fill = "white", alpha = 0.7) +
     geom_sf_label(data = merged_data %>% filter(HBName == "Fife"), aes(label = HBAbbreviation), 
-                  nudge_y = 7000, size = 8, label.size = 1, fill = "white", alpha = 0.7) +  # Nudge Fife label upwards more
-    geom_sf_label(data = merged_data %>% filter(HBName == "Shetland"), aes(label = HBAbbreviation), 
-                  nudge_y = -5000, nudge_x = -10000, size = 8, label.size = 1, fill = "white", alpha = 0.7) +  # Nudge Shetland label down and to the left
+                  nudge_y = 7000, size = 8, label.size = 1, fill = "white", alpha = 0.7) +
     geom_sf_label(data = merged_data %>% filter(HBName == "Borders"), aes(label = HBAbbreviation), 
-                nudge_y = -5000, nudge_x = 10000, size = 8, label.size = 1, fill = "white", alpha = 0.7)  # Nudge Border label down and to the right
-    #geom_sf_label(data = merged_data %>% filter(HBName == "Ayrshire and Arran"), aes(label = HBAbbreviation), 
-    #              nudge_y = -2000, nudge_x = -5000, size = 8, label.size = 1, fill = "white", alpha = 0.7)  # Nudge Shetland label down and to the left
+                  nudge_y = 2000, size = 8, label.size = 1, fill = "white", alpha = 0.7) +
+    geom_sf_label(data = merged_data %>% filter(HBName == "Shetland"), aes(label = HBAbbreviation), 
+                  nudge_y = -5000, nudge_x = -10000, size = 8, label.size = 1, fill = "white", alpha = 0.7)
   
-  # Step 7: Save the plot as an SVG file
-  # If an output path is provided, save the plot, otherwise return it
+# Step 7: Calculate the bounding box of the map
+bbox <- st_bbox(merged_data)
+
+# Adjust the left boundary of the plot based on the map's bounding box
+left_label_position_x <- bbox["xmin"] + 30000  # Adjust to avoid cut-off but still off the map
+# Position the labels halfway down the map
+label_position_y_halfway <- (bbox["ymax"] + bbox["ymin"]) / 2.75  
+
+# Move the labels slightly lower to avoid being too close to the center
+label_position_y_ggc <- label_position_y_halfway + 45000  # Position Greater Glasgow and Clyde slightly below halfway
+label_position_y_aa <- label_position_y_ggc - 90000  # Position Ayrshire and Arran just below Glasgow
+
+# Adjust the right boundary of the plot based on the map's bounding box
+right_label_position_x <- bbox["xmax"]   # Add space to the right of the map
+
+# Adjust the vertical positions for Lothian and Lanarkshire
+label_position_y_lothian <- label_position_y_halfway + 45000  # Position Lothian label halfway
+label_position_y_lanarkshire <- label_position_y_lothian - 120000  # Position Lanarkshire just below Lothian
+
+# Step 8: Add consistent label boxes for Greater Glasgow and Ayrshire using `annotate()`
+p <- p + 
+  # Add full name label for Greater Glasgow and Clyde in a rounded box and draw an arrow
+  annotation_custom(grob = roundrectGrob(gp = gpar(fill = "white", col = "black", alpha = 0.7, lwd = 3.5), r = unit(0.1, "snpc")),
+                    xmin = left_label_position_x - 15000, xmax = left_label_position_x + 55000,
+                    ymin = label_position_y_ggc - 50000, ymax = label_position_y_ggc + 50000) +
+  annotate("text", x = left_label_position_x + 20000, y = label_position_y_ggc, label = "Greater\nGlasgow\nand\nClyde", size = 8, hjust = 0.5) + 
+  annotate("curve", x = left_label_position_x + 55000, y = label_position_y_ggc, 
+           xend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Greater Glasgow and Clyde",]))[1], 
+           yend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Greater Glasgow and Clyde",]))[2], 
+           curvature = 0.2, arrow = arrow(length = unit(0.02, "npc"), type="closed"), lwd = 1.8) +  # Draw an arrow pointing to the centroid
+  
+  # Add full name label for Ayrshire and Arran in a rounded box and draw an arrow
+  annotation_custom(grob = roundrectGrob(gp = gpar(fill = "white", col = "black", alpha = 0.7, lwd = 3.5), r = unit(0.1, "snpc")),
+                    xmin = left_label_position_x - 15000, xmax = left_label_position_x + 55000,
+                    ymin = label_position_y_aa - 35000, ymax = label_position_y_aa + 35000) +
+  annotate("text", x = left_label_position_x + 20000, y = label_position_y_aa, label = "Ayrshire\nand\nArran", size = 8, hjust = 0.5) + 
+  annotate("curve", x = left_label_position_x + 55000, y = label_position_y_aa, 
+           xend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Ayrshire and Arran",]))[1] + 15000, 
+           yend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Ayrshire and Arran",]))[2], 
+           curvature = 0.2, arrow = arrow(length = unit(0.02, "npc"), type="closed"), lwd = 1.8) +  # Draw an arrow pointing to the centroid
+    # Add full name label for Lothian in a rounded box and draw an arrow
+  annotation_custom(grob = roundrectGrob(gp = gpar(fill = "white", col = "black", alpha = 0.7, lwd = 3.5), r = unit(0.1, "snpc")),
+                    xmin = right_label_position_x - 65000, xmax = right_label_position_x - 5000,
+                    ymin = label_position_y_lothian - 12500, ymax = label_position_y_lothian + 12500) +
+  annotate("text", x = right_label_position_x - 35000, y = label_position_y_lothian, label = "Lothian", size = 8, hjust = 0.5) + 
+  annotate("curve", x = right_label_position_x - 65000, y = label_position_y_lothian, 
+           xend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Lothian",]))[1], 
+           yend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Lothian",]))[2], 
+           curvature = 0, arrow = arrow(length = unit(0.02, "npc"), type="closed"), lwd = 1.8) +  # Draw an arrow pointing to the centroid
+  
+  # Add full name label for Lanarkshire in a rounded box and draw an arrow
+  annotation_custom(grob = roundrectGrob(gp = gpar(fill = "white", col = "black", alpha = 0.7, lwd = 3.5), r = unit(0.1, "snpc")),
+                    xmin = right_label_position_x - 115000, xmax = right_label_position_x - 25000,
+                    ymin = label_position_y_lanarkshire - 12500, ymax = label_position_y_lanarkshire + 12500) +
+  annotate("text", x = right_label_position_x - 70000, y = label_position_y_lanarkshire, label = "Lanarkshire", size = 8, hjust = 0.5) + 
+  annotate("curve", x = right_label_position_x - 115000, y = label_position_y_lanarkshire+10000, 
+           xend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Lanarkshire",]))[1], 
+           yend = st_coordinates(st_centroid(merged_data[merged_data$HBName == "Lanarkshire",]))[2], 
+           curvature = 0.025, arrow = arrow(length = unit(0.02, "npc"), type="closed"), lwd = 1.8)  # Draw an arrow pointing to the centroid
+  
+  # Step 9: Save or return the plot
   if (!is.null(output_path)) {
-    ggsave(output_path, plot = p, width = 16, height = 18, device = "svg")
+    ggsave(output_path, plot = p, width = 16, height = 18, device = "png")
     print(paste("Choropleth saved as", output_path))
-    return(output_path)  # Return the file path
+    return(output_path)
   } else {
-    return(p)  # Return the plot object if no output path
+    return(p)
   }
 }
 ```
@@ -158,8 +215,8 @@ create_choropleth_scenario(
   data = data,
   year = 2022,
   scenario = "attendance",
-  title = "Custom Title for A&E Attendance in 2018",
-  output_path = "coldnall/results/COVID_Choloropleths/CovidScottishAttendanceRate2022.svg"
+  title = "A&E Attendance in 2022",
+  output_path = "coldnall/results/COVID_Choloropleths/CovidScottishAttendanceRate2022"
 )
 
 # Generate waiting time choropleth for 2022
@@ -168,7 +225,8 @@ create_choropleth_scenario(
   data = data,
   year = 2022,
   scenario = "waiting_time",
-  output_path = "coldnall/results/COVID_Choloropleths/CovidScottish4Hour2022.svg"
+  title = "% Seen Within 4 Hours in 2022",
+  output_path = "coldnall/results/COVID_Choloropleths/CovidScottish4Hour2022"
 )
 
 # Generate attendance rate choropleth for 2020
@@ -177,7 +235,8 @@ create_choropleth_scenario(
   data = data,
   year = 2020,
   scenario = "attendance",
-  output_path = "coldnall/results/COVID_Choloropleths/CovidScottishAttendanceRate2020.svg"
+  title = "A&E Attendance in 2020",
+  output_path = "coldnall/results/COVID_Choloropleths/CovidScottishAttendanceRate2020"
 )
 
 # Generate waiting time choropleth for 2020
@@ -186,7 +245,8 @@ create_choropleth_scenario(
   data = data,
   year = 2020,
   scenario = "waiting_time",
-  output_path = "coldnall/results/COVID_Choloropleths/CovidScottish4Hour2020.svg"
+  title = "% Seen Within 4 Hours in 2020",
+  output_path = "coldnall/results/COVID_Choloropleths/CovidScottish4Hour2020"
 )
 
 # Generate attendance rate choropleth for 2018
@@ -195,7 +255,8 @@ create_choropleth_scenario(
   data = data,
   year = 2018,
   scenario = "attendance",
-  output_path = "coldnall/results/COVID_Choloropleths/CovidScottishAttendanceRate2018.svg"
+  title = "A&E Attendance in 2018",
+  output_path = "coldnall/results/COVID_Choloropleths/CovidScottishAttendanceRate2018"
 )
 
 # Generate waiting time choropleth for 2018
@@ -204,7 +265,8 @@ create_choropleth_scenario(
   data = data,
   year = 2018,
   scenario = "waiting_time",
-  output_path = "coldnall/results/COVID_Choloropleths/CovidScottish4Hour2018.svg"
+  title = "% Seen Within 4 Hours in 2018",
+  output_path = "coldnall/results/COVID_Choloropleths/CovidScottish4Hour2018"
 )
 ```
 
@@ -253,9 +315,9 @@ grid_plot <- (attendance_2018 | attendance_2020 | attendance_2022) /
 
 
 # Display the combined grid
-print(grid_plot)
+#print(grid_plot)
 
 # Save the grid as an SVG or PNG file with increased width and height to avoid squishing
-ggsave("/Users/chrisoldnall/Library/Mobile Documents/com~apple~CloudDocs/PhD/Masters Supervision/1. Hui Pheng Teoh/GitHub/Usher_AandE_Masters/Usher_AandE_Masters/coldnall/results/COVID_Choloropleths/CovidScottish_WaitingAttendance_2018_2020_2022.svg", plot = grid_plot, width = 45, height = 30, device = "svg")
+#ggsave("/Users/chrisoldnall/Library/Mobile Documents/com~apple~CloudDocs/PhD/Masters Supervision/1. Hui Pheng Teoh/GitHub/Usher_AandE_Masters/Usher_AandE_Masters/coldnall/results/COVID_Choloropleths/CovidScottish_WaitingAttendance_2018_2020_2022.svg", plot = grid_plot, width = 45, height = 30, device = "svg")
 ggsave("/Users/chrisoldnall/Library/Mobile Documents/com~apple~CloudDocs/PhD/Masters Supervision/1. Hui Pheng Teoh/GitHub/Usher_AandE_Masters/Usher_AandE_Masters/coldnall/results/COVID_Choloropleths/CovidScottish_WaitingAttendance_2018_2020_2022.png", plot = grid_plot, width = 45, height = 30, device = "png")
 ```
