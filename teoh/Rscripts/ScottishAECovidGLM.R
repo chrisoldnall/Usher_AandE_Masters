@@ -18,7 +18,7 @@ library(scales)
 library(sjPlot)
 
 #A&E attendances
-#Loading A&E monthly attendance and waiting times csv file
+#Loading A&E monthly attendance and waiting times csv file - deprecated
 #Covid_monthlyae_glm <- read_csv(here("Rawdata", "monthlyae_activity_202406.csv"))
 
 #Attendance and percentage within 4 hours by HB each month
@@ -33,7 +33,7 @@ library(sjPlot)
 #          ) %>% 
 #  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
 
-
+#Limited the data to Jan 2018-Dec 2022 at the end
 #Demographics
 #Loading A&E demographic csv file
 Covid_monthlyae_glmdemographics <- read_csv(here("Rawdata", "monthlyae_demographics_202406.csv"))
@@ -61,9 +61,6 @@ Covid_monthlyae_glmdemographicstotal <- Covid_monthlyae_glmdemographics %>%
   group_by(date) %>% 
   summarise(NumberOfAttendances=sum(NumberOfAttendances))
 
-#To limit the data to Jan 2018 to Dec 2022.
-Covid_monthlyae_glmdemographicstotal <- Covid_monthlyae_glmdemographicstotal %>%
-  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
 
 #AGE
 
@@ -241,8 +238,7 @@ Covid_monthlyae_glmdemographicsCoviddate <- Covid_monthlyae_glmdemographics %>%
   summarise(NumberOfAttendances=sum(NumberOfAttendances))
 
 
-#To add a columns for Coviddate and populate
-
+#To add a columns for Coviddate and populate - deprecated
 #Tried using the date range to populate but it didn't work, so did it in batches below and combined them together
 #Covid_monthlyae_glmdemographicsCoviddate <- Covid_monthlyae_glmdemographicsCoviddate %>% 
 #  mutate(Coviddate = ifelse(.$date==between(date, as.Date('2018-01-01'), as.Date('2020-03-31'), '4', '0')),
@@ -350,6 +346,7 @@ Covid_monthlyae_glmwhentotal <- Covid_monthlyae_glmwhen %>%
   group_by(date) %>% 
   summarise(NumberOfAttendances=sum(NumberOfAttendances))
 
+
 #DAY
 
 #calculating total attendances by day
@@ -428,7 +425,7 @@ str(Covid_monthlyae_glmwhenhour)
 
 #MONTH
 
-#29 April 2024- Chris advised that if using month, should't calculate proportion based on year's attendance. Should show as 1 if it's that month, and 0 for others.
+#29 April 2024- Chris advised that if using month, shouldn't calculate proportion based on year's attendance. Should show as 1 if it's that month, and 0 for others.
 
 Covid_monthlyae_glmwhenmonth <- Covid_monthlyae_glmwhen %>% 
   select(date, monthnumeric, NumberOfAttendances) %>% 
@@ -493,13 +490,23 @@ Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhe
 Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhenhour, by=c("date"))
 Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicsHB, by=c("date"))
 
-#To limit the GLM data to Jan 2018 to Dec 2022.
-Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>%
-  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
-
 #To include Time into the data frame
 #example given: df$Time <- as.numeric(df$Date - min(df$Date)) + 1
 Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>% 
   mutate(Time = as.numeric(Covid_monthlyae_glmprop$date - min(Covid_monthlyae_glmprop$date)) + 1)
+
+#To limit the GLM proportion data to Jan 2018 to Dec 2022.
+Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>%
+  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+
+#To limit the glmdemographicstotal data to Jan 2018 to Dec 2022.
+Covid_monthlyae_glmdemographicstotal <- Covid_monthlyae_glmdemographicstotal %>%
+  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+
+#To limit the glmwhentotal data to Jan 2018 to Dec 2022.
+Covid_monthlyae_glmwhentotal <- Covid_monthlyae_glmwhentotal %>%
+  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+
+
 
   

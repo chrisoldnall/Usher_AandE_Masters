@@ -56,16 +56,16 @@ str(Covid_monthlyae_activitydescrip)
 unique(Covid_monthlyae_activitydescrip$HBT)
 
 summary(Covid_monthlyae_activitydescrip)
-#NumberOfAttendancesAll: min=1, max=11579, mean=1515.9
-#PercentageWithin4HoursAll: min=40.2, max=100, mean=97.02
+#NumberOfAttendancesAll: min=1, max=11579, mean=1515.9, median 387.5
+#PercentageWithin4HoursAll: min=40.2, max=100, mean=97.02, median=99.8 
 
 #Summary for the the years till Dec 2022 (period between 2007-07-01 to 2022-12-31) split by ED and MIU/Other
 Covid_monthlyae_activitydescrip %>%filter(DepartmentType == 'Emergency Department')%>%summary()
-#NumberOfAttendancesAll: min=137, max=11579, mean=3575
-#PercentageWithin4HoursAll: min=40.2, max=100, mean=92.74
+#NumberOfAttendancesAll: min=137, max=11579, mean=3575, median=3540
+#PercentageWithin4HoursAll: min=40.2, max=100, mean=92.74, median=95.6
 Covid_monthlyae_activitydescrip %>%filter(DepartmentType == 'Minor Injury Unit or Other')%>%summary()
-#NumberOfAttendancesAll: min=1, max=4394, mean=370
-#PercentageWithin4HoursAll: min=49.6, max=100, mean=99.41
+#NumberOfAttendancesAll: min=1, max=4394, mean=370, median=139
+#PercentageWithin4HoursAll: min=49.6, max=100, mean=99.41, median=100
 
 #Count number of ED and MIU/Other sites
 Covid_monthlyae_activitydescrip %>% filter(DepartmentType=="Emergency Department") %>% count(TreatmentLocation)
@@ -121,11 +121,13 @@ Covid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescrip %>%
   summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll),
             NumberWithin4HoursAll=sum(NumberWithin4HoursAll))
 
+#Histogram, QQ plot and KS test using A&E activity dataset. Same analysis using the A&E demographics dataset is in ScottishAECovidGLM2 R-script.
+
 #Histogram of total number of attendances July 2007-Dec 2022- distribution skewed to the right, not normal
 HistogramCovid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescriptotal %>% 
   ggplot(aes(x=NumberOfAttendancesAll))+
   geom_histogram()
-#save_plot("Output/HistogramCovid_monthlyae_glmdemographicstotal.svg", fig = HistogramCovid_monthlyae_glmdemographicstotal, width = 14, height = 12)
+save_plot("Output/HistogramCovid_monthlyae_activitydescriptotal.svg", fig = HistogramCovid_monthlyae_activitydescriptotal, width = 14, height = 12)
 
 #Refer to Data analysis for epidemiology - Week 2 Statistical inference in R (part 1) - 'Assumption checking and data transformation'
 #Q_Q plot Jan 2018-Dec 2022
@@ -133,7 +135,7 @@ QQplotCovid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescriptot
   ggplot(aes(sample=NumberOfAttendancesAll)) +
   stat_qq() +
   stat_qq_line(color=2)
-#save_plot("Output/QQplotglmdemographicstotal.svg", fig = QQplotglmdemographicstotal, width = 14, height = 12)
+save_plot("Output/QQplotCovid_monthlyae_activitydescriptotal.svg", fig = QQplotCovid_monthlyae_activitydescriptotal, width = 14, height = 12)
 
 #Kolmogorov-Smirnov test of normality July 2007-Dec 2022
 Covid_monthlyae_activitydescriptotal %>% 

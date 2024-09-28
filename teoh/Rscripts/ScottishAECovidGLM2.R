@@ -23,8 +23,9 @@ library(pscl)
 
 #TEST FOR NORMALITY
 
-#Total number of attendance calculated from glmdemographicstotal and glmwhentotal are the same.
+#Total number of attendances calculated from glmdemographicstotal and glmwhentotal are the same.
 
+#The dataframe Covid_monthlyae_glmdemographicstotal was created in ScottishAECovidGLM.R
 #Histogram of total number of attendances Jan 2018-Dec 2022- distribution skewed to the right, not normal
 HistogramCovid_monthlyae_glmdemographicstotal <- Covid_monthlyae_glmdemographicstotal %>% 
   ggplot(aes(x=NumberOfAttendances))+
@@ -49,11 +50,8 @@ Covid_monthlyae_glmdemographicstotal %>%
 #D = 0.15665, p-value = 0.09424
 #alternative hypothesis: two-sided
 
-#GLM including data for COVID
 
-#Coviddate2 had a typo as Covidadate2 - has been corrected in the script
-#Covid_monthlyae_glmprop <- Covid_monthlyae_glmprop %>% 
-#  rename("Coviddate2" = "Covidadate2")
+#GLM including data for COVID
 
 #Using Coviddate1 as reference
 Covidglm_Coviddate <- glm(NumberOfAttendances ~ Coviddate2 + Coviddate3 + Coviddate4,
@@ -118,11 +116,38 @@ Covidglm_CoviddatesexageSIMDdaytypehourHBTime <- glm(NumberOfAttendances ~ Covid
 summary(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
 
 #For the coefficients here, we can exponentiate them and this tells us the % increase in attendances for a 1% increase in this group
-exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBmonth <- exp(coef(Covidglm_CoviddatesexageSIMDdaytypehourHBmonth))
-exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBmonth
+#to exponentiate model using time
+coefficients <- coef(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
+exp_coefficients <- exp(coefficients)
+exp_coefficients_df <- data.frame(Estimate = exp_coefficients)
+print(exp_coefficients_df)
 
-exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBTime <- exp(coef(Covidglm_CoviddatesexageSIMDdaytypehourHBTime))
-exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBTime
+##Model using time, no hours
+Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour <- glm(NumberOfAttendances ~ Coviddate2 + Coviddate3 + Coviddate4 + Male + Female + Under18 + EighteentoTwentyfour + TwentyfivetoThirtynine + FortytoSixtyfour + SixtyfivetoSeventyfour + SIMD1 + SIMD2 + SIMD3 + SIMD4 + SIMD5 + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday + ED + NHSBorders + NHSFife + NHSShetland + NHSLanarkshire + NHSDumfriesandGalloway+ NHSForthValley + NHSGrampian + NHSWesternIsles + NHSOrkney + NHSTayside + NHSGreaterGlasgowandClyde + NHSHighland + NHSLothian + Time,
+                                                     family = poisson(link = "log"), 
+                                                     data = Covid_monthlyae_glmprop)
+summary(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
+
+#printing the coefficients for the model using time no hour to make it easier to copy and paste into the report
+coefficients <- coef(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
+coefficients_df <- data.frame(Estimate = coefficients)
+print(coefficients_df)
+#to exponentiate model using time, no hours
+exp_coefficients <- exp(coefficients)
+exp_coefficients_df <- data.frame(Estimate = exp_coefficients)
+print(exp_coefficients_df)
+
+#to get the confidence interval for model using time, no hours
+conf_intervals <- confint(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
+exp_conf_intervals <- exp(conf_intervals)
+exp_conf_intervals
+
+#For the coefficients here, we can exponentiate them and this tells us the % increase in attendances for a 1% increase in this group
+#exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBmonth <- exp(coef(Covidglm_CoviddatesexageSIMDdaytypehourHBmonth))
+#exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBmonth
+
+#exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBTime <- exp(coef(Covidglm_CoviddatesexageSIMDdaytypehourHBTime))
+#exp_coef_Covidglm_CoviddatesexageSIMDdaytypehourHBTime
 
 
 #To calculate the AIC
@@ -136,11 +161,11 @@ glm_CoviddatesexageSIMDdaytypehour_aic <- AIC(Covidglm_CoviddatesexageSIMDdaytyp
 glm_CoviddatesexageSIMDdaytypehourHB_aic <- AIC(Covidglm_CoviddatesexageSIMDdaytypehourHB)
 glm_CoviddatesexageSIMDdaytypehourHBmonth_aic <- AIC(Covidglm_CoviddatesexageSIMDdaytypehourHBmonth)
 glm_CoviddatesexageSIMDdaytypehourHBTime_aic <- AIC(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
-
+glm_CoviddatesexageSIMDdaytypeHBTimenohour_aic <- AIC(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
 
 #McFadden's R-squared
 #with reference to https://www.statology.org/glm-r-squared/
 #method one using the package pscl  
 pR2(Covidglm_CoviddatesexageSIMDdaytypehourHBmonth)['McFadden']
 pR2(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)['McFadden']
-
+pR2(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)['McFadden']

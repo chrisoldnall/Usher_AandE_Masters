@@ -53,6 +53,8 @@ summary(glm_CoviddatesexageSIMDdaytypehourHBmonth_predictions)
 glm_CoviddatesexageSIMDdaytypehourHBTime_predictions <- predict(Covidglm_CoviddatesexageSIMDdaytypehourHBTime, type = "response")
 summary(glm_CoviddatesexageSIMDdaytypehourHBTime_predictions)
 
+glm_CoviddatesexageSIMDdaytypeHBTimenohour_predictions <- predict(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour, type = "response")
+summary(glm_CoviddatesexageSIMDdaytypeHBTimenohour_predictions)
 
 #creating a dataframe with population for all Scotland by month for 2018-2022 to join with Covid_monthlyae_glmprop to draw a graph for fitted versus actual
 #includes removing S92000003 which is the population for NHS Scotland
@@ -80,7 +82,7 @@ str(Covid_monthlyae_glmpropglmplot )
 
 #this didn't work because date was already in date format
 #Covid_monthlyae_glmpropglmplot$Year <- format(Covid_monthlyae_glmprop$date, format="%Y/%m/%d","%Y")
-#used this insted
+#used this instead
 Covid_monthlyae_glmpropglmplot$Year <- as.numeric(format(Covid_monthlyae_glmprop$date,'%Y'))
 
 #combining population data with attendance data to create the glm plot
@@ -99,6 +101,7 @@ Covid_monthlyae_glmpropglmplot <- Covid_monthlyae_glmpropglmplot %>%
          "glmCoviddatesexageSIMDdaytypehourHBprediction" = glm_CoviddatesexageSIMDdaytypehourHB_predictions/AllAges,
          "glmCoviddatesexageSIMDdaytypehourHBmonthprediction" = glm_CoviddatesexageSIMDdaytypehourHBmonth_predictions/AllAges,
          "glmCoviddatesexageSIMDdaytypehourHBTimeprediction" = glm_CoviddatesexageSIMDdaytypehourHBTime_predictions/AllAges,
+         "glmCoviddatesexageSIMDdaytypeHBTimenohourprediction" = glm_CoviddatesexageSIMDdaytypeHBTimenohour_predictions/AllAges,
          "rates" = NumberOfAttendances/AllAges)
 
 
@@ -193,5 +196,10 @@ glmCoviddatesexageSIMDdaytypehourHBTimeprediction <- ggplot(data=Covid_monthlyae
   geom_line(aes(y=glmCoviddatesexageSIMDdaytypehourHBTimeprediction), color = "magenta")
 save_plot("Output/glmCoviddatesexageSIMDdaytypehourHBTimeprediction.svg", fig = glmCoviddatesexageSIMDdaytypehourHBTimeprediction, width = 5, height = 5)
 
-
-
+glmCoviddatesexageSIMDdaytypeHBTimenohourprediction <- ggplot(data=Covid_monthlyae_glmpropglmplot, aes(x=date))+
+  labs(x="Time", y= "Attendance rate", 
+       #title = "glmCoviddatesexageSIMDdaytypeHBTimenohourprediction"
+  )+
+  geom_line(aes(y= rates), color = "black")+
+  geom_line(aes(y=glmCoviddatesexageSIMDdaytypeHBTimenohourprediction), color = "orange")
+save_plot("Output/glmCoviddatesexageSIMDdaytypeHBTimenohourprediction.svg", fig = glmCoviddatesexageSIMDdaytypeHBTimenohourprediction, width = 5, height = 5)
