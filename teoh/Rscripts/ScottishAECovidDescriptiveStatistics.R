@@ -145,7 +145,9 @@ Covid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescrip %>%
 #Histogram of total number of attendances July 2007-Dec 2022- distribution skewed to the left, not normal
 HistogramCovid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescriptotal %>% 
   ggplot(aes(x=NumberOfAttendancesAll))+
-  geom_histogram()
+  geom_histogram()+
+  labs(x= "Number of A&E Attendances", 
+       y = "Count")
 save_plot("Output/HistogramCovid_monthlyae_activitydescriptotal.svg", fig = HistogramCovid_monthlyae_activitydescriptotal, width = 14, height = 12)
 
 #Refer to Data analysis for epidemiology - Week 2 Statistical inference in R (part 1) - 'Assumption checking and data transformation'
@@ -153,7 +155,9 @@ save_plot("Output/HistogramCovid_monthlyae_activitydescriptotal.svg", fig = Hist
 QQplotCovid_monthlyae_activitydescriptotal <- Covid_monthlyae_activitydescriptotal %>% 
   ggplot(aes(sample=NumberOfAttendancesAll)) +
   stat_qq() +
-  stat_qq_line(color=2)
+  stat_qq_line(color=2)+
+  labs(x= "Standard normalised theoretical distribution", 
+       y = "Data distribution")
 save_plot("Output/QQplotCovid_monthlyae_activitydescriptotal.svg", fig = QQplotCovid_monthlyae_activitydescriptotal, width = 14, height = 12)
 
 #Kolmogorov-Smirnov test of normality
