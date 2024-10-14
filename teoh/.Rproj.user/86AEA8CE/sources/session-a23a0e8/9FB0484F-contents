@@ -9,6 +9,7 @@
 #install.packages("sf")
 #install.packages("sjPlot")
 #install.packages("pscl")
+#install.packages("flexmix")
 
 library(tidyverse)
 library(here)
@@ -20,6 +21,7 @@ library(sf)
 library(scales)
 library(sjPlot)
 library(pscl)
+library(flexmix)
 
 #TEST FOR NORMALITY
 
@@ -173,3 +175,17 @@ glm_CoviddatesexageSIMDdaytypeHBTimenohour_aic <- AIC(Covidglm_CoviddatesexageSI
 pR2(Covidglm_CoviddatesexageSIMDdaytypehourHBmonth)['McFadden']
 pR2(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)['McFadden']
 pR2(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)['McFadden']
+
+#BIC
+#with reference to https://www.statology.org/bic-in-r/
+BIC(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
+#1057.675
+BIC(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
+#7461.634
+
+#log likelihood
+#with reference to https://www.statology.org/interpret-log-likelihood/
+logLik(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
+#'log Lik.' -406.0071 (df=60)
+logLik(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
+#'log Lik.' -3655.072 (df=37)
