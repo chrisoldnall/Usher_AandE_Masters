@@ -121,6 +121,13 @@ Covidglm_CoviddatesexageSIMDdaytypehourHBTime <- glm(NumberOfAttendances ~ Covid
                                                       data = Covid_monthlyae_glmprop)
 summary(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
 
+##Using sin and cos of month
+Covidglm_CoviddatesexageSIMDdaytypehourHBTimesincos <- glm(NumberOfAttendances ~ Coviddate2 + Coviddate3 + Coviddate4 + Male + Female + Under18 + EighteentoTwentyfour + TwentyfivetoThirtynine + FortytoSixtyfour + SixtyfivetoSeventyfour + SIMD1 + SIMD2 + SIMD3 + SIMD4 + SIMD5 + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday + ED + Midnighttoone + Twotothreeam + Threetofouram + Fourtofiveam + Fivetosixam + Sixtosevenam + Seventoeightam + Eighttonineam + Ninetotenam + Tentoelevenam + Eleventonoon + Noontoonepm + Onetotwopm + Twotothreepm + Threetofourpm + Fourtofivepm + Fivetosixpm + Sixtosevenpm + Seventoeightpm + Eighttoninepm + Ninetotenpm + Tentoelevenpm + Eleventomidnight + NHSBorders + NHSFife + NHSShetland + NHSLanarkshire + NHSDumfriesandGalloway+ NHSForthValley + NHSGrampian + NHSWesternIsles + NHSOrkney + NHSTayside + NHSGreaterGlasgowandClyde + NHSHighland + NHSLothian + Time + sin_term,
+                                                     family = poisson(link = "log"), 
+                                                     data = Covid_monthlyae_glmprop)
+summary(Covidglm_CoviddatesexageSIMDdaytypehourHBTimesincos)
+
+
 #For the coefficients here, we can exponentiate them and this tells us the % increase in attendances for a 1% increase in this group
 #to exponentiate model using time
 coefficients <- coef(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)

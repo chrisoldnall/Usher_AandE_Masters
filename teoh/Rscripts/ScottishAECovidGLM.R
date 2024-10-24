@@ -158,6 +158,26 @@ colnames(Covid_monthlyae_glmdemographicsdeprivation)<- c("date", "SIMD1","SIMD2"
 
 str(Covid_monthlyae_glmdemographicsdeprivation)
 
+#SIN and COS terms
+
+#To include sin and cos of month into the data frame
+Covid_monthlyae_glmdemographicssin_term <- Covid_monthlyae_glmdemographics %>%
+  mutate(sin_term = sin((2*pi*monthnumeric)/12))
+
+Covid_monthlyae_glmdemographicssin_term <-Covid_monthlyae_glmdemographicssin_term %>%  select(date, sin_term)
+  
+Covid_monthlyae_glmdemographicscos_term <- Covid_monthlyae_glmdemographics %>%
+  mutate(cos_term = cos((2*pi*monthnumeric)/12))
+
+Covid_monthlyae_glmdemographicscos_term <- Covid_monthlyae_glmdemographicscos_term %>% select(date, cos_term)
+
+#to limit the dates to 1 Jan 2018 to 31 Dec 2022 because this object is very big, takes up too much memory
+Covid_monthlyae_glmdemographicssin_term <- Covid_monthlyae_glmdemographicssin_term %>%
+  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+
+Covid_monthlyae_glmdemographicscos_term <- Covid_monthlyae_glmdemographicscos_term %>%
+  filter(between(date, as.Date("2018-01-01"), as.Date("2022-12-31")))
+
 #DEPARTMENT TYPE
 
 #calculating total attendances by department type
@@ -489,6 +509,8 @@ Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhe
 Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhenmonth, by=c("date"))
 Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmwhenhour, by=c("date"))
 Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicsHB, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicssin_term, by=c("date"))
+Covid_monthlyae_glmprop <- merge(Covid_monthlyae_glmprop, Covid_monthlyae_glmdemographicscos_term, by=c("date"))
 
 #To include Time into the data frame
 #example given: df$Time <- as.numeric(df$Date - min(df$Date)) + 1
