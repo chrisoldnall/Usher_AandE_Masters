@@ -126,6 +126,7 @@ Covid_monthlyae_activity_timeline <- Covid_monthlyae_activity_timeline %>%
   group_by(date) %>% 
   summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
 
+#highlights based on lockdown dates
 Covid_aeScotlandactivity_timeline2018to2022<- ggplot(data=Covid_monthlyae_activity_timeline, aes(x=date, y=NumberOfAttendancesAll))+
   geom_point()+
   geom_line(size=1,colour="black")+
@@ -136,16 +137,46 @@ Covid_aeScotlandactivity_timeline2018to2022<- ggplot(data=Covid_monthlyae_activi
   geom_rect(aes(xmin = as.Date("2020-07-10"), xmax = as.Date("2020-09-23"), ymin=-Inf, ymax=Inf), fill="#CC66FF", alpha=.01) + #Phase3
   geom_rect(aes(xmin = as.Date("2020-09-23"), xmax = as.Date("2021-01-05"), ymin=-Inf, ymax=Inf), fill="#FF00CC", alpha=.01) + #Scottish restrictions
   geom_rect(aes(xmin = as.Date("2021-01-05"), xmax = as.Date("2021-04-02"), ymin=-Inf, ymax=Inf), fill="#FF0033", alpha=.01) + #Scottish mainland lockdown
-  geom_rect(aes(xmin = as.Date("2021-01-05"), xmax = as.Date("2021-04-02"), ymin=-Inf, ymax=Inf), fill="#FF00CC", alpha=.01) + #Stay home to stay local
-  geom_rect(aes(xmin = as.Date("2021-04-02"), xmax = as.Date("2021-05-17"), ymin=-Inf, ymax=Inf), fill="#CC66FF", alpha=.01) + #Level 3
+  geom_rect(aes(xmin = as.Date("2021-04-02"), xmax = as.Date("2021-04-26"), ymin=-Inf, ymax=Inf), fill="#FF00CC", alpha=.01) + #Stay home to stay local
+  geom_rect(aes(xmin = as.Date("2021-04-26"), xmax = as.Date("2021-05-17"), ymin=-Inf, ymax=Inf), fill="#CC66FF", alpha=.01) + #Level 3
   geom_rect(aes(xmin = as.Date("2021-05-17"), xmax = as.Date("2021-06-05"), ymin=-Inf, ymax=Inf), fill="#9966FF", alpha=.01) + #Level 2
-  geom_rect(aes(xmin = as.Date("2021-05-17"), xmax = as.Date("2021-07-19"), ymin=-Inf, ymax=Inf), fill="#9999FF", alpha=.01) + #Most mainland level 1
+  geom_rect(aes(xmin = as.Date("2021-06-05"), xmax = as.Date("2021-07-19"), ymin=-Inf, ymax=Inf), fill="#9999FF", alpha=.01) + #Most mainland level 1
   geom_rect(aes(xmin = as.Date("2021-07-19"), xmax = as.Date("2021-08-09"), ymin=-Inf, ymax=Inf), fill="#66CCFF", alpha=.01) + #Level 0
   geom_rect(aes(xmin = as.Date("2021-08-09"), xmax = as.Date("2022-12-31"), ymin=-Inf, ymax=Inf), fill="#00FFFF", alpha=.01) + #Beyond level 0
+  #theme_classic()+
     labs(x= "Date", 
        y = "Total number of Scottish A&E attendances")
 save_plot("Output/Covid_aeScotlandactivity_timeline2018to2022.svg", fig=Covid_aeScotlandactivity_timeline2018to2022, width=14, height=12)
 
+#to flip the graph on its side
+Covid_aeScotlandactivity_timeline2018to2022flip <- Covid_aeScotlandactivity_timeline2018to2022 + coord_flip()
+save_plot("Output/Covid_aeScotlandactivity_timeline2018to2022flip.svg", fig=Covid_aeScotlandactivity_timeline2018to2022flip, width=14, height=12)
+
+#highlights based on encoding
+Covid_aeScotlandactivity_encodingtimeline2018to2022<- ggplot(data=Covid_monthlyae_activity_timeline, aes(x=date, y=NumberOfAttendancesAll))+
+  geom_point()+
+  geom_line(size=1,colour="black")+
+  geom_label(aes(label= ("1 Lockdown \n 2 Tightening \n 3 Easing \n 4 Removed"),x=as.Date("2018-11-01"), y=90000))+
+  #legend("bottomleft", inset=0.2, title="Restrictions", c("1 Lockdown", "2 Tightening", "3 Easing", "4 Removed"), col=c("#FF0033", "#FF00CC", "#9966FF", "#00FFFF", lty=1:2, cex=0.8)) +
+  geom_rect(aes(xmin = as.Date("2018-01-01"), xmax = as.Date("2020-03-31"), ymin=-Inf, ymax=Inf), fill="#00FFFF", alpha=.01) + #4
+  annotate(geom="text", x=as.Date("2019-02-28"), color="black", y=60100, size=3, label="4")+
+  geom_rect(aes(xmin = as.Date("2020-04-01"), xmax = as.Date("2020-05-31"), ymin=-Inf, ymax=Inf), fill="#FF0033", alpha=.01) + #1
+  annotate(geom="text", x=as.Date("2020-04-30"), color="black", y=60100, size=3, label="1")+
+  geom_rect(aes(xmin = as.Date("2020-06-01"), xmax = as.Date("2020-09-30"), ymin=-Inf, ymax=Inf), fill="#9966FF", alpha=.01) + #3
+  annotate(geom="text", x=as.Date("2020-07-30"), color="black", y=60100, size=3, label="3")+
+  geom_rect(aes(xmin = as.Date("2020-10-01"), xmax = as.Date("2020-12-31"), ymin=-Inf, ymax=Inf), fill="#FF00CC", alpha=.01) + #2
+  annotate(geom="text", x=as.Date("2020-11-15"), color="black", y=60100, size=3, label="2")+
+  geom_rect(aes(xmin = as.Date("2021-01-01"), xmax = as.Date("2021-04-30"), ymin=-Inf, ymax=Inf), fill="#FF0033", alpha=.01) + #1
+  annotate(geom="text", x=as.Date("2021-03-01"), color="black", y=60100, size=3, label="1")+
+  geom_rect(aes(xmin = as.Date("2021-05-01"), xmax = as.Date("2021-07-31"), ymin=-Inf, ymax=Inf), fill="#9966FF", alpha=.01) + #3
+  annotate(geom="text", x=as.Date("2021-06-15"), color="black", y=60100, size=3, label="3")+
+  geom_rect(aes(xmin = as.Date("2021-08-01"), xmax = as.Date("2022-12-31"), ymin=-Inf, ymax=Inf), fill="#00FFFF", alpha=.01) + #4
+  annotate(geom="text", x=as.Date("2022-04-01"), color="black", y=60100, size=3, label="4")+
+  labs(x= "Date", 
+       y = "Total number of Scottish A&E attendances")
+save_plot("Output/Covid_aeScotlandactivity_encodingtimeline2018to2022.svg", fig=Covid_aeScotlandactivity_encodingtimeline2018to2022, width=14, height=12)
+
+#plot of lockdown dates using vertical lines
 Covid_aeScotlandactivity_vlinetimeline2018to2022<- ggplot(data=Covid_monthlyae_activity_timeline, aes(x=date, y=NumberOfAttendancesAll))+
   geom_point()+
   geom_line(size=1,colour="blue")+  
