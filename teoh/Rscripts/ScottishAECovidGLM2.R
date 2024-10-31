@@ -255,4 +255,66 @@ BIC(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
 logLik(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
 #'log Lik.' -3817.701 (df=37)
 
+#Exponentiated coefficient times the coefficient to get the graphs 
+#Didn't use this
+#Covidglm_Covidperiod <- glm(TotalAttendances ~ C(CovidPeriod),
+#                            family = poisson(link = "log"), 
+#                            data = Covid_AE_Prop_Time_Pivot_GLM)
+#summary(Covidglm_Covidperiod)
+
+#Didn't use this
+#Covidglm_sex <- glm(TotalAttendances ~ Male + Female,
+#                            family = poisson(link = "log"), 
+#                            data = Covid_AE_Prop_Time_Pivot_GLM)
+#summary(Covidglm_sex)
+
+#coefficients from the model for male and female. Unknown was the reference category.
+#Male                      -2.731e+00  5.495e-01  -4.969 6.71e-07 ***
+#Female                    -3.578e+00  5.480e-01  -6.529 6.61e-11 ***
+
+
+Neteffect_sex <- Covid_AE_Prop_Time_Pivot_GLM %>% 
+  select(Month, Male, Female, UnknownSex)
+
+#Calculating the coefficient times proportion for males and females
+Maleprop <- -2.731
+Neteffect_sex$coeffpropmale <-  Neteffect_sex$Male*Maleprop
+
+Femaleprop <-  -3.578
+Neteffect_sex$coeffpropfemale <-  Neteffect_sex$Male*Femaleprop
+
+
+#To create a date column
+#creating a new column for Year, monthnumeric and day using data from the Month column
+Neteffect_sex$Year <- substr(Neteffect_sex$Month, 1,4)
+Neteffect_sex$monthnumeric <- substr(Neteffect_sex$Month, 5,6)
+Neteffect_sex$day <- "01"
+
+#converting from character to numeric variable
+Neteffect_sex$Year <- as.numeric(Neteffect_sex$Year)
+Neteffect_sex$monthnumeric <- as.numeric(Neteffect_sex$monthnumeric)
+Neteffect_sex$day <- as.numeric(Neteffect_sex$day)
+
+#making a date column using the Year, monthnumeric and day columns
+Neteffect_sex<- Neteffect_sex %>% 
+  mutate(date=make_date(Year, monthnumeric, day))
+
+#sum of the coefficient times proportion for males and females
+Neteffect_sex$coeffpropmaleplusfemale<- Neteffect_sex$coeffpropmale + Neteffect_sex$coeffpropfemale
+
+#exponentiating the sum of the coefficient times proportion for males and females
+Neteffect_sex$expcoeffpropmaleplusfemale <- exp(Neteffect_sex$coeffpropmaleplusfemale)
+
+str(Neteffect_sex)
+Neteffect_sex$expcoeffpropmaleplusfemale <- as.numeric(Neteffect_sex$expcoeffpropmaleplusfemale)
+
+#drawing the graph of Net effect of sex on total attendances over time
+#code returned error message Error in aes(x = Month, y = expcoeffpropmaleplusfemale) + geom_line() +  : 
+#non-numeric argument to binary operator
+Neteffect_sex_plot <- ggplot(data=Neteffect_sex, aes(x=date, y=expcoeffpropmaleplusfemale)+
+                               geom_line()+
+                               labs(title="Net effect of sex on total attendances over time", 
+                                    x = "Date", 
+                                    y = "Net effect on attendances"))
+
 
