@@ -33,6 +33,8 @@ library(sjPlot)
 #          ) %>% 
 #  summarise(NumberOfAttendancesAll=sum(NumberOfAttendancesAll))
 
+
+#Hui couldn't run this because the sin_month and cos_mon was too computationally intensive
 #Limited the data to Jan 2018-Dec 2022 at the end
 #Demographics
 #Loading A&E demographic csv file

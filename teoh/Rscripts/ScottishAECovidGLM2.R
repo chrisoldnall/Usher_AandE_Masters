@@ -121,8 +121,9 @@ Covidglm_CoviddatesexageSIMDdaytypehourHBTime <- glm(NumberOfAttendances ~ Covid
                                                       data = Covid_monthlyae_glmprop)
 summary(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
 
+#Hui wasn't able to run this because sin_month and cos_month were too computationally intensive for her computer
 ##Using sin and cos of month
-Covidglm_CoviddatesexageSIMDdaytypehourHBTimesincos <- glm(NumberOfAttendances ~ Coviddate2 + Coviddate3 + Coviddate4 + Male + Female + Under18 + EighteentoTwentyfour + TwentyfivetoThirtynine + FortytoSixtyfour + SixtyfivetoSeventyfour + SIMD1 + SIMD2 + SIMD3 + SIMD4 + SIMD5 + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday + ED + Midnighttoone + Twotothreeam + Threetofouram + Fourtofiveam + Fivetosixam + Sixtosevenam + Seventoeightam + Eighttonineam + Ninetotenam + Tentoelevenam + Eleventonoon + Noontoonepm + Onetotwopm + Twotothreepm + Threetofourpm + Fourtofivepm + Fivetosixpm + Sixtosevenpm + Seventoeightpm + Eighttoninepm + Ninetotenpm + Tentoelevenpm + Eleventomidnight + NHSBorders + NHSFife + NHSShetland + NHSLanarkshire + NHSDumfriesandGalloway+ NHSForthValley + NHSGrampian + NHSWesternIsles + NHSOrkney + NHSTayside + NHSGreaterGlasgowandClyde + NHSHighland + NHSLothian + Time + sin_term,
+Covidglm_CoviddatesexageSIMDdaytypehourHBTimesincos <- glm(NumberOfAttendances ~ Coviddate2 + Coviddate3 + Coviddate4 + Male + Female + Under18 + EighteentoTwentyfour + TwentyfivetoThirtynine + FortytoSixtyfour + SixtyfivetoSeventyfour + SIMD1 + SIMD2 + SIMD3 + SIMD4 + SIMD5 + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday + ED + Midnighttoone + Twotothreeam + Threetofouram + Fourtofiveam + Fivetosixam + Sixtosevenam + Seventoeightam + Eighttonineam + Ninetotenam + Tentoelevenam + Eleventonoon + Noontoonepm + Onetotwopm + Twotothreepm + Threetofourpm + Fourtofivepm + Fivetosixpm + Sixtosevenpm + Seventoeightpm + Eighttoninepm + Ninetotenpm + Tentoelevenpm + Eleventomidnight + NHSBorders + NHSFife + NHSShetland + NHSLanarkshire + NHSDumfriesandGalloway+ NHSForthValley + NHSGrampian + NHSWesternIsles + NHSOrkney + NHSTayside + NHSGreaterGlasgowandClyde + NHSHighland + NHSLothian + Time + sin_term + cos_term,
                                                      family = poisson(link = "log"), 
                                                      data = Covid_monthlyae_glmprop)
 summary(Covidglm_CoviddatesexageSIMDdaytypehourHBTimesincos)
@@ -145,6 +146,7 @@ summary(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
 coefficients <- coef(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
 coefficients_df <- data.frame(Estimate = coefficients)
 print(coefficients_df)
+
 #to exponentiate model using time, no hours
 exp_coefficients <- exp(coefficients)
 exp_coefficients_df <- data.frame(Estimate = exp_coefficients)
@@ -196,3 +198,61 @@ logLik(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
 #'log Lik.' -406.0071 (df=60)
 logLik(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
 #'log Lik.' -3655.072 (df=37)
+
+
+#Including sin and cos month into the modelling
+#Chris created a new proportion table with sin_month and cos_month as it was the heavy computations were beyond the capabilities of Hui's computer
+#Loading A&E demographic csv file
+Covid_AE_Prop_Time_Pivot_GLM <- read_csv(here("Rawdata", "AE_Prop_Time_Pivot_GLM_Data.csv"))
+
+#renaming the headers
+Covid_AE_Prop_Time_Pivot_GLM <- Covid_AE_Prop_Time_Pivot_GLM %>% 
+  rename(c("Undereighteen" = "Under 18",
+           "EighteentoTwentyfour" = "18-24", 
+           "TwentyfivetoThirtynine" = "25-39",
+           "FortytoSixtyfour" = "40-64",
+           "SixtyfivetoSeventyfour" = "65-74",
+           "Seventyfiveplus" = "75 plus",
+           "NHSAyrshireandArran" = "S08000015",
+           "NHSBorders" = "S08000016",
+           "NHSDumfriesandGalloway" = "S08000017",
+           "NHSForthValley" = "S08000019",
+           "NHSGrampian" = "S08000020",
+           "NHSHighland" = "S08000022",
+           "NHSLothian" = "S08000024",
+           "NHSOrkney" = "S08000025",
+           "NHSShetland" = "S08000026",
+           "NHSWesternIsles" = "S08000028",
+           "NHSFife" = "S08000029",
+           "NHSTayside" = "S08000030",
+           "NHSGreaterGlasgowandClyde" = "S08000031",
+           "NHSLanarkshire" = "S08000032"))
+
+##Using sin and cos of month
+Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour <- glm(TotalAttendances ~ CovidPeriod + Male + Female + Undereighteen + EighteentoTwentyfour + TwentyfivetoThirtyNine + FortytoSixtyfour + SixtyfivetoSeventyfour + SIMD1 + SIMD2 + SIMD3 + SIMD4 + SIMD5 + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday + ED + NHSBorders + NHSFife + NHSShetland + NHSLanarkshire + NHSDumfriesandGalloway+ NHSForthValley + NHSGrampian + NHSWesternIsles + NHSOrkney + NHSTayside + NHSGreaterGlasgowandClyde + NHSHighland + NHSLothian + Time + sin_month + cos_month,
+                                                           family = poisson(link = "log"), 
+                                                           data = Covid_AE_Prop_Time_Pivot_GLM)
+summary(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
+
+#For the coefficients here, we can exponentiate them and this tells us the % increase in attendances for a 1% increase in this group
+exp_coef_Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour <- exp(coef(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour))
+exp_coef_Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour
+
+#To calculate the AIC
+glm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour_aic <- AIC(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
+glm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour_aic
+#7709.403
+
+#McFadden's Rsquared
+pR2(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)['McFadden']
+#0.954261
+
+#BIC
+BIC(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
+#7786.893
+
+#log likelihood
+logLik(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
+#'log Lik.' -3817.701 (df=37)
+
+
