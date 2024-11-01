@@ -307,14 +307,16 @@ Neteffect_sex$expcoeffpropmaleplusfemale <- exp(Neteffect_sex$coeffpropmaleplusf
 
 str(Neteffect_sex)
 Neteffect_sex$expcoeffpropmaleplusfemale <- as.numeric(Neteffect_sex$expcoeffpropmaleplusfemale)
+Neteffect_sex$date <- as.Date(Neteffect_sex$date)
 
 #drawing the graph of Net effect of sex on total attendances over time
 #code returned error message Error in aes(x = Month, y = expcoeffpropmaleplusfemale) + geom_line() +  : 
 #non-numeric argument to binary operator
-Neteffect_sex_plot <- ggplot(data=Neteffect_sex, aes(x=date, y=expcoeffpropmaleplusfemale)+
+Neteffect_sex_plot <- ggplot(data=Neteffect_sex, aes(x=date, y=expcoeffpropmaleplusfemale))+
                                geom_line()+
                                labs(title="Net effect of sex on total attendances over time", 
                                     x = "Date", 
-                                    y = "Net effect on attendances"))
+                                    y = "Net effect on attendances")
+save_plot("Output/Neteffect_sex_plot.svg", fig=Neteffect_sex_plot, width=14, height=12)
 
 
