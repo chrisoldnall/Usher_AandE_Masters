@@ -199,7 +199,7 @@ logLik(Covidglm_CoviddatesexageSIMDdaytypehourHBTime)
 logLik(Covidglm_CoviddatesexageSIMDdaytypeHBTimenohour)
 #'log Lik.' -3655.072 (df=37)
 
-
+#Used this model in the final version (no reference/base category)
 #Including sin and cos month into the modelling
 #Chris created a new proportion table with sin_month and cos_month as it was the heavy computations were beyond the capabilities of Hui's computer
 #Loading A&E demographic csv file
@@ -228,8 +228,11 @@ Covid_AE_Prop_Time_Pivot_GLM <- Covid_AE_Prop_Time_Pivot_GLM %>%
            "NHSGreaterGlasgowandClyde" = "S08000031",
            "NHSLanarkshire" = "S08000032"))
 
+#Make CovidPeriod a categorical factor
+Covid_AE_Prop_Time_Pivot_GLM$CovidPeriod <- as.factor(Covid_AE_Prop_Time_Pivot_GLM$CovidPeriod)
+
 ##Using sin and cos of month
-Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour <- glm(TotalAttendances ~ CovidPeriod + Male + Female + Undereighteen + EighteentoTwentyfour + TwentyfivetoThirtyNine + FortytoSixtyfour + SixtyfivetoSeventyfour + SIMD1 + SIMD2 + SIMD3 + SIMD4 + SIMD5 + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday + ED + NHSBorders + NHSFife + NHSShetland + NHSLanarkshire + NHSDumfriesandGalloway+ NHSForthValley + NHSGrampian + NHSWesternIsles + NHSOrkney + NHSTayside + NHSGreaterGlasgowandClyde + NHSHighland + NHSLothian + Time + sin_month + cos_month,
+Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour <- glm(TotalAttendances ~ CovidPeriod + Male + Female + UnknownSex + UnknownAge + Seventyfiveplus + Undereighteen + EighteentoTwentyfour + TwentyfivetoThirtynine + FortytoSixtyfour + SixtyfivetoSeventyfour + SIMD1 + SIMD2 + SIMD3 + SIMD4 + SIMD5 + UnknownSIMD + Monday + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday + ED + MIU + NHSAyrshireandArran + NHSBorders + NHSFife + NHSShetland + NHSLanarkshire + NHSDumfriesandGalloway+ NHSForthValley + NHSGrampian + NHSWesternIsles + NHSOrkney + NHSTayside + NHSGreaterGlasgowandClyde + NHSHighland + NHSLothian + Time + sin_month + cos_month,
                                                            family = poisson(link = "log"), 
                                                            data = Covid_AE_Prop_Time_Pivot_GLM)
 summary(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
@@ -241,19 +244,19 @@ exp_coef_Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour
 #To calculate the AIC
 glm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour_aic <- AIC(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
 glm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour_aic
-#7709.403
+#7220.731
 
 #McFadden's Rsquared
 pR2(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)['McFadden']
-#0.954261
+#0.9572123
 
 #BIC
 BIC(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
-#7786.893
+#7302.411
 
 #log likelihood
 logLik(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
-#'log Lik.' -3817.701 (df=37)
+#'log Lik.' -3571.366 (df=39)
 
 #Exponentiated coefficient times the coefficient to get the graphs 
 #Didn't use this
@@ -272,17 +275,9 @@ logLik(Covidglm_CovidperiodsexageSIMDdaytypeHBTimesincosnohour)
 #Male                      -2.731e+00  5.495e-01  -4.969 6.71e-07 ***
 #Female                    -3.578e+00  5.480e-01  -6.529 6.61e-11 ***
 
-
+#Net effect of sex on attendances
 Neteffect_sex <- Covid_AE_Prop_Time_Pivot_GLM %>% 
   select(Month, Male, Female, UnknownSex)
-
-#Calculating the coefficient times proportion for males and females
-Maleprop <- -2.731
-Neteffect_sex$coeffpropmale <-  Neteffect_sex$Male*Maleprop
-
-Femaleprop <-  -3.578
-Neteffect_sex$coeffpropfemale <-  Neteffect_sex$Male*Femaleprop
-
 
 #To create a date column
 #creating a new column for Year, monthnumeric and day using data from the Month column
@@ -299,20 +294,35 @@ Neteffect_sex$day <- as.numeric(Neteffect_sex$day)
 Neteffect_sex<- Neteffect_sex %>% 
   mutate(date=make_date(Year, monthnumeric, day))
 
+#calculate the difference in proportions each month
+#when using diff() the number of rows reduces by one so couldn't display in the same dataframe
+#diff(Neteffect_sex$Male)
+Neteffect_sex$Femalediff <- diff(Neteffect_sex$Female)
+Neteffect_sex$UnknownSexdiff <- diff(Neteffect_sex$UnknownSex)
+
+
+#Calculating the coefficient times proportion for males, females and unknownsex
+Malecoeff <- -2.731
+Neteffect_sex$coeffpropmale <-  Neteffect_sex$Malediff*Malecoeff
+
+Femalecoeff <-  -3.578
+Neteffect_sex$coeffpropfemale <-  Neteffect_sex$Femalediff*Femalecoeff
+
+UnknownSexcoeff <-  -3.578
+Neteffect_sex$coeffpropunknownsex <-  Neteffect_sex$UnknownSexdiff*UnknownSexcoeff
+
+
+
 #sum of the coefficient times proportion for males and females
-Neteffect_sex$coeffpropmaleplusfemale<- Neteffect_sex$coeffpropmale + Neteffect_sex$coeffpropfemale
+Neteffect_sex$coeffpropmaleplusfemaleplusunknown<- Neteffect_sex$coeffpropmale + Neteffect_sex$coeffpropfemale + Neteffect_sex$coeffpropunknownsex
 
 #exponentiating the sum of the coefficient times proportion for males and females
-Neteffect_sex$expcoeffpropmaleplusfemale <- exp(Neteffect_sex$coeffpropmaleplusfemale)
-
-str(Neteffect_sex)
-Neteffect_sex$expcoeffpropmaleplusfemale <- as.numeric(Neteffect_sex$expcoeffpropmaleplusfemale)
-Neteffect_sex$date <- as.Date(Neteffect_sex$date)
+Neteffect_sex$expcoeffpropmaleplusfemaleplusunknown <- exp(Neteffect_sex$coeffpropmaleplusfemaleplusunknown)
 
 #drawing the graph of Net effect of sex on total attendances over time
 #code returned error message Error in aes(x = Month, y = expcoeffpropmaleplusfemale) + geom_line() +  : 
 #non-numeric argument to binary operator
-Neteffect_sex_plot <- ggplot(data=Neteffect_sex, aes(x=date, y=expcoeffpropmaleplusfemale))+
+Neteffect_sex_plot <- ggplot(data=Neteffect_sex, aes(x=date, y=expcoeffpropmaleplusfemaleplusunknown))+
                                geom_line()+
                                labs(title="Net effect of sex on total attendances over time", 
                                     x = "Date", 
