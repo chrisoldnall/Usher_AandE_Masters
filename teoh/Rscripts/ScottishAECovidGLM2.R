@@ -296,6 +296,7 @@ Neteffect_sex<- Neteffect_sex %>%
 
 #calculate the difference in proportions each month
 #when using diff() the number of rows reduces by one so couldn't display in the same dataframe
+##WORK IN PROGRESS
 #diff(Neteffect_sex$Male)
 Neteffect_sex$Femalediff <- diff(Neteffect_sex$Female)
 Neteffect_sex$UnknownSexdiff <- diff(Neteffect_sex$UnknownSex)
