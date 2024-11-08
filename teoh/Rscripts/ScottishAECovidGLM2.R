@@ -298,20 +298,38 @@ Neteffect_sex<- Neteffect_sex %>%
 #when using diff() the number of rows reduces by one so couldn't display in the same dataframe
 ##WORK IN PROGRESS
 #diff(Neteffect_sex$Male)
-Neteffect_sex$Femalediff <- diff(Neteffect_sex$Female)
-Neteffect_sex$UnknownSexdiff <- diff(Neteffect_sex$UnknownSex)
+#Neteffect_sex$Femalediff <- diff(Neteffect_sex$Female)
+#Neteffect_sex$UnknownSexdiff <- diff(Neteffect_sex$UnknownSex)
 
+#creating a dataframe to calculate the difference in proportions
+Neteffect_sexdiff <- Neteffect_sex %>% 
+  select(Male, Female, UnknownSex)
 
+#to calculate the difference in proportions
+Neteffect_sexdiff <- sapply(Neteffect_sexdiff, diff)
+
+#to add a row for the first line of zero
+firstdiffline <- c(0, 0, 0)
+
+#to combine the line of zero with the proportion differences
+Neteffect_sexdiff <- rbind(firstdiffline, Neteffect_sexdiff) 
+
+#changing column names so it is clear it is for diff
+colnames(Neteffect_sexdiff)<- c("Malediff", "Femalediff","UnknownSexdiff")
+
+#Combine original Neteffect_sex dataframe to contain the proportion differences
+Neteffect_sex <- cbind(Neteffect_sex, Neteffect_sexdiff)
+
+#Calculate diff for male and female. Then times the coefficient. Then add it and then overall exponentiation. 
 #Calculating the coefficient times proportion for males, females and unknownsex
-Malecoeff <- -2.731
+Malecoeff <- -0.9047
 Neteffect_sex$coeffpropmale <-  Neteffect_sex$Malediff*Malecoeff
 
-Femalecoeff <-  -3.578
+Femalecoeff <-  -0.4119
 Neteffect_sex$coeffpropfemale <-  Neteffect_sex$Femalediff*Femalecoeff
 
-UnknownSexcoeff <-  -3.578
+UnknownSexcoeff <-  NA
 Neteffect_sex$coeffpropunknownsex <-  Neteffect_sex$UnknownSexdiff*UnknownSexcoeff
-
 
 
 #sum of the coefficient times proportion for males and females

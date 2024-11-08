@@ -3,7 +3,7 @@
     "path": "C:/Users/hui_p/Documents/GitHub/Usher_AandE_Masters/teoh/Rscripts/ScottishAECovidGLM2.R",
     "project_path": "Rscripts/ScottishAECovidGLM2.R",
     "type": "r_source",
-    "hash": "2360122322",
+    "hash": "3050882925",
     "contents": "",
     "dirty": false,
     "created": 1726226109695.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "298,18",
-        "scrollLine": "287"
+        "cursorPosition": "323,0",
+        "scrollLine": "320"
     },
     "folds": "",
-    "lastKnownWriteTime": 1730824185,
+    "lastKnownWriteTime": 1731073219,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1730824185805,
+    "last_content_update": 1731073219667,
     "read_only": false,
     "read_only_alternatives": []
 }
