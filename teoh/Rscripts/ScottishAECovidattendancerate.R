@@ -153,28 +153,30 @@ Covid_aeScotlandactivity_timeline2018to2022flip <- Covid_aeScotlandactivity_time
 save_plot("Output/Covid_aeScotlandactivity_timeline2018to2022flip.svg", fig=Covid_aeScotlandactivity_timeline2018to2022flip, width=14, height=12)
 
 #highlights based on encoding
+#Note encoding here is different from the rest of the R scripts as we swapped from "1 Lockdown \n 2 Tightening \n 3 Easing \n 4 No restriction"
+# to "1 No or minimal restrictions \n 2 Easing \n 3 Tightening \n 4 Lockdown"
 Covid_aeScotlandactivity_encodingtimeline2018to2022<- ggplot(data=Covid_monthlyae_activity_timeline, aes(x=date, y=NumberOfAttendancesAll))+
   geom_point()+
   geom_line(size=1,colour="black")+
-  geom_label(aes(label= ("1 Lockdown \n 2 Tightening \n 3 Easing \n 4 No restriction"),x=as.Date("2018-11-01"), y=90000))+
-  #legend("bottomleft", inset=0.2, title="Restrictions", c("1 Lockdown", "2 Tightening", "3 Easing", "4 No restrictions"), col=c("#FF0033", "#FF00CC", "#9966FF", "#00FFFF", lty=1:2, cex=0.8)) +
-  geom_rect(aes(xmin = as.Date("2018-01-01"), xmax = as.Date("2020-03-31"), ymin=-Inf, ymax=Inf), fill="#00FFFF", alpha=.01) + #4
-  #annotate(geom="text", x=as.Date("2019-02-28"), color="black", y=60100, size=3, label="4")+
-  geom_rect(aes(xmin = as.Date("2020-04-01"), xmax = as.Date("2020-05-31"), ymin=-Inf, ymax=Inf), fill="#FF0033", alpha=.01) + #1
-  #annotate(geom="text", x=as.Date("2020-04-30"), color="black", y=60100, size=3, label="1")+
-  geom_rect(aes(xmin = as.Date("2020-06-01"), xmax = as.Date("2020-09-30"), ymin=-Inf, ymax=Inf), fill="#9900FF", alpha=.01) + #3
-  #annotate(geom="text", x=as.Date("2020-07-30"), color="black", y=60100, size=3, label="3")+
-  geom_rect(aes(xmin = as.Date("2020-10-01"), xmax = as.Date("2020-12-31"), ymin=-Inf, ymax=Inf), fill="#FF00CC", alpha=.01) + #2
-  #annotate(geom="text", x=as.Date("2020-11-15"), color="black", y=60100, size=3, label="2")+
-  geom_rect(aes(xmin = as.Date("2021-01-01"), xmax = as.Date("2021-04-30"), ymin=-Inf, ymax=Inf), fill="#FF0033", alpha=.01) + #1
-  #annotate(geom="text", x=as.Date("2021-03-01"), color="black", y=60100, size=3, label="1")+
-  geom_rect(aes(xmin = as.Date("2021-05-01"), xmax = as.Date("2021-07-31"), ymin=-Inf, ymax=Inf), fill="#9900FF", alpha=.01) + #3
-  #annotate(geom="text", x=as.Date("2021-06-15"), color="black", y=60100, size=3, label="3")+
-  geom_rect(aes(xmin = as.Date("2021-08-01"), xmax = as.Date("2022-12-31"), ymin=-Inf, ymax=Inf), fill="#00FFFF", alpha=.01) + #4
-  #annotate(geom="text", x=as.Date("2022-04-01"), color="black", y=60100, size=3, label="4")+
+  geom_label(aes(label= ("1 Lockdown \n 2 Tightening \n 3 Easing \n 4 No or minimal restrictions"),x=as.Date("2018-11-01"), y=90000))+
+  #legend("bottomleft", inset=0.2, title="Restrictions", c("1 No or minimal restrictions \n 2 Easing \n 3 Tightening \n 4 Lockdown"), col=c("#FF0033", "#FF00CC", "#9966FF", "#00FFFF", lty=1:2, cex=0.8)) +
+  geom_rect(aes(xmin = as.Date("2018-01-01"), xmax = as.Date("2020-03-31"), ymin=-Inf, ymax=Inf), fill="#00FFFF", alpha=.01) + #1
+  #annotate(geom="text", x=as.Date("2019-02-28"), color="black", y=60100, size=3, label="1")+
+  geom_rect(aes(xmin = as.Date("2020-04-01"), xmax = as.Date("2020-05-31"), ymin=-Inf, ymax=Inf), fill="#FF0033", alpha=.01) + #4
+  #annotate(geom="text", x=as.Date("2020-04-30"), color="black", y=60100, size=3, label="4")+
+  geom_rect(aes(xmin = as.Date("2020-06-01"), xmax = as.Date("2020-09-30"), ymin=-Inf, ymax=Inf), fill="#9900FF", alpha=.01) + #2
+  #annotate(geom="text", x=as.Date("2020-07-30"), color="black", y=60100, size=3, label="2")+
+  geom_rect(aes(xmin = as.Date("2020-10-01"), xmax = as.Date("2020-12-31"), ymin=-Inf, ymax=Inf), fill="#FF00CC", alpha=.01) + #3
+  #annotate(geom="text", x=as.Date("2020-11-15"), color="black", y=60100, size=3, label="3")+
+  geom_rect(aes(xmin = as.Date("2021-01-01"), xmax = as.Date("2021-04-30"), ymin=-Inf, ymax=Inf), fill="#FF0033", alpha=.01) + #4
+  #annotate(geom="text", x=as.Date("2021-03-01"), color="black", y=60100, size=3, label="4")+
+  geom_rect(aes(xmin = as.Date("2021-05-01"), xmax = as.Date("2021-07-31"), ymin=-Inf, ymax=Inf), fill="#9900FF", alpha=.01) + #2
+  #annotate(geom="text", x=as.Date("2021-06-15"), color="black", y=60100, size=3, label="2")+
+  geom_rect(aes(xmin = as.Date("2021-08-01"), xmax = as.Date("2022-12-31"), ymin=-Inf, ymax=Inf), fill="#00FFFF", alpha=.01) + #1
+  #annotate(geom="text", x=as.Date("2022-04-01"), color="black", y=60100, size=3, label="1")+
   labs(x= "Date", 
        y = "Total number of Scottish A&E attendances")
-save_plot("Output/Covid_aeScotlandactivity_encodingtimeline2018to2022.svg", fig=Covid_aeScotlandactivity_encodingtimeline2018to2022, width=14, height=12)
+save_plot("Output/Covid_aeScotlandactivity_encodingtimeline2018to2022.svg", fig=Covid_aeScotlandactivity_encodingtimeline2018to2022, width=20, height=12)
 
 #plot of lockdown dates using vertical lines
 Covid_aeScotlandactivity_vlinetimeline2018to2022<- ggplot(data=Covid_monthlyae_activity_timeline, aes(x=date, y=NumberOfAttendancesAll))+
