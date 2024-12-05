@@ -1,8 +1,8 @@
 GLM Summary:
-Baseline period (CovidPeriod 1) has an expected number of attendances of 87000.67.
-For C(CovidPeriod)[T.2], the expected number of attendances is 1.11 times the number in the baseline period, representing a change of 10.83%.
+Baseline period (CovidPeriod 1) has an expected number of attendances of 128652.39.
+For C(CovidPeriod)[T.2], the expected number of attendances is 0.91 times the number in the baseline period, representing a change of -8.77%.
 This result is statistically significant (p-value = 0.00000).
-For C(CovidPeriod)[T.3], the expected number of attendances is 1.35 times the number in the baseline period, representing a change of 34.91%.
+For C(CovidPeriod)[T.3], the expected number of attendances is 0.75 times the number in the baseline period, representing a change of -25.05%.
 This result is statistically significant (p-value = 0.00000).
-For C(CovidPeriod)[T.4], the expected number of attendances is 1.48 times the number in the baseline period, representing a change of 47.88%.
+For C(CovidPeriod)[T.4], the expected number of attendances is 0.68 times the number in the baseline period, representing a change of -32.38%.
 This result is statistically significant (p-value = 0.00000).

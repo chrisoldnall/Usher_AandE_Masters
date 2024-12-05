@@ -1,322 +1,320 @@
 GLM Summary:
 Baseline level (Intercept):
-- Log-transformed expected number of attendances: 5.384
-- Expected number of attendances (exponentiated): 217.976
-- 95% Confidence Interval (log scale): [5.124, 5.644]
-- 95% Confidence Interval (exponentiated): [168.074, 282.695]
+- Log-transformed expected number of attendances: 5.3844
+- Expected number of attendances (exponentiated): 217.98
 
 Variable: C(CovidPeriod)[T.2]
 - Coefficient (log scale): 0.039
 - Exponentiated coefficient (effect on attendance): 1.040
-- P-value: 5.411 \times 10^{-13} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [0.029, 0.050]
 - 95% Confidence Interval (exponentiated): [1.029, 1.051]
 
 Variable: C(CovidPeriod)[T.3]
 - Coefficient (log scale): 0.001
 - Exponentiated coefficient (effect on attendance): 1.001
-- P-value: 0.863 (not significant)
+- P-value: 0.86346 (not significant)
 - 95% Confidence Interval (log scale): [-0.012, 0.014]
 - 95% Confidence Interval (exponentiated): [0.989, 1.014]
 
 Variable: C(CovidPeriod)[T.4]
 - Coefficient (log scale): -0.114
 - Exponentiated coefficient (effect on attendance): 0.892
-- P-value: 1.596 \times 10^{-67} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-0.127, -0.101]
 - 95% Confidence Interval (exponentiated): [0.880, 0.904]
 
 Variable: ED
 - Coefficient (log scale): 2.009
 - Exponentiated coefficient (effect on attendance): 7.455
-- P-value: 2.895 \times 10^{-65} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.778, 2.240]
 - 95% Confidence Interval (exponentiated): [5.919, 9.391]
 
 Variable: Female
 - Coefficient (log scale): 2.397
 - Exponentiated coefficient (effect on attendance): 10.992
-- P-value: 2.177 \times 10^{-46} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [2.069, 2.726]
 - 95% Confidence Interval (exponentiated): [7.914, 15.268]
 
 Variable: Friday
 - Coefficient (log scale): 0.842
 - Exponentiated coefficient (effect on attendance): 2.322
-- P-value: 2.106 \times 10^{-89} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [0.760, 0.925]
 - 95% Confidence Interval (exponentiated): [2.138, 2.521]
 
 Variable: MIU
 - Coefficient (log scale): 3.375
 - Exponentiated coefficient (effect on attendance): 29.238
-- P-value: 4.483 \times 10^{-98} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [3.061, 3.690]
 - 95% Confidence Interval (exponentiated): [21.342, 40.054]
 
 Variable: Male
 - Coefficient (log scale): 1.904
 - Exponentiated coefficient (effect on attendance): 6.715
-- P-value: 8.960 \times 10^{-32} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.586, 2.223]
 - 95% Confidence Interval (exponentiated): [4.885, 9.231]
 
 Variable: Monday
 - Coefficient (log scale): 1.773
 - Exponentiated coefficient (effect on attendance): 5.890
-- P-value: 0.000 \times 10^{0} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.698, 1.849]
 - 95% Confidence Interval (exponentiated): [5.463, 6.351]
 
 Variable: S08000015
 - Coefficient (log scale): 6.935
 - Exponentiated coefficient (effect on attendance): 1027.522
-- P-value: 1.041 \times 10^{-42} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [5.943, 7.927]
 - 95% Confidence Interval (exponentiated): [380.941, 2771.565]
 
 Variable: S08000016
 - Coefficient (log scale): -16.488
-- Exponentiated coefficient (effect on attendance): 6.905 \times 10^{-8}
-- P-value: 1.142 \times 10^{-52} (highly significant)
+- Exponentiated coefficient (effect on attendance): 0.000
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-18.604, -14.373]
-- 95% Confidence Interval (exponentiated): [8.323 \times 10^{-9}, 5.729 \times 10^{-7}]
+- 95% Confidence Interval (exponentiated): [0.000, 0.000]
 
 Variable: S08000017
 - Coefficient (log scale): -8.110
-- Exponentiated coefficient (effect on attendance): 3.004 \times 10^{-4}
-- P-value: 3.141 \times 10^{-31} (highly significant)
+- Exponentiated coefficient (effect on attendance): 0.000
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-9.478, -6.743]
-- 95% Confidence Interval (exponentiated): [7.652 \times 10^{-5}, 0.001]
+- 95% Confidence Interval (exponentiated): [0.000, 0.001]
 
 Variable: S08000019
 - Coefficient (log scale): 9.921
-- Exponentiated coefficient (effect on attendance): 2.034 \times 10^{4}
-- P-value: 6.506 \times 10^{-82} (highly significant)
+- Exponentiated coefficient (effect on attendance): 20343.851
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [8.906, 10.935]
-- 95% Confidence Interval (exponentiated): [7378.179, 5.609 \times 10^{4}]
+- 95% Confidence Interval (exponentiated): [7378.179, 56094.095]
 
 Variable: S08000020
 - Coefficient (log scale): -9.998
-- Exponentiated coefficient (effect on attendance): 4.551 \times 10^{-5}
-- P-value: 2.930 \times 10^{-104} (highly significant)
+- Exponentiated coefficient (effect on attendance): 0.000
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-10.901, -9.094]
-- 95% Confidence Interval (exponentiated): [1.844 \times 10^{-5}, 1.124 \times 10^{-4}]
+- 95% Confidence Interval (exponentiated): [0.000, 0.000]
 
 Variable: S08000022
 - Coefficient (log scale): -0.931
 - Exponentiated coefficient (effect on attendance): 0.394
-- P-value: 0.077 (not significant)
+- P-value: 0.07710 (not significant)
 - 95% Confidence Interval (log scale): [-1.963, 0.101]
 - 95% Confidence Interval (exponentiated): [0.140, 1.106]
 
 Variable: S08000024
 - Coefficient (log scale): -8.540
-- Exponentiated coefficient (effect on attendance): 1.955 \times 10^{-4}
-- P-value: 2.120 \times 10^{-146} (highly significant)
+- Exponentiated coefficient (effect on attendance): 0.000
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-9.190, -7.890]
-- 95% Confidence Interval (exponentiated): [1.021 \times 10^{-4}, 3.744 \times 10^{-4}]
+- 95% Confidence Interval (exponentiated): [0.000, 0.000]
 
 Variable: S08000025
 - Coefficient (log scale): 50.545
-- Exponentiated coefficient (effect on attendance): 8.937 \times 10^{21}
-- P-value: 4.236 \times 10^{-68} (highly significant)
+- Exponentiated coefficient (effect on attendance): 8937455242735161180160.000
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [44.864, 56.226]
-- 95% Confidence Interval (exponentiated): [3.048 \times 10^{19}, 2.621 \times 10^{24}]
+- 95% Confidence Interval (exponentiated): [30479160485058613248.000, 2620744959660282842447872.000]
 
 Variable: S08000026
 - Coefficient (log scale): -29.525
-- Exponentiated coefficient (effect on attendance): 1.505 \times 10^{-13}
-- P-value: 3.939 \times 10^{-34} (highly significant)
+- Exponentiated coefficient (effect on attendance): 0.000
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-34.276, -24.774]
-- 95% Confidence Interval (exponentiated): [1.301 \times 10^{-15}, 1.741 \times 10^{-11}]
+- 95% Confidence Interval (exponentiated): [0.000, 0.000]
 
 Variable: S08000028
 - Coefficient (log scale): 3.149
 - Exponentiated coefficient (effect on attendance): 23.306
-- P-value: 0.132 (not significant)
+- P-value: 0.13178 (not significant)
 - 95% Confidence Interval (log scale): [-0.946, 7.244]
 - 95% Confidence Interval (exponentiated): [0.388, 1399.032]
 
 Variable: S08000029
 - Coefficient (log scale): -4.233
 - Exponentiated coefficient (effect on attendance): 0.015
-- P-value: 9.093 \times 10^{-13} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-5.394, -3.071]
 - 95% Confidence Interval (exponentiated): [0.005, 0.046]
 
 Variable: S08000030
 - Coefficient (log scale): 5.209
 - Exponentiated coefficient (effect on attendance): 182.938
-- P-value: 9.812 \times 10^{-22} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [4.143, 6.275]
 - 95% Confidence Interval (exponentiated): [63.009, 531.130]
 
 Variable: S08000031
 - Coefficient (log scale): 5.936
 - Exponentiated coefficient (effect on attendance): 378.447
-- P-value: 8.054 \times 10^{-89} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [5.354, 6.518]
 - 95% Confidence Interval (exponentiated): [211.410, 677.463]
 
 Variable: S08000032
 - Coefficient (log scale): 1.515
 - Exponentiated coefficient (effect on attendance): 4.551
-- P-value: 3.398 \times 10^{-4} (highly significant)
+- P-value: 0.00034 (highly significant)
 - 95% Confidence Interval (log scale): [0.686, 2.344]
 - 95% Confidence Interval (exponentiated): [1.987, 10.425]
 
 Variable: SIMD1
 - Coefficient (log scale): 0.920
 - Exponentiated coefficient (effect on attendance): 2.511
-- P-value: 0.003 (significant)
+- P-value: 0.00294 (significant)
 - 95% Confidence Interval (log scale): [0.314, 1.527]
 - 95% Confidence Interval (exponentiated): [1.369, 4.605]
 
 Variable: SIMD2
 - Coefficient (log scale): 2.386
 - Exponentiated coefficient (effect on attendance): 10.874
-- P-value: 6.797 \times 10^{-8} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.520, 3.253]
 - 95% Confidence Interval (exponentiated): [4.571, 25.870]
 
 Variable: SIMD3
 - Coefficient (log scale): -2.264
 - Exponentiated coefficient (effect on attendance): 0.104
-- P-value: 1.219 \times 10^{-7} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-3.103, -1.425]
 - 95% Confidence Interval (exponentiated): [0.045, 0.240]
 
 Variable: SIMD4
 - Coefficient (log scale): -7.183
-- Exponentiated coefficient (effect on attendance): 7.592 \times 10^{-4}
-- P-value: 4.391 \times 10^{-48} (highly significant)
+- Exponentiated coefficient (effect on attendance): 0.001
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-8.150, -6.217]
-- 95% Confidence Interval (exponentiated): [2.888 \times 10^{-4}, 0.002]
+- 95% Confidence Interval (exponentiated): [0.000, 0.002]
 
 Variable: SIMD5
 - Coefficient (log scale): 5.385
 - Exponentiated coefficient (effect on attendance): 218.153
-- P-value: 2.951 \times 10^{-27} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [4.409, 6.361]
 - 95% Confidence Interval (exponentiated): [82.202, 578.950]
 
 Variable: Saturday
 - Coefficient (log scale): 0.162
 - Exponentiated coefficient (effect on attendance): 1.176
-- P-value: 3.837 \times 10^{-4} (highly significant)
+- P-value: 0.00038 (highly significant)
 - 95% Confidence Interval (log scale): [0.073, 0.252]
 - 95% Confidence Interval (exponentiated): [1.076, 1.287]
 
 Variable: Sunday
 - Coefficient (log scale): 0.529
 - Exponentiated coefficient (effect on attendance): 1.698
-- P-value: 2.085 \times 10^{-21} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [0.420, 0.639]
 - 95% Confidence Interval (exponentiated): [1.522, 1.894]
 
 Variable: Thursday
 - Coefficient (log scale): 0.855
 - Exponentiated coefficient (effect on attendance): 2.350
-- P-value: 6.282 \times 10^{-65} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [0.756, 0.953]
 - 95% Confidence Interval (exponentiated): [2.130, 2.593]
 
 Variable: Time
-- Coefficient (log scale): 3.327 \times 10^{-5}
+- Coefficient (log scale): 0.000
 - Exponentiated coefficient (effect on attendance): 1.000
-- P-value: 1.114 \times 10^{-4} (highly significant)
-- 95% Confidence Interval (log scale): [1.640 \times 10^{-5}, 5.015 \times 10^{-5}]
+- P-value: 0.00011 (highly significant)
+- 95% Confidence Interval (log scale): [0.000, 0.000]
 - 95% Confidence Interval (exponentiated): [1.000, 1.000]
 
 Variable: Tuesday
 - Coefficient (log scale): -0.142
 - Exponentiated coefficient (effect on attendance): 0.867
-- P-value: 3.886 \times 10^{-4} (highly significant)
+- P-value: 0.00039 (highly significant)
 - 95% Confidence Interval (log scale): [-0.221, -0.064]
 - 95% Confidence Interval (exponentiated): [0.802, 0.938]
 
 Variable: Under_18
 - Coefficient (log scale): 1.950
 - Exponentiated coefficient (effect on attendance): 7.030
-- P-value: 3.525 \times 10^{-165} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.811, 2.090]
 - 95% Confidence Interval (exponentiated): [6.114, 8.083]
 
 Variable: UnknownAge
 - Coefficient (log scale): 1.083
 - Exponentiated coefficient (effect on attendance): 2.953
-- P-value: 5.167 \times 10^{-9} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [0.720, 1.446]
 - 95% Confidence Interval (exponentiated): [2.053, 4.247]
 
 Variable: UnknownSIMD
 - Coefficient (log scale): 6.140
 - Exponentiated coefficient (effect on attendance): 463.964
-- P-value: 4.540 \times 10^{-42} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [5.254, 7.025]
 - 95% Confidence Interval (exponentiated): [191.401, 1124.669]
 
 Variable: UnknownSex
 - Coefficient (log scale): 1.083
 - Exponentiated coefficient (effect on attendance): 2.953
-- P-value: 5.167 \times 10^{-9} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [0.720, 1.446]
 - 95% Confidence Interval (exponentiated): [2.053, 4.247]
 
 Variable: Wednesday
 - Coefficient (log scale): 1.365
 - Exponentiated coefficient (effect on attendance): 3.915
-- P-value: 9.001 \times 10^{-182} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.272, 1.458]
 - 95% Confidence Interval (exponentiated): [3.567, 4.296]
 
 Variable: col_18_24
 - Coefficient (log scale): 1.835
 - Exponentiated coefficient (effect on attendance): 6.262
-- P-value: 3.171 \times 10^{-19} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.433, 2.236]
 - 95% Confidence Interval (exponentiated): [4.193, 9.353]
 
 Variable: col_25_39
 - Coefficient (log scale): -4.517
 - Exponentiated coefficient (effect on attendance): 0.011
-- P-value: 1.909 \times 10^{-72} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-5.009, -4.025]
 - 95% Confidence Interval (exponentiated): [0.007, 0.018]
 
 Variable: col_40_64
 - Coefficient (log scale): 1.955
 - Exponentiated coefficient (effect on attendance): 7.066
-- P-value: 2.952 \times 10^{-23} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [1.569, 2.341]
 - 95% Confidence Interval (exponentiated): [4.804, 10.392]
 
 Variable: col_65_74
 - Coefficient (log scale): -0.643
 - Exponentiated coefficient (effect on attendance): 0.526
-- P-value: 0.166 (not significant)
+- P-value: 0.16604 (not significant)
 - 95% Confidence Interval (log scale): [-1.554, 0.267]
 - 95% Confidence Interval (exponentiated): [0.211, 1.306]
 
 Variable: col_75_plus
 - Coefficient (log scale): 3.722
 - Exponentiated coefficient (effect on attendance): 41.338
-- P-value: 5.656 \times 10^{-25} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [3.015, 4.429]
 - 95% Confidence Interval (exponentiated): [20.389, 83.808]
 
 Variable: cos_month
 - Coefficient (log scale): -0.021
 - Exponentiated coefficient (effect on attendance): 0.980
-- P-value: 3.448 \times 10^{-14} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-0.026, -0.015]
 - 95% Confidence Interval (exponentiated): [0.974, 0.985]
 
 Variable: sin_month
 - Coefficient (log scale): -0.019
 - Exponentiated coefficient (effect on attendance): 0.981
-- P-value: 4.355 \times 10^{-38} (highly significant)
+- P-value: 0.00000 (highly significant)
 - 95% Confidence Interval (log scale): [-0.022, -0.016]
 - 95% Confidence Interval (exponentiated): [0.978, 0.984]
 
